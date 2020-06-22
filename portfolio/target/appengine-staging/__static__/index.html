@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Toni Oshikanlu's Portfolio</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/index.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/bio.html">Bio <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/career.html">Career <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/connect.html">Contact <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/maps.html">Maps <span class="sr-only">(current)</span></a>
+      </li>
+      <li>
+         <div id="link-container"> </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- <div id="div-with-bg">div with back</div> -->
+<body id="div-with-bg">
+<div id="content" class="container-fluid">
+  <h1><a href="" class="typewrite" data-period="2000" data-type='[ "Hi, Im Toni.", "I Love Music.", "I Love Soccer.", "I Love to Develop." ]'><span class="wrap"></span></a></h1>
+  <figure class="figure">
+    <img src="images/first_baby.jpg" class="figure-img img-fluid rounded" alt="Baby Picture" />
+    <figcaption style="color:black" class="figure-caption">
+      Buff Baby
+    </figcaption>
+  </figure>
+  <div id="user-container"> </div> 
+  <div id="comment-container">
+    <label for="quantity">Quantity (between 1 and 5):</label> <input type="number" id="quantity" name="quantity" min="1" max="5" /> <button onclick="getMessageUsingArrowFunctions(document.getElementById('quantity').value)">Fetch Comments!</button>
+    <div id="quote-container"></div>
+    <form action="/data" method="post" id="comment-container">
+      <label for="comment">Comment:</label><br />
+      <input type="text" id="comment" name="comment" /><br />
+      <input type="submit" value="Submit" />
+    </form>
+    <form action="/delete-data" method="post">
+      <button>Delete all Comments!</button>
+    </form>
+  
+  
+  </div>
+  <script>getUser();</script>
+    
+  <div id="status-container"> </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> 
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
+
