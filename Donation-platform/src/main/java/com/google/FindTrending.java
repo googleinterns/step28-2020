@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.lang.Long;
+import java.lang.Double;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 public final class FindTrending {
 
     //number of trending charities to be returned
-    private int topTrending = 12;
+    final int topTrending = 12;
 
     //returns the collection of top trending charities
     public Collection<Charity> query() {
@@ -36,13 +36,18 @@ public final class FindTrending {
             double curScore = calcCharityTrendingScore(cur);
             cur.setTrendingScore(cur);
         }
-        Charity[] charityScores = charities.toArray(new Charity[charities.size()]);
-        Arrays.sort(charities, comp);
-        List<Charity> topTrending = new ArrayList<>();
-        for (int i = 0; i < trendingNum; i++) {
-            topTrending.add(charities[i]);
-        }
+        Collections.sort(charities);
+        List<Charity> topTrending = charities.subList(0, trendingNum);
         return topTrending;
+    }
+
+    //returns a list of all charities in the database
+    private Collection<Charity> getAllCharities(){
+        List<Charity> charities = new ArrayList<>();
+        // GET request for all charity names from the database
+        // create new Charity object for each of the names, with the relevant info from db
+        // add each new Charity object to the charities collection 
+        return charities
     }
 
     //returns the trending score of inputted charity

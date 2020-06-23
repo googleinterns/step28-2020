@@ -18,12 +18,45 @@ import java.util.Comparator;
 
 public final class Charity implements Comparator<Charity>{
 
-    //constructor should take in details from the database about the charity
-    //including name, description, tags
+    private final String name;
+    private String description;
+    private Collection<Tag> tags;
+    private double userRating;
+    private double charityNavRating;
+    private double trendingScore;
+
+    /** 
+     * Constructor takes in details from the database about the charity
+     * including name, description, tags, ratings
+     */
+    public Charity(String name, String description, Collection<Tag> tags, double userRating, double charityNavRating) {
+        this.name = name;
+        this.description = description;
+        this.tags = tags;
+        this.userRating = userRating;
+        this.charityNavRating = charityNavRating;
+    }
+
+    public Charity(String name) {
+        this.name = name;
+        /*
+        this.description = GET request to db based on the charity name;
+        this.tags = GET request to db based on the charity name;
+        this.userRating = GET request to db based on the charity name;
+        this.charityNavRating = GET request to db based on the charity name;
+        */
+    }
 
     /**
-   * A comparator for sorting charities by their trending score in descending order.
-   */
+     * setter for trending score
+     */
+    public void setTrendingScore(double score) {
+        this.trendingScore = score;
+    }
+
+    /**
+     * A comparator for sorting charities by their trending score in descending order.
+     */
     @Override
     public int compareTo(Charity b) {
       return Double.compare(b.trendingScore, this.trendingScore);
