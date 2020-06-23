@@ -48,6 +48,33 @@
       <artifactId>junit</artifactId>
       <version>4.12</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>6.14.0</version>
+    </dependency>  
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>libraries-bom</artifactId>
+      <version>7.0.0</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>1.34.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-storage</artifactId>
+      <version>1.108.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-appengine</artifactId>
+      <version>0.20.0</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -60,7 +87,7 @@
         <version>2.2.0</version>
         <configuration>
           <!-- TODO: set project ID. -->
-          <deploy.projectId>tonioshikanlu-step-2020-280017</deploy.projectId>
+          <deploy.projectId>donation-step-2020</deploy.projectId>
           <deploy.version>1</deploy.version>
           <automaticRestart>true</automaticRestart>
         </configuration>
