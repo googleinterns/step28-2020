@@ -47,8 +47,34 @@ public final class FindTrending {
 
     //returns the trending score of inputted charity
     private double calcCharityTrendingScore(Charity charity) {
-        //double charityNavRating = GET request to db for CharityNavigatorAPI rating
-        //double scaledCharityNavRating = 1.25 * charityNavRating
-        //double userRating = GET request to db for charity star rating
+        boolean hasCharityNavRating = false;
+        double charityNavRating, scaledCharityNavRating, userRating, avgReview;
+        if (charity has CharityNavigator rating) {
+            hasCharityNavRating = true;
+            //charityNavRating = GET request to db for CharityNavigatorAPI rating;
+        }
+        scaledCharityNavRating = 1.25 * charityNavRating;
+        //userRating = GET request to db for charity star rating;
+        if (hasCharityNavRating) {
+            avgReview = 0.75 * userRating + 0.25 * charityNavRating;
+        } else {
+            avgReview = userRating;
+        }
+        Collection<Tag> tags = GET request to db for charity tags;
+        double charityTagsScore = getTagTrendingScore(Collection<Tag>);
+        double charityTrendingScore = 0.75 * charityTagsScore + 0.25 * avgReview;
+        return charityTrendingScore;
+    }
+
+    //return the average trending score of a collection of tags
+    private double getTagTrendingScore(Collection<Tag> tags) {
+        double sumScores = 0;
+        int numTags = tags.size();
+        for (Tag tag: tags) {
+            double tagScore = 0;
+            //tagScore = use Google Trend API to get trending score
+            sumScores += tagScore;
+        }
+        return (sumScores / numTags);
     }
 }
