@@ -29,6 +29,17 @@ public final class FindTrending {
     //number of trending charities to be returned
     final int topTrending = 12;
 
+    final double charityNavToScale = 1.25;
+
+    //should sum to 1
+    final double userRatingWeight = 0.75;
+    final double scaledCharityNavWeight = 0.25;
+
+    //should sum to 1
+    final double charityTagsWeight = 0.75;
+    final double avgReviewWeight = 0.25;
+
+
     //returns the collection of top trending charities
     public Collection<Charity> query() {
         Collection<Charity> charities = getAllCharities();
@@ -58,16 +69,16 @@ public final class FindTrending {
             hasCharityNavRating = true;
             //charityNavRating = GET request to db for CharityNavigatorAPI rating;
         }
-        scaledCharityNavRating = 1.25 * charityNavRating;
+        scaledCharityNavRating = charityNavToScale * charityNavRating;
         //userRating = GET request to db for charity star rating;
         if (hasCharityNavRating) {
-            avgReview = 0.75 * userRating + 0.25 * charityNavRating;
+            avgReview = userRatingWeight * userRating + scaledCharityNavWeight * scaledCharityNavRating;
         } else {
             avgReview = userRating;
         }
         Collection<Tag> tags = GET request to db for charity tags;
         double charityTagsScore = getTagTrendingScore(Collection<Tag>);
-        double charityTrendingScore = 0.75 * charityTagsScore + 0.25 * avgReview;
+        double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
         return charityTrendingScore;
     }
 
