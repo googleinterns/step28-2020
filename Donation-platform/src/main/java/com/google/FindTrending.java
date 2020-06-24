@@ -34,7 +34,7 @@ public final class FindTrending {
         Collection<Charity> charities = getAllCharities();
         for (Charity cur: charities) {
             double curScore = calcCharityTrendingScore(cur);
-            cur.setTrendingScore(cur);
+            cur.setTrendingScore(curScore);
         }
         Collections.sort(charities);
         List<Charity> topTrending = charities.subList(0, trendingNum);
