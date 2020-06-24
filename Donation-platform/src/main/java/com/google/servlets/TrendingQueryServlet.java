@@ -42,7 +42,7 @@ public class TrendingQueryServlet extends HTTPServlet {
         Gson gson = new Gson();
 
         // Find the trending charities.
-        FindTrending findTrending = new FindTrending();
+        FindTrendingCharities findTrending = new FindTrendingCharities();
         Collection<Charity> answer =
             findTrending.query();
 

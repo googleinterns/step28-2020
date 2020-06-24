@@ -16,6 +16,10 @@ package com.google.sps;
 
 import java.util.Comparator;
 
+/**
+ * Class to encapsulate the attributes of a charity loaded from the database
+ * and to send information to the database regarding a charity
+ */
 public final class Charity implements Comparator<Charity>{
 
     private final String name;
