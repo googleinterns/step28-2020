@@ -15,13 +15,13 @@ public final class Charity {
   private Key id;
   private String name;
   private String link;
-  private Collection<Integer> categories;
+  private Collection<Key> categories;
   private String description;
   private Double trendingScore;
 
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link,
-              Collection<Integer>  categories, String description, Double trendingScore) {
+              Collection<Key>  categories, String description, Double trendingScore) {
     this.id = id;
     this.name = name;
     this.link = link;
@@ -59,11 +59,11 @@ public final class Charity {
     this.link = link;
   }
 
-  public Collection<Integer> getCategories() {
+  public Collection<Key> getCategories() {
     return categories;
   }
 
-  public void setCategories(Collection<Integer> regions) {
+  public void setCategories(Collection<Key> categories) {
     this.categories = categories;
   }
 

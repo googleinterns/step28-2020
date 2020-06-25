@@ -12,12 +12,12 @@ public final class Users {
   private Key id;
   private String userName;
   private String email;
-  private List<Integer> userInterests;
-  private List<Integer>  charitiesDonatedTo;
+  private List<Key> userInterests;
+  private List<Key>  charitiesDonatedTo;
 
   // Initialize all fields of Users
   public Users(Key id, String userName, String email,
-              List<Integer> userInterests, List<Integer>  charitiesDonatedTo) {
+              List<Key> userInterests, List<Key>  charitiesDonatedTo) {
     this.id = id;
     this.userName = userName;
     this.email = email;
@@ -54,19 +54,19 @@ public final class Users {
     this.email = email;
   }
 
-  public List<Integer> getUserInterests() {
+  public List<Key> getUserInterests() {
     return userInterests;
   }
 
-  public void setUserInterests(List<Integer> userInterests) {
+  public void setUserInterests(List<Key> userInterests) {
     this.userInterests = userInterests;
   }
 
-  public List<Integer> getCharitiesDonatedTo() {
+  public List<Key> getCharitiesDonatedTo() {
     return charitiesDonatedTo;
   }
 
-  public void setCharitiesDonatedTo(List<Integer> charitiesDonatedTo) {
+  public void setCharitiesDonatedTo(List<Key> charitiesDonatedTo) {
     this.charitiesDonatedTo = charitiesDonatedTo;
   }
 }
