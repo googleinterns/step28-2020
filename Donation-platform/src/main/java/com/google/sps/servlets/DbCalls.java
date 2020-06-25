@@ -6,16 +6,20 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+<<<<<<< HEAD
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.auth.oauth2.ComputeEngineCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+=======
+>>>>>>> parent of 6740293... test and class objects added
 
 public final class DbCalls {
 
    public String getAllDocuments(String entity) throws Exception {
+<<<<<<< HEAD
     // [START fs_get_all_docs]
     // GoogleCredentials credentials = ComputeEngineCredentials.create();
     // FirebaseOptions options = new FirebaseOptions.Builder()
@@ -31,6 +35,9 @@ public final class DbCalls {
     //   System.out.println(document.getId());
     // }
     // // [END fs_get_all_docs]
+=======
+    
+>>>>>>> parent of 6740293... test and class objects added
     return entity;
   }
 }

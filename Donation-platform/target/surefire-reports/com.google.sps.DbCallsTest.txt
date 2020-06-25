@@ -2,6 +2,7 @@
 Test set: com.google.sps.DbCallsTest
 -------------------------------------------------------------------------------
 <<<<<<< HEAD
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.161 sec <<< FAILURE!
 addCharityTest(com.google.sps.DbCallsTest)  Time elapsed: 0.004 sec  <<< ERROR!
 java.lang.NullPointerException: No API environment is registered for this thread.
@@ -20,8 +21,26 @@ java.lang.NullPointerException: No API environment is registered for this thread
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
 	at org.junit.runners.BlockJUnit4ClassRunner.createTest(BlockJUnit4ClassRunner.java:217)
 	at org.junit.runners.BlockJUnit4ClassRunner$1.runReflectiveCall(BlockJUnit4ClassRunner.java:266)
+=======
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.256 sec <<< FAILURE!
+testQuickStart(com.google.sps.DbCallsTest)  Time elapsed: 0.219 sec  <<< ERROR!
+java.io.IOException: The Application Default Credentials are not available. They are available if running in Google Compute Engine. Otherwise, the environment variable GOOGLE_APPLICATION_CREDENTIALS must be defined pointing to a file defining the credentials. See https://developers.google.com/accounts/docs/application-default-credentials for more information.
+	at com.google.auth.oauth2.DefaultCredentialsProvider.getDefaultCredentials(DefaultCredentialsProvider.java:134)
+	at com.google.auth.oauth2.GoogleCredentials.getApplicationDefault(GoogleCredentials.java:119)
+	at com.google.auth.oauth2.GoogleCredentials.getApplicationDefault(GoogleCredentials.java:91)
+	at com.google.sps.DbCalls.getAllDocuments(DbCalls.java:21)
+	at com.google.sps.DbCallsTest.testQuickStart(DbCallsTest.java:27)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+>>>>>>> parent of 6740293... test and class objects added
 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.BlockJUnit4ClassRunner.methodBlock(BlockJUnit4ClassRunner.java:263)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
@@ -33,10 +52,10 @@ java.lang.NullPointerException: No API environment is registered for this thread
 	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
 	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
 	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
 	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
