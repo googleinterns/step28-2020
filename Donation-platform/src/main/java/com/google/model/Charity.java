@@ -1,5 +1,6 @@
 package com.google.model;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
@@ -9,7 +10,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity {
+public final class Charity implements Comparator<Charity>{ {
 
   private Key id;
   private String name;
@@ -81,5 +82,11 @@ public final class Charity {
   public void setTrendingScoreCharity(Double trendingScore) {
     this.trendingScore = trendingScore;
   }
+
+  @Override
+    public int compareTo(Charity b) {
+      return Double.compare(b.trendingScore, this.trendingScore);
+    }
+
 
 }
