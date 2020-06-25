@@ -1,23 +1,22 @@
+package com.google.sps.model;
+
 import java.util.List;
 import java.util.Objects;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 
 /** Represents a Users : id, userName, email, userInterests, charitiesDonatedTo. */
-public class Users {
+public final class Users {
 
-  private Integer id;
+  private Key id;
   private String userName;
   private String email;
   private List<Integer> userInterests;
   private List<Integer>  charitiesDonatedTo;
 
-
-  // [START fs_class_definition]
-  public Users() {
-    // Must have a public no-argument constructor
-  }
-
-  // Initialize all fields of a Users
-  public Users(Integer id, String userName, String email,
+  // Initialize all fields of Users
+  public Users(Key id, String userName, String email,
               List<Integer> userInterests, List<Integer>  charitiesDonatedTo) {
     this.id = id;
     this.userName = userName;
@@ -27,15 +26,15 @@ public class Users {
   }
   // [END fs_class_definition]
 
-  public Users(Integer id) {
+  public Users(Key id) {
     this.id = id;
   }
 
-  public Integer getId() {
+  public Key getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Key id) {
     this.id = id;
   }
 
@@ -69,10 +68,5 @@ public class Users {
 
   public void setCharitiesDonatedTo(List<Integer> charitiesDonatedTo) {
     this.charitiesDonatedTo = charitiesDonatedTo;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, userName, email, userInterests, charitiesDonatedTo);
   }
 }
