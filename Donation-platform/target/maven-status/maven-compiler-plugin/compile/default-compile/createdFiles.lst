@@ -1,4 +1,4 @@
-com/google/sps/servlets/DbCalls.class
-com/google/sps/model/Tag.class
-com/google/sps/model/Users.class
-com/google/sps/model/Charity.class
+com/google/model/Tag.class
+com/google/servlets/DbCalls.class
+com/google/model/Charity.class
+com/google/model/Users.class

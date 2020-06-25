@@ -1,8 +1,8 @@
-package com.google.sps.servlets;
+package com.google.servlets;
 
-import com.google.sps.model.Charity;
-import com.google.sps.model.Tag;
-import com.google.sps.model.Users; 
+import com.google.model.Charity;
+import com.google.model.Tag;
+import com.google.model.Users; 
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
