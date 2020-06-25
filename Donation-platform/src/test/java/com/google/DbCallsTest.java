@@ -83,15 +83,24 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.api.datastore;
+import java.util.Collection;
+import java.util.Collections;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public class DbCallsTest {
 
   private final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+  // Some charities that we can use in our tests.
+  private static final String CHARITY_A = "Charity A";
+  private static final String LINK_A = "www.test.com";
+  private static final Collection<Integer> CATEGORIES_A = Collections.emptyList();
+  private static final String DESCRIPTION_A = "Very testy description.";
+  private static final Double TRENDINGSCORE_A = 0.0;
 
   @Before
   public void setUp() {
@@ -107,6 +116,13 @@ public class DbCallsTest {
   private void doTest() {
     DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
     assertEquals(0, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
+    Entity charityEntity = new Entity("Charity");
+    charityEntity.setProperty("name", CHARITY_A);
+    charityEntity.setProperty("link", LINK_A);
+    charityEntity.setProperty("categories", CATEGORIES_A);
+    charityEntity.setProperty("description", DESCRIPTION_A);
+    charityEntity.setProperty("trendingScore", TRENDINGSCORE_A);
+    ds.put(charityEntity);
     ds.put(new Entity("yam"));
     ds.put(new Entity("yam"));
     assertEquals(2, ds.prepare(new Query("yam")).countEntities(withLimit(10)));
