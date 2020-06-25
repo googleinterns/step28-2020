@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: com.google.sps.DbCallsTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.161 sec <<< FAILURE!
 addCharityTest(com.google.sps.DbCallsTest)  Time elapsed: 0.004 sec  <<< ERROR!
 java.lang.NullPointerException: No API environment is registered for this thread.
@@ -42,3 +43,6 @@ java.lang.NullPointerException: No API environment is registered for this thread
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 sec
+>>>>>>> parent of b690ab4... removes firestore dependency
