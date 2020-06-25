@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /Users/tonioshikanlu/Documents/GitHub/step28-2020/Donation-platform/src/main/java/com/google/model/Charity.java
 /Users/tonioshikanlu/Documents/GitHub/step28-2020/Donation-platform/src/main/java/com/google/model/Users.java
 /Users/tonioshikanlu/Documents/GitHub/step28-2020/Donation-platform/src/main/java/com/google/servlets/DbCalls.java
 /Users/tonioshikanlu/Documents/GitHub/step28-2020/Donation-platform/src/main/java/com/google/model/Tag.java
-=======
-/Users/tonioshikanlu/Documents/GitHub/step28-2020/Donation-platform/src/main/java/com/google/servlets/database-calls.java
->>>>>>> parent of 6740293... test and class objects added

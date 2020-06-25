@@ -1,11 +1,4 @@
-<<<<<<< HEAD
 com/google/model/Tag.class
 com/google/servlets/DbCalls.class
 com/google/model/Charity.class
 com/google/model/Users.class
-=======
-Charity.class
-Tag.class
-Users.class
-com/google/sps/DbCalls.class
->>>>>>> parent of 6740293... test and class objects added

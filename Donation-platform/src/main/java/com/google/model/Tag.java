@@ -1,24 +1,20 @@
-<<<<<<< HEAD:Donation-platform/src/main/java/com/google/model/Tag.java
 package com.google.model;
 
-=======
->>>>>>> parent of 6740293... test and class objects added:Donation-platform/src/main/java/com/google/sps/model/Tag.java
 import java.util.List;
 import java.util.Objects;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+
 
 /** Represents a Tag : id, name, trending score */
-public class Tag {
+public final class Tag {
 
-  private Integer id;
+  private Key id;
   private String name;
-  private Integer trendingScore;
-  // [START fs_class_definition]
-  public Tag() {
-    // Must have a public no-argument constructor
-  }
+  private Double trendingScore;
 
   // Initialize all fields of a Tag
-  public Tag(Integer id, String name, Integer trendingScore) {
+  public Tag(Key id, String name, Double trendingScore) {
     this.id = id;
     this.name = name;
     this.trendingScore = trendingScore;
@@ -26,15 +22,15 @@ public class Tag {
   }
   // [END fs_class_definition]
 
-  public Tag(Integer id) {
+  public Tag(Key id) {
     this.id = id;
   }
 
-  public Integer getId() {
+  public Key getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Key id) {
     this.id = id;
   }
 
@@ -46,16 +42,11 @@ public class Tag {
     this.name = name;
   }
 
-  public Integer getTrendingScore() {
+  public Double getTrendingScoreTag() {
     return trendingScore;
   }
 
-  public void setTrendingScore(Integer trendingScore) {
+  public void setTrendingScoreTag(Double trendingScore) {
     this.trendingScore = trendingScore;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, trendingScore);
   }
 }

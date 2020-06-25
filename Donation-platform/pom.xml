@@ -99,8 +99,8 @@
         <version>2.2.0</version>
         <configuration>
 
-
-          <deploy.projectId>donation-step-2020</deploy.projectId>
+          <!-- TODO: set project ID. -->
+          <deploy.projectId>tonioshikanlu-step-2020-280017</deploy.projectId>
           <deploy.version>1</deploy.version>
           <automaticRestart>true</automaticRestart>
         </configuration>
