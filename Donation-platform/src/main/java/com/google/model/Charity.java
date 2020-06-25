@@ -1,4 +1,4 @@
-package com.google.sps.model;
+package com.google.model;
 
 import java.util.List;
 import java.util.Objects;
