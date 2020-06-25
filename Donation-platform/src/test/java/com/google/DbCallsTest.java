@@ -98,7 +98,7 @@ public class DbCallsTest {
   // Some charities that we can use in our tests.
   private static final String CHARITY_A = "Charity A";
   private static final String LINK_A = "www.test.com";
-  private static final Collection<Integer> CATEGORIES_A = Collections.emptyList();
+  private static final Collection<Key> CATEGORIES_A = Collections.emptyList();
   private static final String DESCRIPTION_A = "Very testy description.";
   private static final Double TRENDINGSCORE_A = 0.0;
 
