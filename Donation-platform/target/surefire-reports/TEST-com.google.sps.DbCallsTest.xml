@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<<<<<<< HEAD
 <testsuite tests="1" failures="0" name="com.google.sps.DbCallsTest" time="0.004" errors="1" skipped="0">
-=======
-<testsuite tests="1" failures="0" name="com.google.sps.DbCallsTest" time="0.004" errors="0" skipped="0">
->>>>>>> parent of b690ab4... removes firestore dependency
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="14.0.1+7"/>
@@ -45,14 +41,8 @@
     <property name="java.class.path" value="/Users/tonioshikanlu/Downloads/apache-maven-3.6.3/boot/plexus-classworlds-2.6.0.jar"/>
     <property name="java.vm.specification.version" value="14"/>
     <property name="sun.arch.data.model" value="64"/>
-<<<<<<< HEAD
     <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher test"/>
     <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home"/>
-=======
-    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher package appengine:deploy"/>
-    <property name="java.specification.vendor" value="Oracle Corporation"/>
->>>>>>> parent of b690ab4... removes firestore dependency
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
@@ -67,7 +57,6 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
-<<<<<<< HEAD
   <testcase classname="com.google.sps.DbCallsTest" name="addCharityTest" time="0.004">
     <error message="No API environment is registered for this thread." type="java.lang.NullPointerException">java.lang.NullPointerException: No API environment is registered for this thread.
 	at com.google.appengine.api.datastore.DatastoreApiHelper.getCurrentAppId(DatastoreApiHelper.java:148)
@@ -109,7 +98,4 @@
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 </error>
   </testcase>
-=======
-  <testcase classname="com.google.sps.DbCallsTest" name="testQuickStart" time="0.004"/>
->>>>>>> parent of b690ab4... removes firestore dependency
 </testsuite>
