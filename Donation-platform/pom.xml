@@ -90,7 +90,7 @@
         <configuration>
 
           <!-- TODO: set project ID. -->
-          <deploy.projectId>tonioshikanlu-step-2020-280017</deploy.projectId>
+          <deploy.projectId>donations-step-2020-new</deploy.projectId>
           <deploy.version>1</deploy.version>
           <automaticRestart>true</automaticRestart>
         </configuration>

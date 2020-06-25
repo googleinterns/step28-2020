@@ -1,4 +1,4 @@
-package com.google;
+package com.google.servlets;
 
 import com.google.model.Charity;
 import com.google.model.Tag;

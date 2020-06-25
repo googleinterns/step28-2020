@@ -9,8 +9,11 @@ import com.google.appengine.api.datastore.KeyFactory;
 /** Represents a Tag : id, name, trending score */
 public final class Tag {
 
+  // Key id from datastore uniquely identifiying each category tag.
   private Key id;
+  // Category tag name.
   private String name;
+  // Trending score calculated based on trending score algorithim for tag.
   private Double trendingScore;
 
   // Initialize all fields of a Tag

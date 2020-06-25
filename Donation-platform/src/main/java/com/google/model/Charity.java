@@ -10,18 +10,24 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity implements Comparator<Charity>{ {
+public final class Charity {
 
+  // Key id from datastore uniquely identifiying each charity.
   private Key id;
+  // Name of charity
   private String name;
+  // link directing users to charity.
   private String link;
-  private Collection<Integer> categories;
+  // Collection storing tag IDs in the form of datastore keys.
+  private Collection<Key> categories;
+  // Description of charity.
   private String description;
+  // Trending score calculated based on trending score algorithim for charity.
   private Double trendingScore;
 
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link,
-              Collection<Integer>  categories, String description, Double trendingScore) {
+              Collection<Key>  categories, String description, Double trendingScore) {
     this.id = id;
     this.name = name;
     this.link = link;
@@ -60,11 +66,11 @@ public final class Charity implements Comparator<Charity>{ {
     this.link = link;
   }
 
-  public Collection<Integer> getCategories() {
+  public Collection<Key> getCategories() {
     return categories;
   }
 
-  public void setCategories(Collection<Integer> regions) {
+  public void setCategories(Collection<Key> categories) {
     this.categories = categories;
   }
 
@@ -83,11 +89,5 @@ public final class Charity implements Comparator<Charity>{ {
   public void setTrendingScoreCharity(Double trendingScore) {
     this.trendingScore = trendingScore;
   }
-
-  @Override
-    public int compareTo(Charity b) {
-      return Double.compare(b.trendingScore, this.trendingScore);
-    }
-
 
 }
