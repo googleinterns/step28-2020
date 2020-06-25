@@ -8,6 +8,8 @@
 *.so
 *.class
 *.lst
+*/target/**
+*/target/*
 
 # Packages #
 ############
