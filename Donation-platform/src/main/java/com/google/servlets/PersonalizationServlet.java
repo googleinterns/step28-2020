@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.servlets;
+package com.google.servlets;
 
+import com.google.Charity;
+import com.google.RecommendationSystem;
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -29,7 +31,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns personalized comments data.*/
+
+/* Servlet that returns personalized charities according to the user's selected causes.*/
 @WebServlet("/personalize")
 public class PersonalizationServlet extends HttpServlet {
 
@@ -37,21 +40,28 @@ public class PersonalizationServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<String> tags = new ArrayList<>();
 
-    // Get the tag input from the checkbox form
-    String blm = request.getParameter("blm");
-    String education = request.getParameter("education");
-    String hungerAndPoverty = request.getParameter("hunger-and-poverty");
-    String environment = request.getParameter("environment");
+    // Get the user's tag input from the checkbox form
+    String tag1 = request.getParameter("tag-1");
+    String tag2 = request.getParameter("tag-2");
+    String tag3 = request.getParameter("tag-3");
+    tags.add(tag1);
+    tags.add(tag2);
+    tags.add(tag3);
 
-    tags.add(blm);
-    tags.add(education);
-    tags.add(hungerAndPoverty);
-    tags.add(environment);
+    // Get the best-matching charities from the Recommendation System
+    RecommendationSystem recommendation = new RecommendationSystem();
+    List<Charity> bestMatches = recommendation.getBestMatches(tags);
 
+    // Convert bestMatches list to a list of strings where we only display basic information for now
+    List<String> bestMatchesNames = new ArrayList<String>();
+    for(Charity charity : bestMatches) {
+        bestMatchesNames.add(charity.toString());
+    }
+
+    // Display the recommended charities as a JSON sorted in order of best to worst match
     Gson gson = new Gson();
-    // Write the tag input as a JSON
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(tags));
+    response.getWriter().println(gson.toJson(bestMatchesNames));
   }
 
 }
