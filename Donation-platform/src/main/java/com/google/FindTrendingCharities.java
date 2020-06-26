@@ -27,7 +27,7 @@ import java.util.HashMap;
 public final class FindTrendingCharities {
 
     //number of trending charities to be returned
-    final int topTrending = 12;
+    final int trendingNum = 7;
 
     final double charityNavToScale = 1.25;
 
@@ -42,23 +42,25 @@ public final class FindTrendingCharities {
 
     //returns the collection of top trending charities
     public Collection<Charity> query() {
-        Collection<Charity> charities = getAllCharities();
+        ArrayList<Charity> charities = getAllCharities();
         for (Charity cur: charities) {
             double curScore = calcCharityTrendingScore(cur);
             cur.setTrendingScore(curScore);
         }
-        Collections.sort(charities);
+        Collections.sort(charities, new SortByTrending());
         List<Charity> topTrending = charities.subList(0, trendingNum);
         return topTrending;
     }
 
     //returns a list of all charities in the database
-    private Collection<Charity> getAllCharities(){
-        List<Charity> charities = new ArrayList<>();
+    private ArrayList<Charity> getAllCharities(){
+        ArrayList<Charity> charities = new ArrayList<>();
         // GET request for all charity names from the database
         // create new Charity object for each of the names, with the relevant info from db
         // add each new Charity object to the charities collection 
-        return charities
+        //HardCodedCharitiesAndTags test = new HardCodedCharitiesAndTags();
+        ArrayList<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
+        return allCharities;
     }
 
     // returns the trending score of inputted charity calculated 
@@ -67,31 +69,36 @@ public final class FindTrendingCharities {
     // and avgReview is a weighted average of the userRating and the charityNavigatory API rating
     // weights for the averages are stored as class constants 
     private double calcCharityTrendingScore(Charity charity) {
-        boolean hasCharityNavRating = false;
         double charityNavRating, scaledCharityNavRating, userRating, avgReview;
+        charityNavRating = charity.getCharityNavRating();
+        boolean hasCharityNavRating = true;
+        /* assume all charities have charityNavRating
         if (charity has CharityNavigator rating) {
             hasCharityNavRating = true;
-            //charityNavRating = GET request to db for CharityNavigatorAPI rating;
+            charityNavRating = GET request to db for CharityNavigatorAPI rating;
         }
+        */
         scaledCharityNavRating = charityNavToScale * charityNavRating;
         //userRating = GET request to db for charity star rating;
+        userRating = charity.getUserRating();
         if (hasCharityNavRating) {
             avgReview = userRatingWeight * userRating + scaledCharityNavWeight * scaledCharityNavRating;
         } else {
             avgReview = userRating;
         }
-        Collection<Tag> tags = GET request to db for charity tags;
-        double charityTagsScore = getTagTrendingScore(Collection<Tag>);
+        //Collection<Tag> tags = GET request to db for charity tags;
+        Collection<String> tags = charity.getTags();
+        double charityTagsScore = getTagTrendingScore(tags);
         double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
         return charityTrendingScore;
     }
 
     //return the average trending score of a collection of tags
-    private double getTagTrendingScore(Collection<Tag> tags) {
+    private double getTagTrendingScore(Collection<String> tags) {
         double sumScores = 0;
         int numTags = tags.size();
-        for (Tag tag: tags) {
-            double tagScore = 0;
+        for (String tag: tags) {
+            double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
             //tagScore = use Google Trend API to get trending score
             sumScores += tagScore;
         }
