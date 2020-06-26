@@ -69,15 +69,11 @@ public final class FindTrendingCharities {
     // and avgReview is a weighted average of the userRating and the charityNavigatory API rating
     // weights for the averages are stored as class constants 
     private double calcCharityTrendingScore(Charity charity) {
-        double charityNavRating = charity.getCharityNavRating();
-        boolean hasCharityNavRating = true;
-        /* assume all charities have charityNavRating
+        boolean hasCharityNavRating = hasCharityNavRating(charity);
+        double charityNavRating;
         if (hasCharityNavRating) {
-            hasCharityNavRating = true;
-            charityNavRating = GET request to db for CharityNavigatorAPI rating;
+            charityNavRating = charity.getCharityNavRating();
         }
-        */
-        double scaledCharityNavRating = charityNavToScale * charityNavRating;
         //userRating = GET request to db for charity star rating;
         double userRating = charity.getUserRating();
         double avgReview;
@@ -91,6 +87,15 @@ public final class FindTrendingCharities {
         double charityTagsScore = getTagTrendingScore(tags);
         double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
         return charityTrendingScore;
+    }
+
+    private double calcCharityNavRating() {
+        double charityNavRating = charity.getCharityNavRating();
+        return charityNavRating * charityNavToScale;
+    }
+
+    private boolean hasCharityNavRating(Charity charity) {
+        return true;
     }
 
     //return the average trending score of a collection of tags
