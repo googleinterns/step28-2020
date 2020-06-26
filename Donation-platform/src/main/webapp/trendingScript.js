@@ -51,8 +51,10 @@ function updateResultsOnPage(charities) {
   // clear out any old results
   resultsContainer.innerHTML = '';
 
+  //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
-  for (const name of charities) {
-    resultsContainer.innerHTML += '<li>' + name + '</li>';
+  //for (const name of charities) {
+  for (index = 0; index < charities.length; index++) {
+    resultsContainer.innerHTML += '<li>' + charities[index] + '</li>';
   }
 }
