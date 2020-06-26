@@ -26,20 +26,23 @@ import java.util.HashMap;
 
 public final class FindTrendingCharities {
 
+
     //number of trending charities to be returned
     final int trendingNum = 7;
 
-    final double charityNavToScale = 1.25;
 
-    //should sum to 1
-    final double userRatingWeight = 0.75;
-    final double scaledCharityNavWeight = 0.25;
+     final double charityNavToScale = 1.25;
 
-    //should sum to 1
-    final double charityTagsWeight = 0.75;
-    final double avgReviewWeight = 0.25;
+     //should sum to 1
+     final double userRatingWeight = 0.75;
+     final double scaledCharityNavWeight = 0.25;
+
+     //should sum to 1
+     final double charityTagsWeight = 0.75;
+     final double avgReviewWeight = 0.25;
 
 
+<<<<<<< HEAD
     //returns the collection of top trending charities
     public Collection<Charity> query() {
         ArrayList<Charity> charities = getAllCharities();

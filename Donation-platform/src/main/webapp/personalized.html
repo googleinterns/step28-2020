@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Personalized Charity Recommendations</title>
+    <script src="personalizationScript.js"></script>
+  </head>
+  <body>
+
+    <div>
+      <form name="tag-input" action="/personalize" method="POST">
+        <legend>Select the causes you most care about:</legend>
+        <div>
+          <input type="checkbox" id="blm" name="blm" value="Black Lives Matter">
+          <label for="blm">Black Lives Matter</label>
+        </div>
+        <div>
+          <input type="checkbox" id="education" name="education" value="Education">
+          <label for="education">Education</label>
+        </div>
+        <div>
+          <input type="checkbox" id="hunger-and-poverty" name="hunger-and-poverty" value="Hunger and Poverty">
+          <label for="hunger-and-poverty">Hunger and Poverty</label>
+        </div>
+        <div>
+          <input type="checkbox" id="environment" name="environment" value="Environmental Protection">
+          <label for="environment">Environmental Protection</label>
+        </div>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+  </body>
+</html>
