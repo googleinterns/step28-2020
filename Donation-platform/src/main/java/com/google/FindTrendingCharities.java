@@ -42,7 +42,6 @@ public final class FindTrendingCharities {
      final double avgReviewWeight = 0.25;
 
 
-<<<<<<< HEAD
     //returns the collection of top trending charities
     public Collection<Charity> query() {
         ArrayList<Charity> charities = getAllCharities();
@@ -73,15 +72,15 @@ public final class FindTrendingCharities {
     // weights for the averages are stored as class constants 
     private double calcCharityTrendingScore(Charity charity) {
         boolean hasCharityNavRating = hasCharityNavRating(charity);
-        double charityNavRating;
+        double charityNavRating = 0;
         if (hasCharityNavRating) {
-            charityNavRating = charity.getCharityNavRating();
+            charityNavRating = calcCharityNavRating(charity);
         }
         //userRating = GET request to db for charity star rating;
         double userRating = charity.getUserRating();
         double avgReview;
         if (hasCharityNavRating) {
-            avgReview = userRatingWeight * userRating + scaledCharityNavWeight * scaledCharityNavRating;
+            avgReview = userRatingWeight * userRating + scaledCharityNavWeight * charityNavRating;
         } else {
             avgReview = userRating;
         }
@@ -92,7 +91,7 @@ public final class FindTrendingCharities {
         return charityTrendingScore;
     }
 
-    private double calcCharityNavRating() {
+    private double calcCharityNavRating(Charity charity) {
         double charityNavRating = charity.getCharityNavRating();
         return charityNavRating * charityNavToScale;
     }
