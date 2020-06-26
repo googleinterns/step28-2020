@@ -1,6 +1,5 @@
 package com.google.model;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
@@ -10,7 +9,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity {
+public final class Charity { 
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
@@ -35,7 +34,6 @@ public final class Charity {
     this.description = description;
     this.trendingScore = trendingScore;
   }
-  // [END fs_class_definition]
 
   public Charity(Key id) {
     this.id = id;
@@ -61,7 +59,6 @@ public final class Charity {
     return link;
   }
   
-
   public void setLink(String link) {
     this.link = link;
   }
@@ -89,5 +86,4 @@ public final class Charity {
   public void setTrendingScoreCharity(Double trendingScore) {
     this.trendingScore = trendingScore;
   }
-
 }

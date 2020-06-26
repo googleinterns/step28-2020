@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.google.servlets;
+=======
+package com.google;
+>>>>>>> database-testing
 
 import com.google.model.Charity;
 import com.google.model.Tag;
@@ -25,6 +29,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 public final class DbCalls {
 
   private DatastoreService datastore;
+<<<<<<< HEAD
   // Function initializes the datastore variable when called.
   public void initializeDatastore(){
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -32,6 +37,14 @@ public final class DbCalls {
   // Function returns all charity objects in the database as a list.
   public Collection<Charity> getAllCharities() throws Exception {
     initializeDatastore();
+=======
+  // Constructor initializes the datastore variable when called.
+  public DbCalls(DatastoreService ds) {
+    this.datastore = ds;
+  }
+  // Function returns all charity objects in the database as a list.
+  public Collection<Charity> getAllCharities() throws Exception {
+>>>>>>> database-testing
     ArrayList< Charity > charityDataStore = new ArrayList < Charity > ();
     Query query = new Query("Charity");
     PreparedQuery results = datastore.prepare(query);
@@ -51,7 +64,10 @@ public final class DbCalls {
   }
   // Function returns all the tag objects in the database.
   public Collection<Tag> getAllTags() throws Exception {
+<<<<<<< HEAD
     initializeDatastore();
+=======
+>>>>>>> database-testing
     ArrayList< Tag > tagDataStore = new ArrayList < Tag > ();
     Query query = new Query("Tag");
     PreparedQuery results = datastore.prepare(query);
@@ -68,7 +84,10 @@ public final class DbCalls {
   }
   // Function returns all the users in the database.
   public Collection<Users> getAllUsers() throws Exception {
+<<<<<<< HEAD
     initializeDatastore();
+=======
+>>>>>>> database-testing
     ArrayList< Users > userDataStore = new ArrayList < Users > ();
     Query query = new Query("Users");
     PreparedQuery results = datastore.prepare(query);
@@ -87,14 +106,25 @@ public final class DbCalls {
   }
   // Function adds charity to database.
   // Could be used in conjunction with user charity add form.
+<<<<<<< HEAD
   public void addCharity(String name, String link,
               Collection<Key>  categories, String description){
     initializeDatastore();
+=======
+<<<<<<<< HEAD:Donation-platform/src/main/java/com/google/DbCalls.java
+  public void addCharity(String name, String link, Collection<Key>  categories, String description) throws Exception{
+========
+  public void addCharity(String name, String link,
+              Collection<Key>  categories, String description){
+    initializeDatastore();
+>>>>>>>> database-testing:Donation-platform/src/main/java/com/google/servlets/DbCalls.java
+>>>>>>> database-testing
     Entity charityEntity = new Entity("Charity");
     charityEntity.setProperty("name", name);
     charityEntity.setProperty("link", link);
     charityEntity.setProperty("categories", categories);
     charityEntity.setProperty("description", description);
+<<<<<<< HEAD
     charityEntity.setProperty("trendingScore", 0);
     datastore.put(charityEntity);
   }
@@ -104,12 +134,36 @@ public final class DbCalls {
     Entity tagEntity = new Entity("Tag");
     tagEntity.setProperty("name", name);
     tagEntity.setProperty("trendingScore", 0);
+=======
+    charityEntity.setProperty("trendingScore", 0.0);
+    datastore.put(charityEntity);
+  }
+  // Function adds tag to the database.
+<<<<<<<< HEAD:Donation-platform/src/main/java/com/google/DbCalls.java
+  public void addTag(String name, Double trendingScore) throws Exception{
+========
+  public void addTag(String name, Key trendingScore){
+    initializeDatastore();
+>>>>>>>> database-testing:Donation-platform/src/main/java/com/google/servlets/DbCalls.java
+    Entity tagEntity = new Entity("Tag");
+    tagEntity.setProperty("name", name);
+    tagEntity.setProperty("trendingScore", trendingScore);
+>>>>>>> database-testing
     datastore.put(tagEntity);
   }
   // Function adds user to the database.
   public void addUser(String userName, String email,
+<<<<<<< HEAD
               List<Key> userInterests, List<Key>  charitiesDonatedTo){
     initializeDatastore();
+=======
+<<<<<<<< HEAD:Donation-platform/src/main/java/com/google/DbCalls.java
+              Collection<Key> userInterests, Collection<Key>  charitiesDonatedTo) throws Exception{
+========
+              List<Key> userInterests, List<Key>  charitiesDonatedTo){
+    initializeDatastore();
+>>>>>>>> database-testing:Donation-platform/src/main/java/com/google/servlets/DbCalls.java
+>>>>>>> database-testing
     Entity userEntity = new Entity("Users");
     userEntity.setProperty("userName", userName);
     userEntity.setProperty("email", email);
@@ -119,14 +173,20 @@ public final class DbCalls {
   }
   // Function updates trending score of a charity in the database.
   public void updateCharityTrendingScore(Key id, Double trendingScore) throws Exception{
+<<<<<<< HEAD
     initializeDatastore();
+=======
+>>>>>>> database-testing
     Entity charityEntity = datastore.get(id);
     charityEntity.setProperty("trendingScore", trendingScore);
     datastore.put(charityEntity);
   }
   // Function updates trending score of a tag in the database.
   public void updateTagTrendingScore(Key id, Double trendingScore) throws Exception{
+<<<<<<< HEAD
     initializeDatastore();
+=======
+>>>>>>> database-testing
     Entity charityEntity = datastore.get(id);
     charityEntity.setProperty("trendingScore", trendingScore);
     datastore.put(charityEntity);

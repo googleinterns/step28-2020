@@ -29,7 +29,6 @@ public final class Users {
     this.userInterests = userInterests;
     this.charitiesDonatedTo = charitiesDonatedTo;
   }
-  // [END fs_class_definition]
 
   public Users(Key id) {
     this.id = id;
