@@ -24,6 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import java.util.HashMap;
+import java.util.Map;
 
 /** */
 @RunWith(JUnit4.class)
@@ -45,7 +47,7 @@ public final class FindTrendingCharitiesTest {
   }
 
   @Test
-  public void correctTrendingOrder() {
+  public void testTrendingOrderIsCorrect() {
       Collection<Charity> actual = query.query();
       Collection<Charity> expected = Arrays.asList(ACLU, AHA, RC, SJ, FA, YMCA, NC);
 
@@ -53,50 +55,34 @@ public final class FindTrendingCharitiesTest {
   }
 
   @Test
-  public void correctTrendingScores() {
+  public void testTrendingScoresIsCorrect() {
       Collection<Charity> trendingCharities = query.query();
 
-      //check that ACLU's trending score is as expected
-      double expected = 38.828125;
-      double actual = ACLU.getTrendingScore();
+      Map<Charity, Double> expected = new HashMap<Charity, Double>() {
+        {
+            put(ACLU, 38.828125);
+            put(AHA, 30.796875);
+            put(RC, 27.40625);
+            put(SJ, 23.296875);
+            put(FA, 19.8515625);
+            put(YMCA, 15.609375);
+            put(NC, 8.59375);
+        }
+      };
 
-      Assert.assertEquals(expected, actual, 0.001);
+      Map<Charity, Double> actual = new HashMap<Charity, Double>() {
+        {
+            put(ACLU, ACLU.getTrendingScore());
+            put(AHA, AHA.getTrendingScore());
+            put(RC, RC.getTrendingScore());
+            put(SJ, SJ.getTrendingScore());
+            put(FA, FA.getTrendingScore());
+            put(YMCA, YMCA.getTrendingScore());
+            put(NC, NC.getTrendingScore());
+        }
+      };
 
-      //check that AHA's trending score is as expected
-      expected = 30.796875;
-      actual = AHA.getTrendingScore();
-
-      Assert.assertEquals(expected, actual, 0.001);
-
-      //check that RC's trending score is as expected
-      expected = 27.40625;
-      actual = RC.getTrendingScore();
-
-      Assert.assertEquals(expected, actual, 0.001);
-
-      //check that SJ's trending score is as expected
-      expected = 23.296875;
-      actual = SJ.getTrendingScore();
-
-      Assert.assertEquals(expected, actual, 0.001);
-
-      //check that FA's trending score is as expected
-      expected = 19.8515625;
-      actual = FA.getTrendingScore();
-
-      Assert.assertEquals(expected, actual, 0.001);
-
-      //check that YMCA's trending score is as expected
-      expected = 15.609375;
-      actual = YMCA.getTrendingScore();
-
-      Assert.assertEquals(expected, actual, 0.001);
-
-      //check that NC's trending score is as expected
-      expected = 8.59375;
-      actual = NC.getTrendingScore();
-
-      Assert.assertEquals(expected, actual, 0.001);
+      Assert.assertEquals(expected, actual);
   }
 
   
