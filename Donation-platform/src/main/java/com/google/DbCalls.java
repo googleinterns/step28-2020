@@ -42,7 +42,7 @@ public final class DbCalls {
             List<Key> categories = (List<Key>) entity.getProperty("categories");
             String description = (String) entity.getProperty("description");
             Double trendingScore = (Double) entity.getProperty("trendingScore");
-            // Convertes data to charity object.
+            // Converts data to charity object.
             Charity charityData = new Charity(id, name, link, categories, description, trendingScore);
             charityDataStore.add(charityData);
     }
@@ -58,7 +58,7 @@ public final class DbCalls {
             Key id = (Key) entity.getKey();
             String name = (String) entity.getProperty("name");
             Double trendingScore = (Double) entity.getProperty("trendingScore");
-            // Convertes data to tag object.
+            // Converts data to tag object.
             Tag tagData = new Tag(id, name, trendingScore);
             tagDataStore.add(tagData);
     }
@@ -76,7 +76,7 @@ public final class DbCalls {
             String email = (String) entity.getProperty("email");
             List<Key>  userInterests = (List<Key> ) entity.getProperty("userInterests");
             List<Key>  charitiesDonatedTo = (List<Key> ) entity.getProperty("charitiesDonatedTo");
-            // Convertes data to users object.
+            // Converts data to users object.
             Users userData = new Users(id, userName, email, userInterests, charitiesDonatedTo);
             userDataStore.add(userData);
     }
