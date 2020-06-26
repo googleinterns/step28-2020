@@ -1,4 +1,4 @@
-package com.google.servlets;
+package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
@@ -25,13 +25,12 @@ import com.google.appengine.api.datastore.KeyFactory;
 public final class DbCalls {
 
   private DatastoreService datastore;
-  // Function initializes the datastore variable when called.
-  public void initializeDatastore(){
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  // Constructor initializes the datastore variable when called.
+  public DbCalls(DatastoreService ds) {
+    this.datastore = ds;
   }
   // Function returns all charity objects in the database as a list.
   public Collection<Charity> getAllCharities() throws Exception {
-    initializeDatastore();
     ArrayList< Charity > charityDataStore = new ArrayList < Charity > ();
     Query query = new Query("Charity");
     PreparedQuery results = datastore.prepare(query);
@@ -51,7 +50,6 @@ public final class DbCalls {
   }
   // Function returns all the tag objects in the database.
   public Collection<Tag> getAllTags() throws Exception {
-    initializeDatastore();
     ArrayList< Tag > tagDataStore = new ArrayList < Tag > ();
     Query query = new Query("Tag");
     PreparedQuery results = datastore.prepare(query);
@@ -68,7 +66,6 @@ public final class DbCalls {
   }
   // Function returns all the users in the database.
   public Collection<Users> getAllUsers() throws Exception {
-    initializeDatastore();
     ArrayList< Users > userDataStore = new ArrayList < Users > ();
     Query query = new Query("Users");
     PreparedQuery results = datastore.prepare(query);
@@ -87,29 +84,25 @@ public final class DbCalls {
   }
   // Function adds charity to database.
   // Could be used in conjunction with user charity add form.
-  public void addCharity(String name, String link,
-              Collection<Key>  categories, String description){
-    initializeDatastore();
+  public void addCharity(String name, String link, Collection<Key>  categories, String description) throws Exception{
     Entity charityEntity = new Entity("Charity");
     charityEntity.setProperty("name", name);
     charityEntity.setProperty("link", link);
     charityEntity.setProperty("categories", categories);
     charityEntity.setProperty("description", description);
-    charityEntity.setProperty("trendingScore", 0);
+    charityEntity.setProperty("trendingScore", 0.0);
     datastore.put(charityEntity);
   }
   // Function adds tag to the database.
-  public void addTag(String name, Key trendingScore){
-    initializeDatastore();
+  public void addTag(String name, Double trendingScore) throws Exception{
     Entity tagEntity = new Entity("Tag");
     tagEntity.setProperty("name", name);
-    tagEntity.setProperty("trendingScore", 0);
+    tagEntity.setProperty("trendingScore", trendingScore);
     datastore.put(tagEntity);
   }
   // Function adds user to the database.
   public void addUser(String userName, String email,
-              List<Key> userInterests, List<Key>  charitiesDonatedTo){
-    initializeDatastore();
+              Collection<Key> userInterests, Collection<Key>  charitiesDonatedTo) throws Exception{
     Entity userEntity = new Entity("Users");
     userEntity.setProperty("userName", userName);
     userEntity.setProperty("email", email);
@@ -119,14 +112,12 @@ public final class DbCalls {
   }
   // Function updates trending score of a charity in the database.
   public void updateCharityTrendingScore(Key id, Double trendingScore) throws Exception{
-    initializeDatastore();
     Entity charityEntity = datastore.get(id);
     charityEntity.setProperty("trendingScore", trendingScore);
     datastore.put(charityEntity);
   }
   // Function updates trending score of a tag in the database.
   public void updateTagTrendingScore(Key id, Double trendingScore) throws Exception{
-    initializeDatastore();
     Entity charityEntity = datastore.get(id);
     charityEntity.setProperty("trendingScore", trendingScore);
     datastore.put(charityEntity);
