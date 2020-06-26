@@ -12,60 +12,76 @@
 // // See the License for the specific language governing permissions and
 // // limitations under the License.
 
-// package com.google.sps;
+package com.google;
 
-// import java.util.Comparator;
+import java.util.Comparator;
+import java.util.Collection;
 
-// /**
-//  * Class to encapsulate the attributes of a charity loaded from the database
-//  * and to send information to the database regarding a charity
-//  */
-// public final class Charity implements Comparator<Charity>{
+/**
+ * Class to encapsulate the attributes of a charity loaded from the database
+ * and to send information to the database regarding a charity
+ */
+public final class Charity {
 
-//     private final String name;
-//     private String description;
-//     private Collection<Tag> tags;
-//     private double userRating;
-//     private double charityNavRating;
-//     private double trendingScore;
+    private final String name;
+    private String description;
+    private Collection<String> tags;
+    private double userRating;
+    private double charityNavRating;
+    private double trendingScore;
 
-//     /** 
-//      * Constructor takes in details from the database about the charity
-//      * including name, description, tags, ratings
-//      */
-//     public Charity(String name, String description, Collection<Tag> tags, double userRating, double charityNavRating) {
-//         this.name = name;
-//         this.description = description;
-//         this.tags = tags;
-//         this.userRating = userRating;
-//         this.charityNavRating = charityNavRating;
-//     }
+    /** 
+     * Constructor takes in details from the database about the charity
+     * including name, description, tags, ratings
+     */
+    public Charity(String name, String description, Collection<String> tags, double userRating, double charityNavRating) {
+        this.name = name;
+        this.description = description;
+        this.tags = tags;
+        this.userRating = userRating;
+        this.charityNavRating = charityNavRating;
+    }
 
-//     public Charity(String name) {
-//         this.name = name;
-//         /*
-//         this.description = GET request to db based on the charity name;
-//         this.tags = GET request to db based on the charity name;
-//         this.userRating = GET request to db based on the charity name;
-//         this.charityNavRating = GET request to db based on the charity name;
-//         */
-//     }
+     public Charity(String name) {
+         this.name = name;
+         /*
+         this.description = GET request to db based on the charity name;
+         this.tags = GET request to db based on the charity name;
+         this.userRating = GET request to db based on the charity name;
+         this.charityNavRating = GET request to db based on the charity name;
+         */
+     }
 
-//     /**
-//      * setter for trending score
-//      */
-//     public void setTrendingScore(double score) {
-//         this.trendingScore = score;
-//     }
+     /**
+      * setter for trending score
+      */
+     public void setTrendingScore(double score) {
+         this.trendingScore = score;
+     }
 
-//     /**
-//      * A comparator for sorting charities by their trending score in descending order.
-//      */
-//     @Override
-//     public int compareTo(Charity b) {
-//       return Double.compare(b.trendingScore, this.trendingScore);
-//     }
+    public double getTrendingScore() {
+        return this.trendingScore;
+    }
 
+    public double getUserRating() {
+        return this.userRating;
+    }
 
+    public double getCharityNavRating() {
+        return this.charityNavRating;
+    }
 
-// }
+    public Collection<String> getTags() {
+        return this.tags;
+    }
+}
+
+class SortByTrending implements Comparator<Charity> {
+        /**
+        * A comparator for sorting charities by their trending score in descending order.
+        */
+        @Override
+        public int compare(Charity a, Charity b) {
+            return Double.compare(b.getTrendingScore(), a.getTrendingScore());
+        }
+}
