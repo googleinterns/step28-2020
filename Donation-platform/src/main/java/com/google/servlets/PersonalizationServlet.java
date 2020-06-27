@@ -15,7 +15,7 @@
 package com.google.servlets;
 
 import com.google.Charity;
-import com.google.RecommendationSystem;
+import com.google.PersonalizedRecommendations;
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -49,7 +49,7 @@ public class PersonalizationServlet extends HttpServlet {
     tags.add(tag3);
 
     // Get the best-matching charities from the Recommendation System
-    RecommendationSystem recommendation = new RecommendationSystem();
+    PersonalizedRecommendations recommendation = new PersonalizedRecommendations();
     List<Charity> bestMatches = recommendation.getBestMatches(tags);
 
     // Convert bestMatches list to a list of strings where we only display basic information for now
