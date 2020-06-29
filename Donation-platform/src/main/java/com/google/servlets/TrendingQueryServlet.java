@@ -36,8 +36,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-// /**Servlet that handles requests for the trending page**/
-// @WebServlet("/trending-query")
+/**Servlet that handles requests for the trending page**/
+@WebServlet("/trending-query")
 
 public class TrendingQueryServlet extends HttpServlet {
 

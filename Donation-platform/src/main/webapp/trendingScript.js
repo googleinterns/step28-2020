@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+document.addEventListener("DOMContentLoaded", sendTrendingRequest());
+//<button id="submit" onclick="sendTrendingRequest()">Get Trending</button>
 /**
  * Sends the trending request to the server. Using the response, 
  * it lists the options reported by the server.
@@ -37,6 +39,7 @@ function queryServer() {
         const out = [];
         charities.forEach((charity) => {
           out.push(charity.name);
+          out.push(charity.tags)
         });
         return out;
       });
@@ -54,7 +57,8 @@ function updateResultsOnPage(charities) {
   //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
   //for (const name of charities) {
-  for (index = 0; index < charities.length; index++) {
-    resultsContainer.innerHTML += '<li>' + charities[index] + '</li>';
+  for (index = 0; index < charities.length - 1; index += 2) {
+    resultsContainer.innerHTML += '<li>' + charities[index] + ': ' + charities[index + 1] + '</li>';
+
   }
 }
