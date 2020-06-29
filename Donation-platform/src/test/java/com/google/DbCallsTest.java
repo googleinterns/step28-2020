@@ -140,9 +140,7 @@ public class DbCallsTest {
   public void getTagByNameTest() throws Exception{
     dbCalls.addTag(PLACEHOLDER_STRING, 6.0);
     Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
-    String expected = PLACEHOLDER_STRING;
-    String actual = actualTag.getName();
-    assertEquals(expected, actual);
+    assertEquals(PLACEHOLDER_STRING, actualTag.getName());
   }
   // Test checks if function returns all charities that contain certain tag.
   @Test
@@ -163,18 +161,14 @@ public class DbCallsTest {
   public void getUserByUserNameTest() throws Exception{
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users actualUser = dbCalls.getUserByUserName(USERNAME_A);
-    String actual = actualUser.getUserName();
-    String expected = USERNAME_A;
-    assertEquals(actual, expected);
+    assertEquals(actualUser.getUserName(), USERNAME_A);
   }
   // Test checks if function returns object when queried with email.
   @Test
   public void getUserByEmailTest() throws Exception{
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users actualUser = dbCalls.getUserByEmail(EMAIL_A);
-    String actual = actualUser.getUserName();
-    String expected = USERNAME_A;
-    assertEquals(actual, expected);
+    assertEquals(actualUser.getUserName(), USERNAME_A);
   }
   // Test checks if function converts entity into class object.
   @Test
@@ -187,8 +181,7 @@ public class DbCallsTest {
     charityEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
     charityEntity.setProperty(USER_RATING, USER_RATING_A);
     Charity actual = dbCalls.setCharityClass(charityEntity);
-    String charityNameActual = actual.getName();
-    assertEquals(charityNameActual, CHARITY_A);
+    assertEquals(actual.getName(), CHARITY_A);
   }
   // Test checks if function converts entity into class object.
   @Test
@@ -197,8 +190,7 @@ public class DbCallsTest {
     tagEntity.setProperty(NAME, TAG_A);
     tagEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
     Tag actual = dbCalls.setTagClass(tagEntity);
-    String tagNameActual = actual.getName();
-    assertEquals(tagNameActual, TAG_A);
+    assertEquals(actual.getName(), TAG_A);
   }
   // Test checks if function converts entity into class object.
   @Test
@@ -209,8 +201,7 @@ public class DbCallsTest {
     userEntity.setProperty(USER_INTERESTS, USER_INTRESTS_A);
     userEntity.setProperty(CHARITIES_DONATED_TO, CHARITIES_DONATED_TO_A);
     Users actual = dbCalls.setUsersClass(userEntity);
-    String userNameActual = actual.getUserName();
-    assertEquals(userNameActual, USERNAME_A);
+    assertEquals(actual.getUserName(), USERNAME_A);
   }
   // Test checks if function updates database entity properties.
   @Test
@@ -220,9 +211,7 @@ public class DbCallsTest {
     charity.setName(PLACEHOLDER_STRING);
     dbCalls.updateCharity(charity);
     Charity actualCharity = dbCalls.getCharityByName(PLACEHOLDER_STRING);
-    String actualCharityName = actualCharity.getName();
-    String expectedCharityName = PLACEHOLDER_STRING;
-    assertEquals(actualCharityName, expectedCharityName);
+    assertEquals(actualCharity.getName(), PLACEHOLDER_STRING);
   }
   // Test checks if function updates database entity properties.
   @Test
@@ -232,9 +221,7 @@ public class DbCallsTest {
     tag.setName(PLACEHOLDER_STRING);
     dbCalls.updateTag(tag);
     Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
-    String actualTagName = actualTag.getName();
-    String expectedTagName = PLACEHOLDER_STRING;
-    assertEquals(actualTagName, expectedTagName);
+    assertEquals(actualTag.getName(), PLACEHOLDER_STRING);
   }
   // Test checks if function updates database entity properties.
   @Test
@@ -244,9 +231,7 @@ public class DbCallsTest {
     user.setUserName(PLACEHOLDER_STRING);
     dbCalls.updateUser(user);
     Users actualUser = dbCalls.getUserByUserName(PLACEHOLDER_STRING);
-    String actualUserName = actualUser.getUserName();
-    String expectedUserName = PLACEHOLDER_STRING;
-    assertEquals(actualUserName, expectedUserName);
+    assertEquals(actualUser.getUserName(), PLACEHOLDER_STRING);
   }
   // Test checks if function gets charity by ID from database.
   @Test
