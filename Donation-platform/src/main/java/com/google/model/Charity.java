@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -23,16 +24,20 @@ public final class Charity {
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
   private Double trendingScore;
+  // User rating of charity determined by users.
+  private Double userRating;
+
 
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link,
-              Collection<Key>  categories, String description, Double trendingScore) {
+              Collection<Key>  categories, String description, Double trendingScore, Double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
     this.categories = categories;
     this.description = description;
     this.trendingScore = trendingScore;
+    this.userRating = userRating;
   }
 
   public Charity(Key id) {
@@ -86,4 +91,22 @@ public final class Charity {
   public void setTrendingScoreCharity(Double trendingScore) {
     this.trendingScore = trendingScore;
   }
+
+  public Double getUserRating() {
+    return userRating;
+  }
+
+  public void setUserRating( Double userRating){
+    this.userRating = userRating;
+  }
+}
+
+class SortByTrending implements Comparator<Charity> {
+        /**
+        * A comparator for sorting charities by their trending score in descending order.
+        */
+        @Override
+        public int compare(Charity a, Charity b) {
+            return Double.compare(b.getTrendingScoreCharity(), a.getTrendingScoreCharity());
+        }
 }
