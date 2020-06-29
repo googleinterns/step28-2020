@@ -56,9 +56,9 @@ public class DbCallsTest {
   private static final Collection<Key> CHARITIES_DONATED_TO_B = Collections.emptyList();
   private static final String DESCRIPTION_A = "Very testy description.";
   private static final String DESCRIPTION_B= "Not a Very testy description.";
-  private static final Double TRENDINGSCORE_A = 0.0;
-  private static final Double TRENDINGSCORE_B = 0.0;
-  private static final Double USER_RATING_A = 0.0;
+  private static final double TRENDINGSCORE_A = 0.0;
+  private static final double TRENDINGSCORE_B = 0.0;
+  private static final double USER_RATING_A = 0.0;
   private static final String PLACEHOLDER_STRING = "placeholder";
   // Some variables for the query strings.
   private static final String CHARITY = "Charity";
@@ -250,5 +250,17 @@ public class DbCallsTest {
     Key expectedTagId = expectedTag.getId();
     Tag actualTag = dbCalls.getTagById(expectedTagId);
     assertEquals(expectedTag.getId(), actualTag.getId());
+  }
+  // Test checks if we can get Tag objects from collection of Ids.
+  public void getTagObjectsByIdsTest() throws Exception{
+    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A);
+    Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
+    Key actualKey = actualTag.getId();
+    Collection<Key> CATEGORY_A_WITHKEY = Arrays.asList(actualKey);
+    Collection<Tag> expectedTags = dbCalls.getTagObjectsByIds(CATEGORY_A_WITHKEY);
+    for (Tag tag : expectedTags){
+      assertEquals(tag.getId(), actualTag.getId());
+    }
+
   }
 }

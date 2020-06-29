@@ -87,7 +87,7 @@ public final class DbCalls {
     datastore.put(charityEntity);
   }
   // Function adds tag to the database.
-  public void addTag(String name, Double trendingScore) throws Exception{
+  public void addTag(String name, double trendingScore) throws Exception{
     Entity tagEntity = new Entity(TAG);
     tagEntity.setProperty(NAME, name);
     tagEntity.setProperty(TRENDING_SCORE, trendingScore);
@@ -144,6 +144,14 @@ public final class DbCalls {
         .setFilter(new FilterPredicate(NAME, FilterOperator.EQUAL, name));
     return setTagClass(datastore.prepare(query).asSingleEntity());
   }
+  // Function returns Tag class from ID.
+  public Collection<Tag> getTagObjectsByIds (Collection<Key> categories) throws Exception{
+    ArrayList< Tag > tagDataStore = new ArrayList < Tag > ();
+    for (Key key : categories){
+      tagDataStore.add(setTagClass(datastore.get(key)));
+    }
+    return tagDataStore;
+  }
   //Function that returns user from user name.
   public Users getUserByUserName(String userName) throws Exception{
     Query query =
@@ -166,8 +174,8 @@ public final class DbCalls {
     String link = (String) entity.getProperty(LINK);
     List<Key> categories = (List<Key>) entity.getProperty(CATEGORIES);
     String description = (String) entity.getProperty(DESCRIPTION);
-    Double trendingScore = (Double) entity.getProperty(TRENDING_SCORE);
-    Double userRating = (Double) entity.getProperty(USER_RATING);
+    double trendingScore = (double) entity.getProperty(TRENDING_SCORE);
+    double userRating = (double) entity.getProperty(USER_RATING);
     // Converts data to charity object.
     return new Charity(id, name, link, categories, description, trendingScore, userRating);
   }
@@ -175,7 +183,7 @@ public final class DbCalls {
   public Tag setTagClass(Entity entity){
     Key id = (Key) entity.getKey();
     String name = (String) entity.getProperty(NAME);
-    Double trendingScore = (Double) entity.getProperty(TRENDING_SCORE);
+    double trendingScore = (double) entity.getProperty(TRENDING_SCORE);
     // Converts data to tag object.
     return new Tag(id, name, trendingScore);
   }
