@@ -97,6 +97,12 @@ public final class DbCalls {
     userEntity.setProperty("charitiesDonatedTo", charitiesDonatedTo);
     datastore.put(userEntity);
   }
+  // Function returns charity object from ID.
+  public Charity getCharityById(Key charityId) throws Exception{
+    Entity charityEntity = datastore.get(charityId);
+    Charity charityClass = setCharityClass(charityEntity);
+    return charityClass;
+  }
   // Function gets one charity by name. Returns error if multipe charities
   // have the same name.
   public Charity getCharityByName(String name) throws Exception {
@@ -132,6 +138,12 @@ public final class DbCalls {
     }
     // Return all charity objects containing tag.
     return charityDataStore;
+  }
+  // Function returns tag object from ID.
+  public Tag getTagById(Key tagId) throws Exception{
+    Entity tagEntity = datastore.get(tagId);
+    Tag tagClass = setTagClass(tagEntity);
+    return tagClass;
   }
   // Function returns tag object matching name passed in.
   public Tag getTagByName(String name) throws Exception{

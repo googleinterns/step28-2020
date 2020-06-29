@@ -232,4 +232,22 @@ public class DbCallsTest {
     String expectedUserName = "newUser";
     assertEquals(actualUserName, expectedUserName);
   }
+  // Test checks if function gets charity by ID from database.
+  @Test
+  public void getCharityByIdTest() throws Exception{
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
+    Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
+    Key expectedCharityId = expectedCharity.getId();
+    Charity actualCharity = dbCalls.getCharityById(expectedCharityId);
+    assertEquals(expectedCharity.getId(), actualCharity.getId());
+  }
+  // Test checks if function gets Tag by ID from database.
+  @Test
+  public void getTagByIdTest() throws Exception{
+    dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
+    Tag expectedTag = dbCalls.getTagByName(TAG_A);
+    Key expectedTagId = expectedTag.getId();
+    Tag actualTag = dbCalls.getTagById(expectedTagId);
+    assertEquals(expectedTag.getId(), actualTag.getId());
+  }
 }
