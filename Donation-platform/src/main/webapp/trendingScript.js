@@ -39,7 +39,7 @@ function queryServer() {
         const out = [];
         charities.forEach((charity) => {
           out.push(charity.name);
-          out.push(charity.tags)
+          out.push(charity.tags);
         });
         return out;
       });
