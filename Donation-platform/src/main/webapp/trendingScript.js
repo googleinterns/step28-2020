@@ -33,10 +33,6 @@ function queryServer() {
         return response.json();
       })
       .then((charities) => {
-        // Convert the charity details from a json representation to strings.
-        // Currently extracts the name and the corresponding tags of the charities for display.
-        // TODO: update this method to extract all necessary details of the charity to update the display.
-    
         return charities
       });
 }
@@ -50,7 +46,6 @@ function updateResultsOnPage(charities) {
   // clear out any old results
   resultsContainer.innerHTML = '';
 
-  //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
   //for (const name of charities) {
   charities.forEach(charity => {
