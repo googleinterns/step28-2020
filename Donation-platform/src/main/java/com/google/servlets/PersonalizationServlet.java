@@ -41,6 +41,7 @@ public class PersonalizationServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Parse tags JSON from request into a list of tags
     List<String> tags = new ArrayList<>();
+    // requestData example: {"tag1":"hunger","tag2":"education","tag3":"children"}
     String requestData = request.getReader().lines().collect(Collectors.joining());
     requestData = requestData.replace("{", "");
     requestData = requestData.replace("}", "");

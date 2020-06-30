@@ -64,7 +64,8 @@ public class PersonalizedRecommendations {
 
     // Returns mapping of charities to the scores that determine their rank on the personalzied page (higher score = better match)
     public HashMap<Charity, Double> getCharityScores(List<String> selectedTags) {
-        Collection<Charity> charities = getAllCharities();
+        Collection<Charity> charities = getAllCharities(); //DEFAULT
+        // Collection<Charity> charities = getAllHardCodedCharities(); //HARDCODED
         HashMap<Charity, Double> charityScores = new HashMap<Charity, Double>();
 
         for(Charity charity : charities) {
@@ -98,14 +99,15 @@ public class PersonalizedRecommendations {
         return charityScores;
     }
 
-    // Gets charities from the HardCodedCharitiesAndTags class
+    // Gets charities from the database
     private Collection<Charity> getAllCharities() {
-        // // Using hard-coded charities:
-        // return Arrays.asList(HardCodedCharitiesAndTags.charities);
-
-        // Using Database:
         Collection<Charity> charities = db.getAllCharities();
         return charities;
+    
+
+    // Gets charities from the HardCodedCharitiesAndTags class
+    private Collection<Charity> getAllHardCodedCharities() {
+        return Arrays.asList(HardCodedCharitiesAndTags.charities);
     }
 
     // Sorts HashMap in decreasing order of values

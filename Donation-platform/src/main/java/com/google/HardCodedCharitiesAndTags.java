@@ -25,7 +25,7 @@ public final class HardCodedCharitiesAndTags {
     public static final Charity[] charities = {
         new Charity("Feeding America", "", Arrays.asList("hunger"), 4, 4.5),
         new Charity("Red Cross", "", Arrays.asList("health", "education"), 4.5, 4),
-        new Charity("St. Judes", "", Arrays.asList("health", "children"), 3, 3),
+        new Charity("St. Jude's", "", Arrays.asList("health", "children"), 3, 3),
         new Charity("Nature Conservancy", "", Arrays.asList("environment"), 5, 2),
         new Charity("YMCA", "", Arrays.asList("children"), 2, 3),
         new Charity("ACLU", "", Arrays.asList("racial equality"), 5, 5), 

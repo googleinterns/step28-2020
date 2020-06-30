@@ -42,14 +42,7 @@ function getPersonalizedCharitiesFromServlet() {
       return response.json();
     })
     .then((charities) => {
-      // Organize the charity attributes into an array of strings
-      // Note: only saving each charity's name and tags for now
-      const out = [];
-      charities.forEach((charity) => {
-          out.push(charity.name);
-          out.push(charity.tags);
-      });
-      return out;
+      return charities;
     });
 }
 
@@ -61,17 +54,18 @@ function updatePersonalizedList(charities) {
   personalizedListElement.innerHTML = "";
   
   // Displays charity listings in the format: "[Charity Name] ([tag 1], [tag2], ...)"
-  for(i = 0; i < charities.length - 1; i += 2) {
-    var charityString = "<li><strong>" + charities[i] + "</strong>  (";
-    for(j = 0; j < charities[i+1].length; j++) {
-      if(j == charities[i+1].length - 1) {
-        charityString += charities[i + 1][j] + ")</li>";;
+  charities.forEach(charity => {
+    var charityString = "<li><strong>" + charity.name + "</strong>  (";
+    console.log("charitytags: " + charity.tags);
+    for(i = 0; i < (charity.tags).length; i++) {
+      if(i == (charity.tags).length - 1) {
+        charityString += (charity.tags)[i] + ")</li>";;
       } else {
-        charityString += charities[i + 1][j] + ", ";
+        charityString += (charity.tags)[i] + ", ";
       }
     }
     personalizedListElement.innerHTML += charityString;
-  }
+  });
 }
 
 // Runs loadPersonalizedCharities() when the submit button is pressed
