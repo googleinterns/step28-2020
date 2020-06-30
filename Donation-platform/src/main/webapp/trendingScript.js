@@ -13,7 +13,7 @@
 // limitations under the License.
 
 document.addEventListener("DOMContentLoaded", sendTrendingRequest());
-//<button id="submit" onclick="sendTrendingRequest()">Get Trending</button>
+
 /**
  * Sends the trending request to the server. Using the response, 
  * it lists the options reported by the server.
@@ -34,7 +34,7 @@ function queryServer() {
       })
       .then((charities) => {
         // Convert the charity details from a json representation to strings.
-        // For simplicity, this method will (for now) only output the charity names to update the display.
+        // Currently extracts the name and the corresponding tags of the charities for display.
         // TODO: update this method to extract all necessary details of the charity to update the display.
         const out = [];
         charities.forEach((charity) => {
