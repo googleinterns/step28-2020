@@ -38,8 +38,8 @@ function queryServer() {
         // TODO: update this method to extract all necessary details of the charity to update the display.
         const out = [];
         charities.forEach((charity) => {
-          out.push(charity.name);
-          out.push(charity.tags);
+          out.push([charity.name, charity.tags]);
+          //out.push(charity.tags);
         });
         return out;
       });
@@ -57,8 +57,22 @@ function updateResultsOnPage(charities) {
   //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
   //for (const name of charities) {
-  for (index = 0; index < charities.length - 1; index += 2) {
-    resultsContainer.innerHTML += '<li>' + charities[index] + ': ' + charities[index + 1] + '</li>';
+  for (index = 0; index < charities.length; index++) {
+    resultsContainer.innerHTML += '<li>' + charities[index][0] + ': ' + charities[index][1] + '</li>';
 
   }
+}
+
+/**
+ * Updates the display with bootstrap cards. (IN PROGRESS)
+ */
+function updateCardsOnPage(charities) {
+    const cards = document.getElementById('cards');
+
+    cards.innerHTML = '';
+
+    for (index = 0; index < charities.length - 1; index += 2) {
+        cards.innerHTML += '<div class="card bg-primary">' + '<div class="card-body text-center">' + '<p class="card-text">' + charities[index] + '</p>';
+        cards.innerHTML += '</div>' + '</div>';
+    }
 }
