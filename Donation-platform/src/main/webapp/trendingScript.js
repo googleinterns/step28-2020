@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", sendTrendingRequest());
  */
 function sendTrendingRequest() {
   queryServer().then((charities) => {
-    updateResultsOnPage(charities);
+    updateCardsOnPage(charities);
   });
 }
 
@@ -61,8 +61,9 @@ function updateCardsOnPage(charities) {
 
     cards.innerHTML = '';
 
-    for (index = 0; index < charities.length - 1; index += 2) {
-        cards.innerHTML += '<div class="card bg-primary">' + '<div class="card-body text-center">' + '<p class="card-text">' + charities[index] + '</p>';
+    charities.forEach(charity => {
+        cards.innerHTML += '<div class="card">' + '<div class="card-body text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
+                            '<p class="card-text">' + charity.tags + '</p>' + '<a href=' + charity.link + 'class="card-link">Charity link</a>';
         cards.innerHTML += '</div>' + '</div>';
-    }
+    });
 }

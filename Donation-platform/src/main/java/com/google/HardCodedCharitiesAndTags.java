@@ -22,13 +22,13 @@
  public final class HardCodedCharitiesAndTags {
 
      public static final Charity[] charities = {
-         new Charity("Feeding America", "", Arrays.asList("hunger"), 4, 4.5),
-         new Charity("Red Cross", "", Arrays.asList("medicine", "education"), 4.5, 4),
-         new Charity("St. Jude's", "", Arrays.asList("medicine", "children"), 3, 3),
-         new Charity("Nature Conservancy", "", Arrays.asList("environment"), 5, 2),
-         new Charity("YMCA", "", Arrays.asList("children"), 2, 3),
-         new Charity("ACLU", "", Arrays.asList("race"), 5, 5), 
-         new Charity("American Heart Association", "", Arrays.asList("health"), 3, 3)
+         new Charity("Feeding America", "", Arrays.asList("hunger"), 4, 4.5, "https://secure.feedingamerica.org/site/Donation2", "sf.jpeg"),
+         new Charity("Red Cross", "", Arrays.asList("medicine", "education"), 4.5, 4, "https://www.redcross.org/donate/donation.html/", "sf.jpeg"),
+         new Charity("St. Jude's", "", Arrays.asList("medicine", "children"), 3, 3, "https://www.stjude.org/donate/pm.html", "sf.jpeg"),
+         new Charity("Nature Conservancy", "", Arrays.asList("environment"), 5, 2, "https://support.nature.org/site/Donation2", "sf.jpeg"),
+         new Charity("YMCA", "", Arrays.asList("children"), 2, 3, "https://www.ymca.net/be-involved", "sf.jpeg"),
+         new Charity("ACLU", "", Arrays.asList("race"), 5, 5, "https://action.aclu.org/give/fund-every-fight-ahead?", "sf.jpeg"), 
+         new Charity("American Heart Association", "", Arrays.asList("health"), 3, 3, "https://www2.heart.org/site/SPageServer?pagename=donatenow_heart", "sf.jpeg")
      };
 
      public static final Map<String, Integer> tagScores = new HashMap<String, Integer>() {
