@@ -103,7 +103,7 @@ public class PersonalizedRecommendations {
     private Collection<Charity> getAllCharities() {
         Collection<Charity> charities = db.getAllCharities();
         return charities;
-    
+    }
 
     // Gets charities from the HardCodedCharitiesAndTags class
     private Collection<Charity> getAllHardCodedCharities() {

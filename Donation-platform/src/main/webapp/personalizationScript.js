@@ -56,7 +56,6 @@ function updatePersonalizedList(charities) {
   // Displays charity listings in the format: "[Charity Name] ([tag 1], [tag2], ...)"
   charities.forEach(charity => {
     var charityString = "<li><strong>" + charity.name + "</strong>  (";
-    console.log("charitytags: " + charity.tags);
     for(i = 0; i < (charity.tags).length; i++) {
       if(i == (charity.tags).length - 1) {
         charityString += (charity.tags)[i] + ")</li>";;
