@@ -26,6 +26,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,30 +39,24 @@ public class PersonalizationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Parse tags JSON from request into a list of tags
     List<String> tags = new ArrayList<>();
-
-    // Get the user's tag input from the checkbox form
-    String tag1 = request.getParameter("tag-1");
-    String tag2 = request.getParameter("tag-2");
-    String tag3 = request.getParameter("tag-3");
-    tags.add(tag1);
-    tags.add(tag2);
-    tags.add(tag3);
+    String requestData = request.getReader().lines().collect(Collectors.joining());
+    requestData = requestData.replace("{", "");
+    requestData = requestData.replace("}", "");
+    String[] requestDataSplit = requestData.split(",");
+    for(String s : requestDataSplit) {
+        tags.add(s.substring(s.indexOf(":") + 2, s.length() - 1));
+    }
 
     // Get the best-matching charities from the Recommendation System
     PersonalizedRecommendations recommendation = new PersonalizedRecommendations();
     List<Charity> bestMatches = recommendation.getBestMatches(tags);
 
-    // Convert bestMatches list to a list of strings where we only display basic information for now
-    List<String> bestMatchesNames = new ArrayList<String>();
-    for(Charity charity : bestMatches) {
-        bestMatchesNames.add(charity.toString());
-    }
-
     // Display the recommended charities as a JSON sorted in order of best to worst match
     Gson gson = new Gson();
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(bestMatchesNames));
+    response.getWriter().println(gson.toJson(bestMatches));
   }
 
 }

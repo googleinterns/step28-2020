@@ -15,6 +15,7 @@
 package com.google;
 
 import com.google.Charity;
+import com.google.DbCalls;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,9 +25,20 @@ import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Arrays;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+
 
 /* Class that takes user-selected tags as input and finds the according best-matching charities.*/
 public class PersonalizedRecommendations {
+
+    // Datastore set-up
+    private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    private DbCalls db = new DbCalls(datastore);
 
     // Determine how much the charity's tags matching matters compared to how trending the charity is
     private final double TAG_MATCHING_WEIGHT = 0.7;
@@ -88,7 +100,12 @@ public class PersonalizedRecommendations {
 
     // Gets charities from the HardCodedCharitiesAndTags class
     private Collection<Charity> getAllCharities() {
-        return Arrays.asList(HardCodedCharitiesAndTags.charities);
+        // // Using hard-coded charities:
+        // return Arrays.asList(HardCodedCharitiesAndTags.charities);
+
+        // Using Database:
+        Collection<Charity> charities = db.getAllCharities();
+        return charities;
     }
 
     // Sorts HashMap in decreasing order of values
