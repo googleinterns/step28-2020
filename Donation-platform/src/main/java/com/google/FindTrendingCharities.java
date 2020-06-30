@@ -23,45 +23,50 @@ import java.lang.Double;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.HashMap;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
 public final class FindTrendingCharities {
 
+    //datastore set up
+    private DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+    private DbCalls db = new DbCalls(ds);
 
     //number of trending charities to be returned
     final int trendingNum = 7;
 
 
-     final double charityNavToScale = 1.25;
+    final double charityNavToScale = 1.25;
 
-     //should sum to 1
-     final double userRatingWeight = 0.75;
-     final double scaledCharityNavWeight = 0.25;
+    //should sum to 1
+    final double userRatingWeight = 0.75;
+    final double scaledCharityNavWeight = 0.25;
 
-     //should sum to 1
-     final double charityTagsWeight = 0.75;
-     final double avgReviewWeight = 0.25;
+    //should sum to 1
+    final double charityTagsWeight = 0.75;
+    final double avgReviewWeight = 0.25;
 
 
     //returns the collection of top trending charities
     public Collection<Charity> query() {
-        ArrayList<Charity> charities = getAllCharities();
+        Collection<Charity> charities = getAllCharities();
         for (Charity cur: charities) {
             double curScore = calcCharityTrendingScore(cur);
             cur.setTrendingScore(curScore);
         }
-        Collections.sort(charities, new SortByTrending());
-        List<Charity> topTrending = charities.subList(0, trendingNum);
+        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
+        Collections.sort(charitiesList, new SortByTrending());
+        List<Charity> topTrending = charitiesList.subList(0, trendingNum);
         return topTrending;
     }
 
     //returns a list of all charities in the database
-    private ArrayList<Charity> getAllCharities(){
-        ArrayList<Charity> charities = new ArrayList<>();
-        // GET request for all charity names from the database
-        // create new Charity object for each of the names, with the relevant info from db
-        // add each new Charity object to the charities collection 
-        //HardCodedCharitiesAndTags test = new HardCodedCharitiesAndTags();
-        ArrayList<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
+    private Collection<Charity> getAllCharities(){
+        //OLD
+        Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
+
+        //INTEGRATED DB
+        //Collection<Charity> charities = db.getAllCharities();
         return allCharities;
     }
 
@@ -76,7 +81,6 @@ public final class FindTrendingCharities {
         if (hasCharityNavRating) {
             charityNavRating = calcCharityNavRating(charity);
         }
-        //userRating = GET request to db for charity star rating;
         double userRating = charity.getUserRating();
         double avgReview;
         if (hasCharityNavRating) {
@@ -84,7 +88,7 @@ public final class FindTrendingCharities {
         } else {
             avgReview = userRating;
         }
-        //Collection<Tag> tags = GET request to db for charity tags;
+        //getCategories?
         Collection<String> tags = charity.getTags();
         double charityTagsScore = getTagTrendingScore(tags);
         double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
@@ -97,7 +101,7 @@ public final class FindTrendingCharities {
     }
 
     private boolean hasCharityNavRating(Charity charity) {
-        return true;
+        return false;
     }
 
     //return the average trending score of a collection of tags
@@ -106,6 +110,8 @@ public final class FindTrendingCharities {
         int numTags = tags.size();
         for (String tag: tags) {
             double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
+            //double tagScore = tag.getTrendingScore();
+            //store tagScore in db and retreive score for specific tag when required
             //tagScore = use Google Trend API to get trending score
             sumScores += tagScore;
         }

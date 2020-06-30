@@ -54,7 +54,7 @@ function updateResultsOnPage(charities) {
 }
 
 /**
- * Updates the display with bootstrap cards. (IN PROGRESS)
+ * Updates the display with bootstrap cards.
  */
 function updateCardsOnPage(charities) {
     const cards = document.getElementById('cards');
@@ -63,7 +63,19 @@ function updateCardsOnPage(charities) {
 
     charities.forEach(charity => {
         cards.innerHTML += '<div class="card">' + '<div class="card-body text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
-                            '<p class="card-text">' + charity.tags + '</p>' + '<a href=' + charity.link + 'class="card-link">Charity link</a>';
+                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + 'class="btn btn-primary" role="button">Learn More</a>';
         cards.innerHTML += '</div>' + '</div>';
     });
+}
+
+/**
+ * Displays the tags of a charity in bootstrap badges.
+ */
+function displayTags(tags) {
+    out = "";
+    for (const tag of tags) {
+        console.log(tag);
+        out += '<h5><span class="badge badge-info">' + tag + '</span></h5>';
+    }
+    return out;
 }
