@@ -36,12 +36,8 @@ function queryServer() {
         // Convert the charity details from a json representation to strings.
         // Currently extracts the name and the corresponding tags of the charities for display.
         // TODO: update this method to extract all necessary details of the charity to update the display.
-        const out = [];
-        charities.forEach((charity) => {
-          out.push([charity.name, charity.tags]);
-          //out.push(charity.tags);
-        });
-        return out;
+    
+        return charities
       });
 }
 
@@ -57,10 +53,9 @@ function updateResultsOnPage(charities) {
   //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
   //for (const name of charities) {
-  for (index = 0; index < charities.length; index++) {
-    resultsContainer.innerHTML += '<li>' + charities[index][0] + ': ' + charities[index][1] + '</li>';
-
-  }
+  charities.forEach(charity => {
+    resultsContainer.innerHTML += '<li>' + charity.name + ': ' + charity.tags + '</li>';
+  });
 }
 
 /**
