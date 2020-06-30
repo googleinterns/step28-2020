@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+document.addEventListener("DOMContentLoaded", sendTrendingRequest());
+
 /**
  * Sends the trending request to the server. Using the response, 
  * it lists the options reported by the server.
@@ -31,14 +33,7 @@ function queryServer() {
         return response.json();
       })
       .then((charities) => {
-        // Convert the charity details from a json representation to strings.
-        // For simplicity, this method will (for now) only output the charity names to update the display.
-        // TODO: update this method to extract all necessary details of the charity to update the display.
-        const out = [];
-        charities.forEach((charity) => {
-          out.push(charity.name);
-        });
-        return out;
+        return charities
       });
 }
 
@@ -51,10 +46,23 @@ function updateResultsOnPage(charities) {
   // clear out any old results
   resultsContainer.innerHTML = '';
 
-  //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
   //for (const name of charities) {
-  for (index = 0; index < charities.length; index++) {
-    resultsContainer.innerHTML += '<li>' + charities[index] + '</li>';
-  }
+  charities.forEach(charity => {
+    resultsContainer.innerHTML += '<li>' + charity.name + ': ' + charity.tags + '</li>';
+  });
+}
+
+/**
+ * Updates the display with bootstrap cards. (IN PROGRESS)
+ */
+function updateCardsOnPage(charities) {
+    const cards = document.getElementById('cards');
+
+    cards.innerHTML = '';
+
+    for (index = 0; index < charities.length - 1; index += 2) {
+        cards.innerHTML += '<div class="card bg-primary">' + '<div class="card-body text-center">' + '<p class="card-text">' + charities[index] + '</p>';
+        cards.innerHTML += '</div>' + '</div>';
+    }
 }
