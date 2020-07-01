@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+document.addEventListener("DOMContentLoaded", sendTrendingRequest());
+
 /**
  * Sends the trending request to the server. Using the response, 
  * it lists the options reported by the server.
  */
 function sendTrendingRequest() {
   queryServer().then((charities) => {
-    updateResultsOnPage(charities);
+    updateCardsOnPage(charities);
   });
 }
 
@@ -31,14 +33,7 @@ function queryServer() {
         return response.json();
       })
       .then((charities) => {
-        // Convert the charity details from a json representation to strings.
-        // For simplicity, this method will (for now) only output the charity names to update the display.
-        // TODO: update this method to extract all necessary details of the charity to update the display.
-        const out = [];
-        charities.forEach((charity) => {
-          out.push(charity.name);
-        });
-        return out;
+        return charities
       });
 }
 
@@ -51,10 +46,36 @@ function updateResultsOnPage(charities) {
   // clear out any old results
   resultsContainer.innerHTML = '';
 
-  //resultsContainer.innerHTML += '<li>' + 'name' + '</li>';
   // add results to the page
   //for (const name of charities) {
-  for (index = 0; index < charities.length; index++) {
-    resultsContainer.innerHTML += '<li>' + charities[index] + '</li>';
-  }
+  charities.forEach(charity => {
+    resultsContainer.innerHTML += '<li>' + charity.name + ': ' + charity.tags + '</li>';
+  });
+}
+
+/**
+ * Updates the display with bootstrap cards.
+ */
+function updateCardsOnPage(charities) {
+    const cards = document.getElementById('cards');
+
+    cards.innerHTML = '';
+
+    charities.forEach(charity => {
+        cards.innerHTML += '<div class="card border-dark mb-3">' + '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
+                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + 'class="btn btn-primary" role="button">Learn More</a>';
+        cards.innerHTML += '</div>' + '</div>';
+    });
+}
+
+/**
+ * Displays the tags of a charity in bootstrap badges.
+ */
+function displayTags(tags) {
+    out = "";
+    for (const tag of tags) {
+        console.log(tag);
+        out += '<h5><span class="badge badge-info">' + tag + '</span></h5>';
+    }
+    return out;
 }

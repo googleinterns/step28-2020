@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -22,17 +23,21 @@ public final class Charity {
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
-  private Double trendingScore;
+  private double trendingScore;
+  // User rating of charity determined by users.
+  private double userRating;
+
 
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link,
-              Collection<Key>  categories, String description, Double trendingScore) {
+              Collection<Key>  categories, String description, double trendingScore, double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
     this.categories = categories;
     this.description = description;
     this.trendingScore = trendingScore;
+    this.userRating = userRating;
   }
 
   public Charity(Key id) {
@@ -79,11 +84,22 @@ public final class Charity {
     this.description = description;
   }
 
-  public Double getTrendingScoreCharity() {
+  public double getTrendingScoreCharity() {
     return trendingScore;
   }
 
-  public void setTrendingScoreCharity(Double trendingScore) {
+  public void setTrendingScoreCharity(double trendingScore) {
     this.trendingScore = trendingScore;
   }
+
+  public double getUserRating() {
+    return userRating;
+  }
+
+  public void setUserRating( double userRating){
+    this.userRating = userRating;
+  }
 }
+
+
+

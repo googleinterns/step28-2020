@@ -23,47 +23,57 @@ import java.lang.Double;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.HashMap;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
 public final class FindTrendingCharities {
 
+    //datastore set up
+    private DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+    private DbCalls db = new DbCalls(ds);
 
     //number of trending charities to be returned
     final int trendingNum = 7;
 
 
-     final double charityNavToScale = 1.25;
+    final double charityNavToScale = 1.25;
 
-     //should sum to 1
-     final double userRatingWeight = 0.75;
-     final double scaledCharityNavWeight = 0.25;
+    //should sum to 1
+    final double userRatingWeight = 0.75;
+    final double scaledCharityNavWeight = 0.25;
 
-     //should sum to 1
-     final double charityTagsWeight = 0.75;
-     final double avgReviewWeight = 0.25;
+    //should sum to 1
+    final double charityTagsWeight = 0.75;
+    final double avgReviewWeight = 0.25;
 
 
     //returns the collection of top trending charities
     public Collection<Charity> query() {
-        ArrayList<Charity> charities = getAllCharities();
+        //TODO: Change to getAllCharities() when integrating db
+        Collection<Charity> charities = getAllHardCodedCharities();
         for (Charity cur: charities) {
             double curScore = calcCharityTrendingScore(cur);
             cur.setTrendingScore(curScore);
         }
-        Collections.sort(charities, new SortByTrending());
-        List<Charity> topTrending = charities.subList(0, trendingNum);
+        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
+        Collections.sort(charitiesList, new SortByTrending());
+        List<Charity> topTrending = charitiesList.subList(0, trendingNum);
         return topTrending;
     }
 
-    //returns a list of all charities in the database
-    private ArrayList<Charity> getAllCharities(){
-        ArrayList<Charity> charities = new ArrayList<>();
-        // GET request for all charity names from the database
-        // create new Charity object for each of the names, with the relevant info from db
-        // add each new Charity object to the charities collection 
-        //HardCodedCharitiesAndTags test = new HardCodedCharitiesAndTags();
-        ArrayList<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
+    //returns a list of all hardcoded charities
+    private Collection<Charity> getAllHardCodedCharities(){
+        Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
         return allCharities;
     }
+
+    //returns a list of all charities in the database
+    private Collection<Charity> getAllCharities(){
+        Collection<Charity> charities = new ArrayList<>();
+        //Collection<Charity> charities = db.getAllCharities();
+        return charities;
+    }
+
 
     // returns the trending score of inputted charity calculated 
     // as aweighted average of the tagScore and the avgReview where
@@ -76,7 +86,6 @@ public final class FindTrendingCharities {
         if (hasCharityNavRating) {
             charityNavRating = calcCharityNavRating(charity);
         }
-        //userRating = GET request to db for charity star rating;
         double userRating = charity.getUserRating();
         double avgReview;
         if (hasCharityNavRating) {
@@ -84,13 +93,14 @@ public final class FindTrendingCharities {
         } else {
             avgReview = userRating;
         }
-        //Collection<Tag> tags = GET request to db for charity tags;
+        //TODO: Integrate db with correct method to retreive tags for one charity
         Collection<String> tags = charity.getTags();
         double charityTagsScore = getTagTrendingScore(tags);
         double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
         return charityTrendingScore;
     }
 
+    //TODO: Integrate db with correct method to retreive navRating for one charity
     private double calcCharityNavRating(Charity charity) {
         double charityNavRating = charity.getCharityNavRating();
         return charityNavRating * charityNavToScale;
@@ -106,9 +116,15 @@ public final class FindTrendingCharities {
         int numTags = tags.size();
         for (String tag: tags) {
             double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
+            //TODO: Integrate db with correct method to retreive trending score of specific tag
+            //double tagScore = tag.getTrendingScore();
+            
+            //TODO: Use GoogleTrends API to update tag trending score
             //tagScore = use Google Trend API to get trending score
             sumScores += tagScore;
         }
+        //TODO: Update db with new trendingScore for charity
+
         return (sumScores / numTags);
     }
 }
