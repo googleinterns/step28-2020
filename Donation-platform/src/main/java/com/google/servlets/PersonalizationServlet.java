@@ -17,13 +17,11 @@ package com.google.servlets;
 import com.google.Charity;
 import com.google.PersonalizedRecommendations;
 import com.google.gson.Gson;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,11 +41,17 @@ public class PersonalizationServlet extends HttpServlet {
     List<String> tags = new ArrayList<>();
     // requestData example: {"tag1":"hunger","tag2":"education","tag3":"children"}
     String requestData = request.getReader().lines().collect(Collectors.joining());
-    requestData = requestData.replace("{", "");
-    requestData = requestData.replace("}", "");
-    String[] requestDataSplit = requestData.split(",");
-    for(String s : requestDataSplit) {
-        tags.add(s.substring(s.indexOf(":") + 2, s.length() - 1));
+    // Convert requestData into a mapping of tag1, tag2,... to their respective selected tag values
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, String> tagMap = new HashMap<String, String>();
+    try {
+      tagMap = mapper.readValue(requestData, Map.class);
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
+    // Iterate over the mapping and add the tag values to the tags list
+    for (Map.Entry<String, String> entry : tagMap.entrySet()) {
+	  tags.add(entry.getValue());
     }
 
     // Get the best-matching charities from the Recommendation System
