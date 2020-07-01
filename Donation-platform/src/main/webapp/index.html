@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="userAuth.js"></script>
   </head>
+  <!--
+  <body onload="getUser()">
+  -->
   <body>
     <!-- NAVIGATION BAR -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -32,6 +36,7 @@
     </nav>
     <!-- CONTENT -->
     <div id="content">
+      <div id="index-container"> </div>
       <!-- TODO: prevent user from selecting same tag multiple times (remove selected tag from following forms) -->
       <h2>Personalized Charity Recommendations</h2>
       <form id="tag-input">
