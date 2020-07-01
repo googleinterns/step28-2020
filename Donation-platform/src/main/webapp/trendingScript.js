@@ -63,7 +63,7 @@ function updateCardsOnPage(charities) {
 
     charities.forEach(charity => {
         cards.innerHTML += '<div class="card border-dark mb-3">' + '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
-                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + 'class="btn btn-primary" role="button">Learn More</a>';
+                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Learn More and Donate</a>';
         cards.innerHTML += '</div>' + '</div>';
     });
 }
