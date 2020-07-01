@@ -104,6 +104,7 @@
           <deploy.projectId>donations-step-2020-new</deploy.projectId>
           <deploy.version>1</deploy.version>
           <automaticRestart>true</automaticRestart>
+          <packagingExcludes>WEB-INF/appengine-web.xml</packagingExcludes>
         </configuration>
       </plugin>
     </plugins>
