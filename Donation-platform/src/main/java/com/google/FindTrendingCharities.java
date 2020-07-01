@@ -69,8 +69,9 @@ public final class FindTrendingCharities {
 
     //returns a list of all charities in the database
     private Collection<Charity> getAllCharities(){
-        Collection<Charity> charities = db.getAllCharities();
-        return Charities;
+        Collection<Charity> charities = new ArrayList<>();
+        //Collection<Charity> charities = db.getAllCharities();
+        return charities;
     }
 
 

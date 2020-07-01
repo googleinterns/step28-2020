@@ -43,7 +43,7 @@ public final class Charity {
         this.userRating = userRating;
         this.charityNavRating = charityNavRating;
         this.link = link;
-        this.imgSrc = "images/" + imgSrc;
+        this.imgSrc = imgSrc;
     }
 
      public Charity(String name) {
@@ -81,6 +81,10 @@ public final class Charity {
 
     public String getLink() {
         return this.link;
+    }
+
+    public String getImg() {
+        return this.imgSrc;
     }
 }
 
