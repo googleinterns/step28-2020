@@ -65,7 +65,7 @@ public final class FindTrendingCharities {
         //OLD
         Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
 
-        //INTEGRATED DB
+        //TODO: Integrate DB with correct call to getAllCharities()
         //Collection<Charity> charities = db.getAllCharities();
         return allCharities;
     }
@@ -88,20 +88,21 @@ public final class FindTrendingCharities {
         } else {
             avgReview = userRating;
         }
-        //getCategories?
+        //TODO: Integrate db with correct method to retreive tags for one charity
         Collection<String> tags = charity.getTags();
         double charityTagsScore = getTagTrendingScore(tags);
         double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
         return charityTrendingScore;
     }
 
+    //TODO: Integrate db with correct method to retreive navRating for one charity
     private double calcCharityNavRating(Charity charity) {
         double charityNavRating = charity.getCharityNavRating();
         return charityNavRating * charityNavToScale;
     }
 
     private boolean hasCharityNavRating(Charity charity) {
-        return false;
+        return true;
     }
 
     //return the average trending score of a collection of tags
@@ -110,11 +111,15 @@ public final class FindTrendingCharities {
         int numTags = tags.size();
         for (String tag: tags) {
             double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
+            //TODO: Integrate db with correct method to retreive trending score of specific tag
             //double tagScore = tag.getTrendingScore();
-            //store tagScore in db and retreive score for specific tag when required
+            
+            //TODO: Use GoogleTrends API to update tag trending score
             //tagScore = use Google Trend API to get trending score
             sumScores += tagScore;
         }
+        //TODO: Update db with new trendingScore for charity
+        
         return (sumScores / numTags);
     }
 }
