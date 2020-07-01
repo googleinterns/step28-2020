@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", sendTrendingRequest());
  */
 function sendTrendingRequest() {
   queryServer().then((charities) => {
-    updateResultsOnPage(charities);
+    updateCardsOnPage(charities);
   });
 }
 
@@ -54,15 +54,28 @@ function updateResultsOnPage(charities) {
 }
 
 /**
- * Updates the display with bootstrap cards. (IN PROGRESS)
+ * Updates the display with bootstrap cards.
  */
 function updateCardsOnPage(charities) {
     const cards = document.getElementById('cards');
 
     cards.innerHTML = '';
 
-    for (index = 0; index < charities.length - 1; index += 2) {
-        cards.innerHTML += '<div class="card bg-primary">' + '<div class="card-body text-center">' + '<p class="card-text">' + charities[index] + '</p>';
+    charities.forEach(charity => {
+        cards.innerHTML += '<div class="card border-dark mb-3">' + '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
+                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + 'class="btn btn-primary" role="button">Learn More</a>';
         cards.innerHTML += '</div>' + '</div>';
+    });
+}
+
+/**
+ * Displays the tags of a charity in bootstrap badges.
+ */
+function displayTags(tags) {
+    out = "";
+    for (const tag of tags) {
+        console.log(tag);
+        out += '<h5><span class="badge badge-info">' + tag + '</span></h5>';
     }
+    return out;
 }
