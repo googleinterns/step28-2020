@@ -36,7 +36,7 @@ public class UserAuthServlet extends HttpServlet {
     }
 
     // If user has not set a username, redirect to username page.
-    String userName = getUserNickname(userService.getCurrentUser().getUserId());
+    String userName = getUserUsername(userService.getCurrentUser().getUserId());
     if (userName == null) {
       loginInfo.put("redirect", "true");
       Gson gson = new Gson();
@@ -56,8 +56,8 @@ public class UserAuthServlet extends HttpServlet {
     response.getWriter().println(json);
   }
 
-  /** Returns the username of the user with id, or null if the user has not set a nickname. */
-  private String getUserNickname(String id) {
+  /** Returns the username of the user with id, or null if the user has not set a Username. */
+  private String getUserUsername(String id) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query("Users")
