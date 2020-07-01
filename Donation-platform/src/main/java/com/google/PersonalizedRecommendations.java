@@ -15,6 +15,7 @@
 package com.google;
 
 import com.google.Charity;
+import com.google.DbCalls;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,9 +25,20 @@ import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Arrays;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+
 
 /* Class that takes user-selected tags as input and finds the according best-matching charities.*/
 public class PersonalizedRecommendations {
+
+    // Datastore set-up
+    private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    private DbCalls db = new DbCalls(datastore);
 
     // Determine how much the charity's tags matching matters compared to how trending the charity is
     private final double TAG_MATCHING_WEIGHT = 0.7;
@@ -52,7 +64,8 @@ public class PersonalizedRecommendations {
 
     // Returns mapping of charities to the scores that determine their rank on the personalzied page (higher score = better match)
     public HashMap<Charity, Double> getCharityScores(List<String> selectedTags) {
-        Collection<Charity> charities = getAllCharities();
+        Collection<Charity> charities = getAllCharities(); //DEFAULT
+        // Collection<Charity> charities = getAllHardCodedCharities(); //HARDCODED
         HashMap<Charity, Double> charityScores = new HashMap<Charity, Double>();
 
         for(Charity charity : charities) {
@@ -86,8 +99,14 @@ public class PersonalizedRecommendations {
         return charityScores;
     }
 
-    // Gets charities from the HardCodedCharitiesAndTags class
+    // Gets charities from the database
     private Collection<Charity> getAllCharities() {
+        Collection<Charity> charities = db.getAllCharities();
+        return charities;
+    }
+
+    // Gets charities from the HardCodedCharitiesAndTags class
+    private Collection<Charity> getAllHardCodedCharities() {
         return Arrays.asList(HardCodedCharitiesAndTags.charities);
     }
 

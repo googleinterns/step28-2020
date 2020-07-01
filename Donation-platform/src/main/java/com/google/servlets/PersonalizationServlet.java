@@ -17,15 +17,14 @@ package com.google.servlets;
 import com.google.Charity;
 import com.google.PersonalizedRecommendations;
 import com.google.gson.Gson;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,30 +37,31 @@ public class PersonalizationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Parse tags JSON from request into a list of tags
     List<String> tags = new ArrayList<>();
-
-    // Get the user's tag input from the checkbox form
-    String tag1 = request.getParameter("tag-1");
-    String tag2 = request.getParameter("tag-2");
-    String tag3 = request.getParameter("tag-3");
-    tags.add(tag1);
-    tags.add(tag2);
-    tags.add(tag3);
+    // requestData example: {"tag1":"hunger","tag2":"education","tag3":"children"}
+    String requestData = request.getReader().lines().collect(Collectors.joining());
+    // Convert requestData into a mapping of tag1, tag2,... to their respective selected tag values
+    ObjectMapper mapper = new ObjectMapper();
+    Map<String, String> tagMap = new HashMap<String, String>();
+    try {
+      tagMap = mapper.readValue(requestData, Map.class);
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
+    // Iterate over the mapping and add the tag values to the tags list
+    for (Map.Entry<String, String> entry : tagMap.entrySet()) {
+	  tags.add(entry.getValue());
+    }
 
     // Get the best-matching charities from the Recommendation System
     PersonalizedRecommendations recommendation = new PersonalizedRecommendations();
     List<Charity> bestMatches = recommendation.getBestMatches(tags);
 
-    // Convert bestMatches list to a list of strings where we only display basic information for now
-    List<String> bestMatchesNames = new ArrayList<String>();
-    for(Charity charity : bestMatches) {
-        bestMatchesNames.add(charity.toString());
-    }
-
     // Display the recommended charities as a JSON sorted in order of best to worst match
     Gson gson = new Gson();
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(bestMatchesNames));
+    response.getWriter().println(gson.toJson(bestMatches));
   }
 
 }
