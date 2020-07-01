@@ -49,7 +49,8 @@ public final class FindTrendingCharities {
 
     //returns the collection of top trending charities
     public Collection<Charity> query() {
-        Collection<Charity> charities = getAllCharities();
+        //TODO: Change to getAllCharities() when integrating db
+        Collection<Charity> charities = getAllHardCodedCharities();
         for (Charity cur: charities) {
             double curScore = calcCharityTrendingScore(cur);
             cur.setTrendingScore(curScore);
@@ -60,15 +61,18 @@ public final class FindTrendingCharities {
         return topTrending;
     }
 
-    //returns a list of all charities in the database
-    private Collection<Charity> getAllCharities(){
-        //OLD
+    //returns a list of all hardcoded charities
+    private Collection<Charity> getAllHardCodedCharities(){
         Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
-
-        //TODO: Integrate DB with correct call to getAllCharities()
-        //Collection<Charity> charities = db.getAllCharities();
         return allCharities;
     }
+
+    //returns a list of all charities in the database
+    private Collection<Charity> getAllCharities(){
+        Collection<Charity> charities = db.getAllCharities();
+        return Charities;
+    }
+
 
     // returns the trending score of inputted charity calculated 
     // as aweighted average of the tagScore and the avgReview where
@@ -119,7 +123,7 @@ public final class FindTrendingCharities {
             sumScores += tagScore;
         }
         //TODO: Update db with new trendingScore for charity
-        
+
         return (sumScores / numTags);
     }
 }
