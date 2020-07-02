@@ -5,33 +5,23 @@
     <title>Personalized Charity Recommendations</title>
     <script src="personalizationScript.js"></script>
     <link rel="stylesheet" href="personalizedStyle.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="userAuth.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   </head>
-  
   <script>getUser()</script>
   <body>
     <!-- NAVIGATION BAR -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>                        
-        </button>
-        <a class="navbar-brand" href="index.html">Home</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="trending.html">Trending Charities</a></li>
-        </ul>
-        </div>
-        </div>
-    </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+      <a class="navbar-brand" href="index.html">Charities4U</a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="trending.html">Trending Charities</a>
+        </li>
+      </ul>
     </nav>
     <!-- CONTENT -->
     <div id="content">
@@ -71,7 +61,7 @@
         <br><br>
         <button id="submit">Submit</button>
       </form>
-      <ul id="personalized-list"></ul>
+      <div class="card-deck" id="cards">
     </div>
   </body>
 </html>
