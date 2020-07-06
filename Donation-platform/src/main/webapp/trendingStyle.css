@@ -7,6 +7,10 @@
     height: 8vw;
 }
 
+.badge {
+    margin: 5px;
+}
+
 body {
   font-family: "Roboto", sans-serif
 }
