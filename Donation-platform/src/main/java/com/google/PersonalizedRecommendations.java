@@ -36,7 +36,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 /* Class that takes user-selected tags as input and finds the according best-matching charities.*/
 public class PersonalizedRecommendations {
 
-    // // Datastore set-up
+    // Datastore set-up
     private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     private DbCalls db = new DbCalls(datastore);
 
