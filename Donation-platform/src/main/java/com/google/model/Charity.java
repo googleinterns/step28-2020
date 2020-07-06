@@ -10,14 +10,16 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity { 
+public final class Charity implements Comparable<Charity> { 
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
   // Name of charity
   private String name;
-  // link directing users to charity.
+  // Link directing users to charity.
   private String link;
+  // Image source of charity logo.
+  private String imgSrc;
   // Collection storing tag IDs in the form of datastore keys.
   private Collection<Key> categories;
   // Description of charity.
@@ -29,11 +31,12 @@ public final class Charity {
 
 
   // Initialize all fields of a Charity
-  public Charity(Key id, String name, String link,
+  public Charity(Key id, String name, String link, String imgSrc,
               Collection<Key>  categories, String description, double trendingScore, double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
+    this.imgSrc = imgSrc;
     this.categories = categories;
     this.description = description;
     this.trendingScore = trendingScore;
@@ -64,8 +67,16 @@ public final class Charity {
     return link;
   }
   
-  public void setLink(String link) {
+  public void setimgSrc(String link) {
     this.link = link;
+  }
+
+  public String getImgSrc() {
+    return imgSrc;
+  }
+  
+  public void setImgSrc(String imgSrc) {
+    this.imgSrc = imgSrc;
   }
 
   public Collection<Key> getCategories() {
@@ -98,6 +109,11 @@ public final class Charity {
 
   public void setUserRating( double userRating){
     this.userRating = userRating;
+  }
+
+  @Override
+  public int compareTo(Charity b) {
+    return Double.compare(b.getTrendingScore(), this.getTrendingScore());
   }
 }
 
