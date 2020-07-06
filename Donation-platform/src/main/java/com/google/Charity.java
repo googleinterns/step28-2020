@@ -29,17 +29,21 @@ public final class Charity {
     private double userRating;
     private double charityNavRating;
     private double trendingScore;
+    private String link;
+    private String imgSrc;
 
     /** 
      * Constructor takes in details from the database about the charity
      * including name, description, tags, ratings
      */
-    public Charity(String name, String description, Collection<String> tags, double userRating, double charityNavRating) {
+    public Charity(String name, String description, Collection<String> tags, double userRating, double charityNavRating, String link, String imgSrc) {
         this.name = name;
         this.description = description;
         this.tags = tags;
         this.userRating = userRating;
         this.charityNavRating = charityNavRating;
+        this.link = link;
+        this.imgSrc = imgSrc;
     }
 
      public Charity(String name) {
@@ -73,6 +77,14 @@ public final class Charity {
 
     public Collection<String> getTags() {
         return this.tags;
+    }
+
+    public String getLink() {
+        return this.link;
+    }
+
+    public String getImg() {
+        return this.imgSrc;
     }
 }
 
