@@ -6,29 +6,43 @@
     <script src="personalizationScript.js"></script>
   </head>
   <body>
-
     <div>
-      <form name="tag-input" action="/personalize" method="POST">
-        <legend>Select the causes you most care about:</legend>
-        <div>
-          <input type="checkbox" id="blm" name="blm" value="Black Lives Matter">
-          <label for="blm">Black Lives Matter</label>
-        </div>
-        <div>
-          <input type="checkbox" id="education" name="education" value="Education">
-          <label for="education">Education</label>
-        </div>
-        <div>
-          <input type="checkbox" id="hunger-and-poverty" name="hunger-and-poverty" value="Hunger and Poverty">
-          <label for="hunger-and-poverty">Hunger and Poverty</label>
-        </div>
-        <div>
-          <input type="checkbox" id="environment" name="environment" value="Environmental Protection">
-          <label for="environment">Environmental Protection</label>
-        </div>
-        <input type="submit" value="Submit" />
+      <!-- TODO: prevent user from selecting same tag multiple times (remove selected tag from following forms) -->
+      <h2>Personalized Charity Recommendations</h2>
+      <form id="tag-input">
+        <label for="tag-1">Select the #1 cause you care about:</label>
+        <select name="tag-1" id="tag-1" multiple>
+          <option value="hunger">hunger</option>
+          <option value="education">education</option>
+          <option value="children">children</option>
+          <option value="environment">environment</option>
+          <option value="racial equality">racial equality</option>
+          <option value="health">health</option>
+        </select>
+        <br><br>
+        <label for="tag-2">Select the #2 cause you care about:</label>
+        <select name="tag-2" id="tag-2" multiple>
+          <option value="hunger">hunger</option>
+          <option value="education">education</option>
+          <option value="children">children</option>
+          <option value="environment">environment</option>
+          <option value="racial equality">racial equality</option>
+          <option value="health">health</option>
+        </select>
+        <br><br>
+        <label for="tag-3">Select the #3 cause you care about:</label>
+        <select name="tag-3" id="tag-3" multiple>
+          <option value="hunger">hunger</option>
+          <option value="education">education</option>
+          <option value="children">children</option>
+          <option value="environment">environment</option>
+          <option value="racial equality">racial equality</option>
+          <option value="health">health</option>
+        </select>
+        <br><br>
+        <button id="submit">Submit</button>
       </form>
+      <ul id="personalized-list"></ul>
     </div>
-
   </body>
 </html>
