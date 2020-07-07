@@ -1,54 +1,34 @@
-function getUser()
-{
-    fetch('/userauth').then(response => response.json()).then((quote) =>
-    {   
-        console.log(quote)
-        if (quote["loggedIn"] == "true"){
-            document.getElementById('index-container').innerHTML = quote["logoutUrl"];
-            document.getElementById('index-container').appendChild(document.createTextNode("Welcome: " + quote["username"]));
-        } else {
-            document.getElementById('index-container').innerHTML = quote["loginUrl"];
-        }   
-    }
-    );
-}
 
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ * Gets the user logged in information 
+ * which has been reported by the server and displays user name.
+ */
 function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  var id_token = googleUser.getAuthResponse().id_token;
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/username');
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-    console.log('Signed in as: ' + xhr.responseText);
-  };
-  xhr.send('idtoken=' + id_token);
+    var id_token = googleUser.getAuthResponse().id_token;
+    fetch('/username?idtoken=' + id_token).then(response => response.json()).then((object) => {
+        document.getElementById('index-container').innerHTML = "Welcome: " + object["userName"];
+    });
 }
-
+/**
+ * Signs the user out of the app.
+ */
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
+    auth2.signOut().then(function() {
+        document.getElementById('index-container').innerHTML = "";
     });
-  }
-
-function onLoad() {
-    gapi.load('auth2', function() {
-
-  gapi.auth2.init({
-
-    client_id: "223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com",
-
-  }).then(function(){
-
-    auth2 = gapi.auth2.getAuthInstance();
-    console.log(auth2.isSignedIn.get()); //now this always returns correctly        
-
-  });
-});
 }
-

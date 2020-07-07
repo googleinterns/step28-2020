@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
      <script src="userAuth.js"></script>
-     <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Personalized Charity Recommendations</title>
     <script src="personalizationScript.js"></script>
     <link rel="stylesheet" href="personalizedStyle.css">
@@ -13,10 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
-   <div class="g-signin2" data-onsuccess="onSignIn"></div>
-   <a href="#" onclick="signOut();">Sign out</a>
-   <script>window.onLoadCallback = onLoad()</script>
- <div id="index-container"> </div>
+   
   <body>
     <!-- NAVIGATION BAR -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -39,6 +36,9 @@
     </nav>
     <!-- CONTENT -->
     <div id="content">
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <a href="#" onclick="signOut();">Sign out</a>
+      <div id="index-container"> </div>
       <!-- TODO: prevent user from selecting same tag multiple times (remove selected tag from following forms) -->
       <h2>Personalized Charity Recommendations</h2>
       <form id="tag-input">
