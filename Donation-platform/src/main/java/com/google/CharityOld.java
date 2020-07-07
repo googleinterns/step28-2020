@@ -21,7 +21,7 @@ import java.util.Collection;
  * Class to encapsulate the attributes of a charity loaded from the database
  * and to send information to the database regarding a charity
  */
-public final class Charity {
+public final class CharityOld {
 
     private final String name;
     private String description;
@@ -36,7 +36,7 @@ public final class Charity {
      * Constructor takes in details from the database about the charity
      * including name, description, tags, ratings
      */
-    public Charity(String name, String description, Collection<String> tags, double userRating, double charityNavRating, String link, String imgSrc) {
+    public CharityOld(String name, String description, Collection<String> tags, double userRating, double charityNavRating, String link, String imgSrc) {
         this.name = name;
         this.description = description;
         this.tags = tags;
@@ -46,7 +46,7 @@ public final class Charity {
         this.imgSrc = imgSrc;
     }
 
-     public Charity(String name) {
+     public CharityOld(String name) {
          this.name = name;
          /*
          this.description = GET request to db based on the charity name;
@@ -88,12 +88,12 @@ public final class Charity {
     }
 }
 
-class SortByTrending implements Comparator<Charity> {
+class SortByTrending implements Comparator<CharityOld> {
         /**
         * A comparator for sorting charities by their trending score in descending order.
         */
         @Override
-        public int compare(Charity a, Charity b) {
+        public int compare(CharityOld a, CharityOld b) {
             return Double.compare(b.getTrendingScore(), a.getTrendingScore());
         }
 }
