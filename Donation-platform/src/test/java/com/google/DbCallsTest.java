@@ -47,9 +47,6 @@ public class DbCallsTest {
   private static final String USERNAME_B = "Username B";
   private static final String LINK_A = "www.test.com";
   private static final String LINK_B = "www.testb.com";
-  private static final String IMGSRC_A = "www.testimageb.com";
-  private static final String IMGSRC_B = "www.testimagea.com";
-  private static final String USER_ID = "userid";
   private static final Collection<Key> CATEGORIES_A = Collections.emptyList();
   private static final Collection<Key> CATEGORIES_B = Collections.emptyList();
   private static final Collection<Key> CATEGORIES_C = Collections.emptyList();
@@ -70,7 +67,6 @@ public class DbCallsTest {
   private static final String USERS = "Users";
   private static final String NAME = "name";
   private static final String LINK = "link";
-  private static final String IMGSRC = "imgrc";
   private static final String CATEGORIES = "categories";
   private static final String DESCRIPTION = "description";
   private static final String USERNAME = "userName";
@@ -92,7 +88,7 @@ public class DbCallsTest {
   // Test checks if function adds charity to the database.
   @Test
   public void addCharityTest() throws Exception{
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     assertEquals(1, ds.prepare(new Query(CHARITY)).countEntities(withLimit(10)));
   }
   // Test checks if function adds tag to the database.
@@ -104,14 +100,14 @@ public class DbCallsTest {
   // Test checks if function adds user to the database.
   @Test
   public void addUserTest() throws Exception{
-    dbCalls.addUser(USER_ID, USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
+    dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     assertEquals(1, ds.prepare(new Query(USERS)).countEntities(withLimit(10)));
   }
   // Test checks if function returns all charities in database.
   @Test
   public void getAllCharitiesTest() throws Exception{
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
-    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORIES_B, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_B, LINK_B, CATEGORIES_B, DESCRIPTION_B);
     Collection<Charity> expected = dbCalls.getAllCharities();
     assertEquals(expected.size(), ds.prepare(new Query(CHARITY)).countEntities(withLimit(10)));
   }
@@ -126,16 +122,16 @@ public class DbCallsTest {
   // Test checks if function returns all users in database.
   @Test
   public void getAllUsersTest() throws Exception{
-    dbCalls.addUser(USER_ID, USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
-    dbCalls.addUser(USER_ID, USERNAME_B, EMAIL_B, USER_INTRESTS_B, CHARITIES_DONATED_TO_B);
+    dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
+    dbCalls.addUser(USERNAME_B, EMAIL_B, USER_INTRESTS_B, CHARITIES_DONATED_TO_B);
     Collection<Users> expected = dbCalls.getAllUsers();
     assertEquals(expected.size(), ds.prepare(new Query(USERS)).countEntities(withLimit(10)));
   }
   // Test checks if object returned corresponds to name passed in.
   @Test
   public void getCharityByNameTest() throws Exception{
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
-    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORIES_B, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_B, LINK_B, CATEGORIES_B, DESCRIPTION_B);
     Charity expected = dbCalls.getCharityByName(CHARITY_A);
     assertEquals(expected.getName(), CHARITY_A);
   }
@@ -154,23 +150,23 @@ public class DbCallsTest {
     Key blmKey = blmTag.getId();
     Collection<Key> CATEGORY_A_WITHKEY = Arrays.asList(blmKey);
     Collection<Key> CATEGORY_B_WITHKEY = Arrays.asList(blmKey);
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORY_A_WITHKEY, DESCRIPTION_A);
-    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORY_B_WITHKEY, DESCRIPTION_B);
-    dbCalls.addCharity(CHARITY_C, LINK_B, IMGSRC_B, CATEGORIES_C, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORY_A_WITHKEY, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_B, LINK_B, CATEGORY_B_WITHKEY, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_C, LINK_B, CATEGORIES_C, DESCRIPTION_B);
     Collection<Charity> expected = dbCalls.getCharitiesByTag(PLACEHOLDER_STRING);
     assertEquals(expected.size(), 2);
   }
   // Test checks if function returns object when queried with username.
   @Test
   public void getUserByUserNameTest() throws Exception{
-    dbCalls.addUser(USER_ID, USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
+    dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users actualUser = dbCalls.getUserByUserName(USERNAME_A);
     assertEquals(actualUser.getUserName(), USERNAME_A);
   }
   // Test checks if function returns object when queried with email.
   @Test
   public void getUserByEmailTest() throws Exception{
-    dbCalls.addUser(USER_ID, USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
+    dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users actualUser = dbCalls.getUserByEmail(EMAIL_A);
     assertEquals(actualUser.getUserName(), USERNAME_A);
   }
@@ -180,7 +176,6 @@ public class DbCallsTest {
     Entity charityEntity = new Entity(CHARITY);
     charityEntity.setProperty(NAME, CHARITY_A);
     charityEntity.setProperty(LINK, LINK_A);
-    charityEntity.setProperty(IMGSRC, IMGSRC_A);
     charityEntity.setProperty(CATEGORIES, CATEGORIES_A);
     charityEntity.setProperty(DESCRIPTION, DESCRIPTION_A);
     charityEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
@@ -211,7 +206,7 @@ public class DbCallsTest {
   // Test checks if function updates database entity properties.
   @Test
   public void updateCharityTest() throws Exception{
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     Charity charity = dbCalls.getCharityByName(CHARITY_A);
     charity.setName(PLACEHOLDER_STRING);
     dbCalls.updateCharity(charity);
@@ -231,7 +226,7 @@ public class DbCallsTest {
   // Test checks if function updates database entity properties.
   @Test
   public void updateUserTest() throws Exception{
-    dbCalls.addUser(USER_ID, USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
+    dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users user = dbCalls.getUserByUserName(USERNAME_A);
     user.setUserName(PLACEHOLDER_STRING);
     dbCalls.updateUser(user);
@@ -241,7 +236,7 @@ public class DbCallsTest {
   // Test checks if function gets charity by ID from database.
   @Test
   public void getCharityByIdTest() throws Exception{
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
     Key expectedCharityId = expectedCharity.getId();
     Charity actualCharity = dbCalls.getCharityById(expectedCharityId);

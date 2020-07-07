@@ -1,30 +1,5 @@
-// Copyright 2019 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.servlets;
 
-import com.google.gson.Gson;
-import com.google.model.Charity;
-import com.google.model.Tag;
-import com.google.model.Users;
-import com.google.DbCalls;
-import com.google.api.client.auth.openidconnect.IdToken;
-import com.google.api.client.auth.openidconnect.IdTokenVerifier;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -35,69 +10,117 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.KeyFactory.Builder;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Collections;
 import java.io.IOException;
+import com.google.model.Charity;
+import com.google.model.Tag;
+import com.google.model.Users; 
 import java.io.PrintWriter;
-import java.security.GeneralSecurityException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.api.client.auth.openidconnect.IdToken;
+import com.google.api.client.auth.openidconnect.IdTokenVerifier;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import java.security.GeneralSecurityException;
 
-/* Servlet that returns user information when logged in.*/
+
 @WebServlet("/username")
-public class UserNameServlet extends HttpServlet
-{
+public class UserNameServlet extends HttpServlet {
 
-    private static final String CLIENT_ID = "223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com";
+  // @Override
+  // public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  //   HashMap<String, String> loginInfo = new HashMap<String, String>();
+  //   response.setContentType("application/json");
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException
-    {
+  //   // If user is not logged in, show a login form (could also redirect to a login page)
+  //   if (!userService.isUserLoggedIn()) {
+  //     String loginUrl = userService.createLoginURL("/");
+  //     loginInfo.put("loginUrl", "<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+  //     loginInfo.put("loggedIn", Boolean.toString(userService.isUserLoggedIn()));
+  //     loginInfo.put("redirect", "false");
+  //     Gson gson = new Gson();
+  //     String json = gson.toJson(loginInfo);
+  //     response.getWriter().println(json);
+  //     return;
+  //   }
+  //   Gson gson = new Gson();
+  //   String json = gson.toJson(loginInfo);
+  //   response.getWriter().println(json);
+  // }
 
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        DbCalls dbCalls = new DbCalls(datastore);
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String CLIENT_ID = "223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com";
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+    // Specify the CLIENT_ID of the app that accesses the backend:
+    .setAudience(Collections.singletonList(CLIENT_ID))
+    // Or, if multiple clients access the backend:
+    //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
+    .build();
 
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-        .setAudience(Collections.singletonList(CLIENT_ID))
-        .build();
+    String idTokenString = request.getParameter("idtoken");
+    try {
+    GoogleIdToken idToken = verifier.verify(idTokenString);
+    if (idToken != null) {
+      Payload payload = idToken.getPayload();
 
-        try
-        {
-            GoogleIdToken idToken = verifier.verify(request.getParameter("idtoken"));
-            if (idToken != null)
-            {
-                // Returns profile information of current user.
-                Payload payload = idToken.getPayload();
-                Entity entity;
-                try
-                {
-                    // Reads user information from datastore.
-                    entity = datastore.get(KeyFactory.createKey("Users", payload.getSubject()));
-                }
-                // If user not in datastore, add user to datastore.
-                catch (EntityNotFoundException e)
-                {
-                    dbCalls.addUser(payload.getSubject(),(String) payload.get("name"), payload.getEmail(), Collections.emptyList(), Collections.emptyList());
-                    entity = datastore.get(KeyFactory.createKey("Users", payload.getSubject()));
-                }
-                Gson gson = new Gson();
-                String json = gson.toJson(dbCalls.setUsersClass(entity));
-                response.setContentType("application/json;");
-                response.getWriter().println(json);
+      // Print user identifier
+      String userId = payload.getSubject();
+      System.out.println("User ID: " + userId);
 
-            }
-            else
-            {
-                System.out.println("Invalid ID token.");
-            }
-        }
-        catch  (GeneralSecurityException e) {}
-        catch (Exception e) {}
+      // Get profile information from payload
+      String email = payload.getEmail();
+      boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+      String name = (String) payload.get("name");
+      String pictureUrl = (String) payload.get("picture");
+      String locale = (String) payload.get("locale");
+      String familyName = (String) payload.get("family_name");
+      String givenName = (String) payload.get("given_name");
+      System.out.println("email: " + email);
+      System.out.println("emailVerified: " + emailVerified);
+      System.out.println("name: " + name);
+      // Use or store profile information
+      // ..
+      // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      // if (datastore.get(userId) == null) {
+      //   Entity entity = new Entity("Users", id);
+      //   entity.setProperty("id", id);
+      //   entity.setProperty("userName", userName);
+      //   entity.setProperty("email", email);
+      //   // The put() function automatically inserts new data or updates existing data based on ID
+      //   datastore.put(entity);
+      // }
+
+
+    } else {
+      System.out.println("Invalid ID token.");
     }
+  }catch  (GeneralSecurityException e) {
+            System.out.println("security error");
+    }
+    
+  }
+
+  /**
+   * Returns the userName of the user with id, or empty String if the user has not set a nickname.
+   */
+  private String getUserUsername(String id) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query("Users")
+            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
+    PreparedQuery results = datastore.prepare(query);
+    Entity entity = results.asSingleEntity();
+    if (entity == null) {
+      return "";
+    }
+    String username = (String) entity.getProperty("username");
+    return username;
+  }
 }
