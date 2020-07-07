@@ -16,16 +16,16 @@
  * Gets the user logged in information 
  * which has been reported by the server and displays user name.
  */
-function fetchSignInUserInfo(googleUser) {
+function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
-    fetch('/userDetails?idtoken=' + id_token).then(response => response.json()).then((object) => {
+    fetch('/username?idtoken=' + id_token).then(response => response.json()).then((object) => {
         document.getElementById('index-container').innerHTML = "Welcome: " + object["userName"];
     });
 }
 /**
  * Signs the user out of the app.
  */
-function signUserOut() {
+function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function() {
         document.getElementById('index-container').innerHTML = "";

@@ -50,8 +50,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /* Servlet that returns user information when logged in.*/
-@WebServlet("/userDetails")
-public class GetUserDetailsServlet extends HttpServlet
+@WebServlet("/username")
+public class UserNameServlet extends HttpServlet
 {
 
     private static final String CLIENT_ID = "223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com";
