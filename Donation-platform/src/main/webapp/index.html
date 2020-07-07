@@ -9,14 +9,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
-    <title>Donation Platform</title>
-     <script src="userAuth.js"></script>
-     <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
   </head>
-   <div class="g-signin2" data-onsuccess="onSignIn"></div>
-   <a href="#" onclick="signOut();">Sign out</a>
-   <script>window.onLoadCallback = onLoad()</script>
+  <body onload="getUser()"></body>
  <div id="index-container"> </div>
   <body>
     <!-- NAVIGATION BAR -->
@@ -79,5 +73,6 @@
     </div>
   </body>
     <!-- <button onclick="getUser()">Click me</button> -->
+ 
   
 </html>
