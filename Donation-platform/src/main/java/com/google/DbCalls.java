@@ -39,6 +39,7 @@ public final class DbCalls {
   private static final String USERS = "Users";
   private static final String NAME = "name";
   private static final String LINK = "link";
+  private static final String IMGSRC = "imgsrc";
   private static final String CATEGORIES = "categories";
   private static final String DESCRIPTION = "description";
   private static final String USERNAME = "userName";
@@ -76,10 +77,11 @@ public final class DbCalls {
   }
   // Function adds charity to database.
   // Could be used in conjunction with user charity add form.
-  public void addCharity(String name, String link, Collection<Key>  categories, String description) throws Exception{
+  public void addCharity(String name, String link, String imgsrc, Collection<Key>  categories, String description) throws Exception{
     Entity charityEntity = new Entity(CHARITY);
     charityEntity.setProperty(NAME, name);
     charityEntity.setProperty(LINK, link);
+    charityEntity.setProperty(IMGSRC, imgsrc);
     charityEntity.setProperty(CATEGORIES, categories);
     charityEntity.setProperty(DESCRIPTION, description);
     charityEntity.setProperty(TRENDING_SCORE, 0.0);
@@ -94,9 +96,9 @@ public final class DbCalls {
     datastore.put(tagEntity);
   }
   // Function adds user to the database.
-  public void addUser(String userName, String email,
+  public void addUser(String userId, String userName, String email,
               Collection<Key> userInterests, Collection<Key>  charitiesDonatedTo) throws Exception{
-    Entity userEntity = new Entity(USERS);
+    Entity userEntity = new Entity(USERS, userId);
     userEntity.setProperty(USERNAME, userName);
     userEntity.setProperty(EMAIL, email);
     userEntity.setProperty(USER_INTERESTS, userInterests);
@@ -172,12 +174,13 @@ public final class DbCalls {
     Key id = (Key) entity.getKey();
     String name = (String) entity.getProperty(NAME);
     String link = (String) entity.getProperty(LINK);
+    String imgsrc = (String) entity.getProperty(IMGSRC);
     List<Key> categories = (List<Key>) entity.getProperty(CATEGORIES);
     String description = (String) entity.getProperty(DESCRIPTION);
     double trendingScore = (double) entity.getProperty(TRENDING_SCORE);
     double userRating = (double) entity.getProperty(USER_RATING);
     // Converts data to charity object.
-    return new Charity(id, name, link, categories, description, trendingScore, userRating);
+    return new Charity(id, name, link, imgsrc, categories, description, trendingScore, userRating);
   }
   // Function turns entity into class.
   public Tag setTagClass(Entity entity){
@@ -202,6 +205,7 @@ public final class DbCalls {
     Entity charityEntity = datastore.get(charity.getId());
     charityEntity.setProperty(NAME, charity.getName());
     charityEntity.setProperty(LINK, charity.getLink());
+    charityEntity.setProperty(IMGSRC, charity.getImgSrc());
     charityEntity.setProperty(CATEGORIES, charity.getCategories());
     charityEntity.setProperty(DESCRIPTION, charity.getDescription());
     charityEntity.setProperty(TRENDING_SCORE, charity.getTrendingScoreCharity());
