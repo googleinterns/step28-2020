@@ -55,15 +55,17 @@ public final class FindTrendingCharities {
         //setUp.dbSetUp();                                      //only call once
         //TODO: Change to getAllCharities() when integrating db
         Collection<Charity> charities = getAllCharities();
-        for (Charity cur: charities) {
-            double curScore = calcCharityTrendingScore(cur);
-            cur.setTrendingScoreCharity(curScore);
+        for (Charity charity: charities) {
+            double charityScore = calcCharityTrendingScore(charity);
+            charity.setTrendingScoreCharity(charityScore);
         }
         ArrayList<Charity> charitiesList = new ArrayList<>(charities);
         Collections.sort(charitiesList);
-        List<Charity> topTrending = charitiesList;
+        List<Charity> topTrending;
         if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
             topTrending = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
+        } else {
+            topTrending = charitiesList;
         }
         return topTrending;
     }
