@@ -17,7 +17,7 @@
    (2) displays them on personalized.html */
 function loadPersonalizedCharities() {
   getPersonalizedCharitiesFromServlet().then((charities) => {
-    updatePersonalizedList(charities);
+    updatePersonalizedCardsOnPage(charities);
   });
 }
 
@@ -58,7 +58,7 @@ function updatePersonalizedList(charities) {
     var charityString = "<li><strong>" + charity.name + "</strong>  (";
     for(i = 0; i < (charity.tags).length; i++) {
       if(i == (charity.tags).length - 1) {
-        charityString += (charity.tags)[i] + ")</li>";;
+        charityString += (charity.tags)[i] + ")</li>";
       } else {
         charityString += (charity.tags)[i] + ", ";
       }
@@ -66,6 +66,33 @@ function updatePersonalizedList(charities) {
     personalizedListElement.innerHTML += charityString;
   });
 }
+
+/**
+ * Updates the display with bootstrap cards.
+ */
+function updatePersonalizedCardsOnPage(charities) {
+    const cards = document.getElementById('cards');
+
+    cards.innerHTML = '';
+
+    charities.forEach(charity => {
+        cards.innerHTML += '<div class="card border-dark mb-3">' + '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
+                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a>';
+        cards.innerHTML += '</div>' + '</div>';
+    });
+}
+
+/**
+ * Displays the tags of a charity in bootstrap badges.
+ */
+function displayTags(tags) {
+    out = "";
+    for (const tag of tags) {
+        console.log(tag);
+        out += '<h5><span class="badge badge-info">' + tag + '</span></h5>';
+    }
+    return out;
+} 
 
 // Runs loadPersonalizedCharities() when the submit button is pressed
 window.onload=function() {
