@@ -14,6 +14,7 @@
 
 package com.google.model;
 
+import com.google.model.Tag;
 import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public final class Charity {
   // Image source of charity logo.
   private String imgSrc;
   // Collection storing tag IDs in the form of datastore keys.
-  private Collection<Key> categories;
+  private Collection<Tag> categories;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
@@ -46,7 +47,7 @@ public final class Charity {
 
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link, String imgSrc,
-              Collection<Key>  categories, String description, double trendingScore, double userRating) {
+              Collection<Tag>  categories, String description, double trendingScore, double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
@@ -93,11 +94,11 @@ public final class Charity {
     this.imgSrc = imgSrc;
   }
 
-  public Collection<Key> getCategories() {
+  public Collection<Tag> getCategories() {
     return categories;
   }
 
-  public void setCategories(Collection<Key> categories) {
+  public void setCategories(Collection<Tag> categories) {
     this.categories = categories;
   }
 
@@ -125,10 +126,10 @@ public final class Charity {
     this.userRating = userRating;
   }
 
-  @Override
-  public int compareTo(Charity b) {
-    return Double.compare(b.getTrendingScore(), this.getTrendingScore());
-  }
+  // @Override
+  // public int compareTo(Charity b) {
+  //   return Double.compare(b.getTrendingScore(), this.getTrendingScore());
+  // }
 }
 
 
