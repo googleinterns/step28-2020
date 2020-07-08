@@ -1,40 +1,20 @@
-// Copyright 2019 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package com.google.model;
 
 import com.google.model.Tag;
 import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity { 
+public final class Charity {
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
   // Name of charity
   private String name;
-  // Link directing users to charity.
+  // link directing users to charity.
   private String link;
-  // Image source of charity logo.
-  private String imgSrc;
   // Collection storing tag IDs in the form of datastore keys.
   private Collection<Tag> categories;
   // Description of charity.
@@ -44,14 +24,12 @@ public final class Charity {
   // User rating of charity determined by users.
   private double userRating;
 
-
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link, String imgSrc,
               Collection<Tag>  categories, String description, double trendingScore, double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
-    this.imgSrc = imgSrc;
     this.categories = categories;
     this.description = description;
     this.trendingScore = trendingScore;
@@ -81,7 +59,7 @@ public final class Charity {
   public String getLink() {
     return link;
   }
-  
+
   public void setLink(String link) {
     this.link = link;
   }
@@ -122,15 +100,8 @@ public final class Charity {
     return userRating;
   }
 
-  public void setUserRating( double userRating){
+  public void setUserRating(double userRating) {
     this.userRating = userRating;
   }
 
-  // @Override
-  // public int compareTo(Charity b) {
-  //   return Double.compare(b.getTrendingScore(), this.getTrendingScore());
-  // }
 }
-
-
-

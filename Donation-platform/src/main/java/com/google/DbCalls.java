@@ -6,19 +6,11 @@ import com.google.model.Users;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Collection;
-import java.util.Collections;
 import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
-import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
@@ -27,14 +19,12 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
  */
 public final class DbCalls
 {
-
     private DatastoreService datastore;
     // Constructor initializes the datastore variable when called.
     public DbCalls(DatastoreService ds)
     {
         this.datastore = ds;
     }
-
     private static final String CHARITY = "Charity";
     private static final String TRENDING_SCORE = "trendingScore";
     private static final String TAG = "Tag";
@@ -301,3 +291,4 @@ public final class DbCalls
         datastore.put(userEntity);
     }
 }
+
