@@ -35,17 +35,17 @@ public final class FindTrendingCharities {
     DbCalls db;
 
     //number of trending charities to be returned
-    final int trendingNum = 7;
+    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
 
-    final double charityNavToScale = 1.25;
-
-    //should sum to 1
-    final double userRatingWeight = 0.75;
-    final double scaledCharityNavWeight = 0.25;
+    final double CHARITY_NAV_SCALE_FACTOR = 1.25;
 
     //should sum to 1
-    final double charityTagsWeight = 0.75;
-    final double avgReviewWeight = 0.25;
+    final double USER_RATING_WEIGHT = 0.75;
+    final double CHARITY_NAV_WEIGHT = 0.25;
+
+    //should sum to 1
+    final double TAGS_SCORE_WEIGHT = 0.75;
+    final double AVG_REVIEW_WEIGHT = 0.25;
 
     
     //returns the collection of top trending charities
@@ -61,7 +61,10 @@ public final class FindTrendingCharities {
         }
         ArrayList<Charity> charitiesList = new ArrayList<>(charities);
         Collections.sort(charitiesList);
-        List<Charity> topTrending = charitiesList.subList(0, trendingNum);
+        List<Charity> topTrending = charitiesList;
+        if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
+            topTrending = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
+        }
         return topTrending;
     }
 
@@ -98,7 +101,7 @@ public final class FindTrendingCharities {
         double userRating = charity.getUserRating();
         double avgReview;
         if (hasCharityNavRating) {
-            avgReview = userRatingWeight * userRating + scaledCharityNavWeight * charityNavRating;
+            avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;
         } else {
             avgReview = userRating;
         }
@@ -117,14 +120,14 @@ public final class FindTrendingCharities {
         catch (Exception e) {
             System.out.println("Exception in retreiving tag scores: " + e);
         }
-        double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
+        double charityTrendingScore = TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
         return charityTrendingScore;
     }
 
     //TODO: Integrate db with correct method to retreive navRating for one charity
     private double calcCharityNavRating(Charity charity) {
         //double charityNavRating;
-        //return charityNavRating * charityNavToScale;
+        //return charityNavRating * CHARITY_NAV_SCALE_FACTOR;
         return 0;
     }
 
