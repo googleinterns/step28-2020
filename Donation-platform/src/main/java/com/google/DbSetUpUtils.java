@@ -30,14 +30,24 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.model.Charity;
 import com.google.model.Tag;
 
-public final class DBSetUpUtils {
+public final class DbSetUpUtils {
 
-    //datastore set up
-    DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-    DbCalls db = new DbCalls(ds);
+    private DatastoreService ds;
+    private DbCalls db;
+
+    //constructor for db setup
+    public DbSetUpUtils() {
+        this.ds = DatastoreServiceFactory.getDatastoreService();
+        this.db = new DbCalls(ds);
+    }
+
+    //getter
+    public DbCalls getDbCalls() {
+        return this.db;
+    }
 
     //add hardcoded charities into the db
-    public static void dbSetUp() {
+    public void dbSetUp() {
         addTags();
 
         addCharities();

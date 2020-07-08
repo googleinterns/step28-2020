@@ -30,11 +30,9 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.model.Charity;
 import com.google.model.Tag;
 
-public final class FindTrendingCharities extends DbSetUpUtils {
+public final class FindTrendingCharities {
 
-    //datastore set up
-    DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-    DbCalls db = new DbCalls(ds);
+    DbCalls db;
 
     //number of trending charities to be returned
     final int trendingNum = 7;
@@ -52,8 +50,9 @@ public final class FindTrendingCharities extends DbSetUpUtils {
     
     //returns the collection of top trending charities
     public Collection<Charity> query() {
-        //Only call once
-        //dbSetUp();
+        DbSetUpUtils setUp = new DbSetUpUtils();
+        db = setUp.getDbCalls();
+        //setUp.dbSetUp();                                      //only call once
         //TODO: Change to getAllCharities() when integrating db
         Collection<Charity> charities = getAllCharities();
         for (Charity cur: charities) {
