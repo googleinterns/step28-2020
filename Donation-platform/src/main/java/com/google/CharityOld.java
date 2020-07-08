@@ -18,6 +18,8 @@ import java.util.Comparator;
 import java.util.Collection;
 
 /**
+ * OUTDATED CLASS
+ * TODO: delete when integration with model/Charity.java is complete
  * Class to encapsulate the attributes of a charity loaded from the database
  * and to send information to the database regarding a charity
  */
