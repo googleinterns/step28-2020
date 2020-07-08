@@ -1,3 +1,17 @@
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.google.model;
 
 import com.google.model.Tag;
@@ -5,9 +19,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import java.lang.Double;
+
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity {
+public final class Charity implements Comparable<Charity>{ 
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
@@ -15,6 +32,8 @@ public final class Charity {
   private String name;
   // link directing users to charity.
   private String link;
+  // Image source of charity logo.
+  private String imgSrc;
   // Collection storing tag IDs in the form of datastore keys.
   private Collection<Tag> categories;
   // Description of charity.
@@ -30,6 +49,7 @@ public final class Charity {
     this.id = id;
     this.name = name;
     this.link = link;
+    this.imgSrc = imgSrc;
     this.categories = categories;
     this.description = description;
     this.trendingScore = trendingScore;
@@ -104,4 +124,10 @@ public final class Charity {
     this.userRating = userRating;
   }
 
+  @Override
+  public int compareTo(Charity b) {
+    Double bScore = new Double(b.getTrendingScoreCharity());
+    Double thisScore = new Double(this.getTrendingScoreCharity());
+    return bScore.compareTo(thisScore);
+  }
 }
