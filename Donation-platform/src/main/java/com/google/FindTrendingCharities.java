@@ -78,7 +78,7 @@ public final class FindTrendingCharities {
            charities = db.getAllCharities();
         }
         catch (Exception e) {
-            System.out.println("Failure: " + e);
+            System.out.println("Failure in retrieving charities: " + e);
         }
         return charities;
     }
@@ -107,12 +107,16 @@ public final class FindTrendingCharities {
         try {
            tags = db.getTagObjectsByIds(charity.getCategories());
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+            System.out.println("Exception in retreiving tags for charity: " + e);
+        }
         double charityTagsScore = 0;
         try {
            charityTagsScore = getTagTrendingScore(tags);
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+            System.out.println("Exception in retreiving tag scores: " + e);
+        }
         double charityTrendingScore = charityTagsWeight * charityTagsScore + avgReviewWeight * avgReview;
         return charityTrendingScore;
     }
