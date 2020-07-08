@@ -41,6 +41,11 @@ public final class DbSetUpUtils {
         this.db = new DbCalls(ds);
     }
 
+    public DbSetUpUtils(DatastoreService ds, DbCalls db) {
+        this.ds = ds;
+        this.db = db;
+    }
+
     //getter
     public DbCalls getDbCalls() {
         return this.db;
