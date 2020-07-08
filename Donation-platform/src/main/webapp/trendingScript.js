@@ -72,9 +72,11 @@ function updateCardsOnPage(charities) {
  */
 function displayTags(tags) {
     out = "";
+    out += '<h5>'
     for (const tag of tags) {
         console.log(tag);
-        out += '<h5><span class="badge badge-info">' + tag + '</span></h5>';
+        out += '<span class="badge badge-info">' + tag + '</span>';
     }
+    out += '</h5>'
     return out;
 }

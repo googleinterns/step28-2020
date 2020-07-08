@@ -16,9 +16,12 @@ package com.google.model;
 
 import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import java.lang.Double;
+
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity {
+public final class Charity implements Comparable<Charity>{ 
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
@@ -120,6 +123,8 @@ public final class Charity {
 
   @Override
   public int compareTo(Charity b) {
-    return Double.compare(b.getTrendingScore(), this.getTrendingScore());
+    Double bScore = new Double(b.getTrendingScoreCharity());
+    Double thisScore = new Double(this.getTrendingScoreCharity());
+    return bScore.compareTo(thisScore);
   }
 }

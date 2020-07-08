@@ -18,10 +18,12 @@ import java.util.Comparator;
 import java.util.Collection;
 
 /**
- * Class to encapsulate the attributes of a charity loaded from the database and to send information
- * to the database regarding a charity
+ * OUTDATED CLASS
+ * TODO: delete when integration with model/Charity.java is complete
+ * Class to encapsulate the attributes of a charity loaded from the database
+ * and to send information to the database regarding a charity
  */
-public final class Charity {
+public final class CharityOld {
 
   private final String name;
   private String description;
@@ -32,36 +34,29 @@ public final class Charity {
   private String link;
   private String imgSrc;
 
-  /**
-   * Constructor takes in details from the database about the charity including name, description,
-   * tags, ratings
-   */
-  public Charity(
-      String name,
-      String description,
-      Collection<String> tags,
-      double userRating,
-      double charityNavRating,
-      String link,
-      String imgSrc) {
-    this.name = name;
-    this.description = description;
-    this.tags = tags;
-    this.userRating = userRating;
-    this.charityNavRating = charityNavRating;
-    this.link = link;
-    this.imgSrc = imgSrc;
-  }
+    /** 
+     * Constructor takes in details from the database about the charity
+     * including name, description, tags, ratings
+     */
+    public CharityOld(String name, String description, Collection<String> tags, double userRating, double charityNavRating, String link, String imgSrc) {
+        this.name = name;
+        this.description = description;
+        this.tags = tags;
+        this.userRating = userRating;
+        this.charityNavRating = charityNavRating;
+        this.link = link;
+        this.imgSrc = imgSrc;
+    }
 
-  public Charity(String name) {
-    this.name = name;
-    /*
-    this.description = GET request to db based on the charity name;
-    this.tags = GET request to db based on the charity name;
-    this.userRating = GET request to db based on the charity name;
-    this.charityNavRating = GET request to db based on the charity name;
-    */
-  }
+     public CharityOld(String name) {
+         this.name = name;
+         /*
+         this.description = GET request to db based on the charity name;
+         this.tags = GET request to db based on the charity name;
+         this.userRating = GET request to db based on the charity name;
+         this.charityNavRating = GET request to db based on the charity name;
+         */
+     }
 
   /** setter for trending score */
   public void setTrendingScore(double score) {
@@ -93,10 +88,3 @@ public final class Charity {
   }
 }
 
-class SortByTrending implements Comparator<Charity> {
-  /** A comparator for sorting charities by their trending score in descending order. */
-  @Override
-  public int compare(Charity a, Charity b) {
-    return Double.compare(b.getTrendingScore(), a.getTrendingScore());
-  }
-}
