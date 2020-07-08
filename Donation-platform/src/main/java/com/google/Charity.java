@@ -18,82 +18,85 @@ import java.util.Comparator;
 import java.util.Collection;
 
 /**
- * Class to encapsulate the attributes of a charity loaded from the database
- * and to send information to the database regarding a charity
+ * Class to encapsulate the attributes of a charity loaded from the database and to send information
+ * to the database regarding a charity
  */
 public final class Charity {
 
-    private final String name;
-    private String description;
-    private Collection<String> tags;
-    private double userRating;
-    private double charityNavRating;
-    private double trendingScore;
-    private String link;
-    private String imgSrc;
+  private final String name;
+  private String description;
+  private Collection<String> tags;
+  private double userRating;
+  private double charityNavRating;
+  private double trendingScore;
+  private String link;
+  private String imgSrc;
 
-    /** 
-     * Constructor takes in details from the database about the charity
-     * including name, description, tags, ratings
-     */
-    public Charity(String name, String description, Collection<String> tags, double userRating, double charityNavRating, String link, String imgSrc) {
-        this.name = name;
-        this.description = description;
-        this.tags = tags;
-        this.userRating = userRating;
-        this.charityNavRating = charityNavRating;
-        this.link = link;
-        this.imgSrc = imgSrc;
-    }
+  /**
+   * Constructor takes in details from the database about the charity including name, description,
+   * tags, ratings
+   */
+  public Charity(
+      String name,
+      String description,
+      Collection<String> tags,
+      double userRating,
+      double charityNavRating,
+      String link,
+      String imgSrc) {
+    this.name = name;
+    this.description = description;
+    this.tags = tags;
+    this.userRating = userRating;
+    this.charityNavRating = charityNavRating;
+    this.link = link;
+    this.imgSrc = imgSrc;
+  }
 
-     public Charity(String name) {
-         this.name = name;
-         /*
-         this.description = GET request to db based on the charity name;
-         this.tags = GET request to db based on the charity name;
-         this.userRating = GET request to db based on the charity name;
-         this.charityNavRating = GET request to db based on the charity name;
-         */
-     }
+  public Charity(String name) {
+    this.name = name;
+    /*
+    this.description = GET request to db based on the charity name;
+    this.tags = GET request to db based on the charity name;
+    this.userRating = GET request to db based on the charity name;
+    this.charityNavRating = GET request to db based on the charity name;
+    */
+  }
 
-     /**
-      * setter for trending score
-      */
-     public void setTrendingScore(double score) {
-         this.trendingScore = score;
-     }
+  /** setter for trending score */
+  public void setTrendingScore(double score) {
+    this.trendingScore = score;
+  }
 
-    public double getTrendingScore() {
-        return this.trendingScore;
-    }
+  public double getTrendingScore() {
+    return this.trendingScore;
+  }
 
-    public double getUserRating() {
-        return this.userRating;
-    }
+  public double getUserRating() {
+    return this.userRating;
+  }
 
-    public double getCharityNavRating() {
-        return this.charityNavRating;
-    }
+  public double getCharityNavRating() {
+    return this.charityNavRating;
+  }
 
-    public Collection<String> getTags() {
-        return this.tags;
-    }
+  public Collection<String> getTags() {
+    return this.tags;
+  }
 
-    public String getLink() {
-        return this.link;
-    }
+  public String getLink() {
+    return this.link;
+  }
 
-    public String getImg() {
-        return this.imgSrc;
-    }
+  public String getImg() {
+    return this.imgSrc;
+  }
 }
 
 class SortByTrending implements Comparator<Charity> {
-        /**
-        * A comparator for sorting charities by their trending score in descending order.
-        */
-        @Override
-        public int compare(Charity a, Charity b) {
-            return Double.compare(b.getTrendingScore(), a.getTrendingScore());
-        }
+  /** A comparator for sorting charities by their trending score in descending order. */
+  @Override
+  public int compare(Charity a, Charity b) {
+    return Double.compare(b.getTrendingScore(), a.getTrendingScore());
+  }
 }

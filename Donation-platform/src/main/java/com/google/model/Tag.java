@@ -1,10 +1,6 @@
 package com.google.model;
 
-import java.util.List;
-import java.util.Objects;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 
 /** Represents a Tag : id, name, trending score */
 public final class Tag {
@@ -21,7 +17,6 @@ public final class Tag {
     this.id = id;
     this.name = name;
     this.trendingScore = trendingScore;
-    
   }
   // [END fs_class_definition]
 
