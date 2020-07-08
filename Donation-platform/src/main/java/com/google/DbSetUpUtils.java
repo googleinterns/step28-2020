@@ -39,6 +39,7 @@ public final class DbSetUpUtils {
     public DbSetUpUtils() {
         this.ds = DatastoreServiceFactory.getDatastoreService();
         this.db = new DbCalls(ds);
+        populateDatabase();
     }
 
     public DbSetUpUtils(DatastoreService ds, DbCalls db) {
@@ -52,7 +53,7 @@ public final class DbSetUpUtils {
     }
 
     //add hardcoded charities into the db
-    public void dbSetUp() {
+    public void populateDatabase() {
         addTags();
 
         addCharities();
