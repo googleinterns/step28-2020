@@ -52,6 +52,7 @@ public final class FindTrendingCharities {
     
     //returns the collection of top trending charities
     public Collection<Charity> query() {
+        //Only run once
         //dbSetUp();
         //TODO: Change to getAllCharities() when integrating db
         Collection<Charity> charities = getAllCharities();
@@ -60,7 +61,7 @@ public final class FindTrendingCharities {
             cur.setTrendingScoreCharity(curScore);
         }
         ArrayList<Charity> charitiesList = new ArrayList<>(charities);
-        Collections.sort(charitiesList, new SortByTrendingScore());
+        Collections.sort(charitiesList);
         List<Charity> topTrending = charitiesList.subList(0, trendingNum);
         return topTrending;
     }
