@@ -119,6 +119,7 @@ public final class FindTrendingCharities {
         }
         double charityTrendingScore = TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
         return charityTrendingScore;
+    }
 
     //TODO: Integrate db with correct method to retreive navRating for one charity
     private double calcCharityNavRating(Charity charity) {
