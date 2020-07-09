@@ -94,8 +94,10 @@ function displayTags(tags) {
     return out;
 } 
 
-// Runs loadPersonalizedCharities() when the submit button is pressed
+// Runs loadPersonalizedCharities() on page load and when the submit button is pressed
 window.onload=function() {
+  loadPersonalizedCharities();
+  event.preventDefault();
   document.getElementById('submit').addEventListener("click", function(event) {
     loadPersonalizedCharities();
     event.preventDefault();
