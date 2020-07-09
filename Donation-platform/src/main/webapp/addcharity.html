@@ -1,26 +1,53 @@
-<div class="container">  
-  <form id="charity" action="" method="post">
-    <h3>Add Charity Form</h3>
-    <fieldset>
-      <input placeholder="Charity Name" type="text" tabindex="1" required autofocus>
-    </fieldset>
-    <fieldset>
-      <input placeholder="Charity Website" type="url" required>
-    </fieldset>
-    <fieldset>
-      <input placeholder="Charity Image Link (optional)" type="url" tabindex="3" required>
-    </fieldset>
-    <select id="selectNumber">
-      <option>Choose a number</option>
-    </select>
-    <fieldset>
-      <input placeholder="Your Web Site (optional)" type="url" tabindex="4" required>
-    </fieldset>
-    <fieldset>
-      <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
-    </fieldset>
-    <fieldset>
-      <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
-    </fieldset>
-  </form>
-</div>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" />
+  <link rel="stylesheet" href="addCharity.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+  <title></title>
+</head>
+<body>
+  <!-- NAVIGATION BAR -->
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <a class="navbar-brand" href="index.html">Charities4U</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="trending.html">Trending Charities</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="addCharity.html">Add Charities</a>
+      </li>
+    </ul>
+  </nav>
+  <!-- ADD CHARITY FORM -->
+  <div class="container center_div">
+    <form id="charity" action="/addCharity" method="post" name="charity">
+      <h3>Add Charity Form</h3>
+      <fieldset>
+        <input name="name" id="name" placeholder="Charity Name" type="text" tabindex="1" required="" autofocus="" />
+      </fieldset>
+      <fieldset>
+        <input name="link" id="link" placeholder="Charity Website Link" type="url" required="" />
+      </fieldset>
+      <fieldset>
+        <input name="imgsrc" id="imgsrc" placeholder="Charity Image Link" type="url" tabindex="3" required="" />
+      </fieldset><select class="select-multiple-tags" name="categories" id="categories" multiple="multiple">
+      </select>
+      <fieldset>
+        <textarea name="description" id="description" placeholder="Description of charity..." tabindex="5" required=""></textarea>
+      </fieldset>
+      <fieldset>
+        <button name="submit" type="submit" id="charity-submit" data-submit="...Sending">Submit</button>
+      </fieldset>
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> 
+  <script src="addCharity.js"></script> 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
