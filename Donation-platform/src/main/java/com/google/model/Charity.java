@@ -19,12 +19,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import java.lang.Double;
-
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity implements Comparable<Charity>{ 
+public final class Charity implements Comparable<Charity> {
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
@@ -87,7 +84,7 @@ public final class Charity implements Comparable<Charity>{
   public String getImgSrc() {
     return imgSrc;
   }
-  
+
   public void setImgSrc(String imgSrc) {
     this.imgSrc = imgSrc;
   }

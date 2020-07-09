@@ -17,133 +17,126 @@ package com.google;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.model.Charity;
 import com.google.model.Tag;
 
 public final class FindTrendingCharities {
 
-    DbCalls db;
+  DbCalls db;
 
-    //number of trending charities to be returned
-    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
+  // number of trending charities to be returned
+  final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
 
-    final double CHARITY_NAV_SCALE_FACTOR = 1.25;
+  final double CHARITY_NAV_SCALE_FACTOR = 1.25;
 
-    //should sum to 1
-    final double USER_RATING_WEIGHT = 0.75;
-    final double CHARITY_NAV_WEIGHT = 0.25;
+  // should sum to 1
+  final double USER_RATING_WEIGHT = 0.75;
+  final double CHARITY_NAV_WEIGHT = 0.25;
 
-    //should sum to 1
-    final double TAGS_SCORE_WEIGHT = 0.75;
-    final double AVG_REVIEW_WEIGHT = 0.25;
+  // should sum to 1
+  final double TAGS_SCORE_WEIGHT = 0.75;
+  final double AVG_REVIEW_WEIGHT = 0.25;
 
-    
-    //returns the collection of top trending charities
-    public Collection<Charity> query() {
-        DbSetUpUtils setUp = new DbSetUpUtils();
-        db = setUp.getDbCalls();
-        //setUp.dbSetUp();                                      //only call once
-        //TODO: Change to getAllCharities() when integrating db
-        Collection<Charity> charities = getAllCharities();
-        for (Charity charity: charities) {
-            double charityScore = calcCharityTrendingScore(charity);
-            charity.setTrendingScoreCharity(charityScore);
-        }
-        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
-        Collections.sort(charitiesList);
-        List<Charity> topTrending;
-        if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
-            topTrending = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
-        } else {
-            topTrending = charitiesList;
-        }
-        return topTrending;
+  // returns the collection of top trending charities
+  public Collection<Charity> query() {
+    DbSetUpUtils setUp = new DbSetUpUtils();
+    db = setUp.getDbCalls();
+    // setUp.dbSetUp();                                      //only call once
+    // TODO: Change to getAllCharities() when integrating db
+    Collection<Charity> charities = getAllCharities();
+    for (Charity charity : charities) {
+      double charityScore = calcCharityTrendingScore(charity);
+      charity.setTrendingScoreCharity(charityScore);
     }
-
-    //returns a list of all hardcoded charities
-    /*private Collection<Charity> getAllHardCodedCharities(){
-        Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
-        return allCharities;
-    }*/
-
-    //returns a list of all charities in the database
-    private Collection<Charity> getAllCharities(){
-        Collection<Charity> charities = new ArrayList<>();
-        try {
-           charities = db.getAllCharities();
-        }
-        catch (Exception e) {
-            System.out.println("Failure in retrieving charities: " + e);
-        }
-        return charities;
+    ArrayList<Charity> charitiesList = new ArrayList<>(charities);
+    Collections.sort(charitiesList);
+    List<Charity> topTrending;
+    if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
+      topTrending = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
+    } else {
+      topTrending = charitiesList;
     }
+    return topTrending;
+  }
 
-    // returns the trending score of inputted charity calculated 
-    // as aweighted average of the tagScore and the avgReview where
-    // tagScore represents the average trending score of the associated tags
-    // and avgReview is a weighted average of the userRating and the charityNavigatory API rating
-    // weights for the averages are stored as class constants 
-    private double calcCharityTrendingScore(Charity charity) {
-        boolean hasCharityNavRating = hasCharityNavRating(charity);
-        double charityNavRating = 0;
-        if (hasCharityNavRating) {
-            charityNavRating = calcCharityNavRating(charity);
-        }
-        double userRating = charity.getUserRating();
-        double avgReview;
-        if (hasCharityNavRating) {
-            avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;
-        } else {
-            avgReview = userRating;
-        }
-        //TODO: Integrate db with correct method to retreive tags for one charity
-        Collection<Tag> tags = new ArrayList<>();
-        try {
-           tags = db.getTagObjectsByIds(charity.getCategories());
-        }
-        catch (Exception e) {
-            System.out.println("Exception in retreiving tags for charity: " + e);
-        }
-        double charityTagsScore = 0;
-        try {
-           charityTagsScore = getTagTrendingScore(tags);
-        }
-        catch (Exception e) {
-            System.out.println("Exception in retreiving tag scores: " + e);
-        }
-        double charityTrendingScore = TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
-        return charityTrendingScore;
+  // returns a list of all hardcoded charities
+  /*private Collection<Charity> getAllHardCodedCharities(){
+      Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
+      return allCharities;
+  }*/
 
-    //TODO: Integrate db with correct method to retreive navRating for one charity
-    private double calcCharityNavRating(Charity charity) {
-        //double charityNavRating;
-        //return charityNavRating * CHARITY_NAV_SCALE_FACTOR;
-        return 0;
+  // returns a list of all charities in the database
+  private Collection<Charity> getAllCharities() {
+    Collection<Charity> charities = new ArrayList<>();
+    try {
+      charities = db.getAllCharities();
+    } catch (Exception e) {
+      System.out.println("Failure in retrieving charities: " + e);
     }
+    return charities;
+  }
 
-    private boolean hasCharityNavRating(Charity charity) {
-        return false;
+  // returns the trending score of inputted charity calculated
+  // as a weighted average of the tagScore and the avgReview where
+  // tagScore represents the average trending score of the associated tags
+  // and avgReview is a weighted average of the userRating and the charityNavigatory API rating
+  // Note: weights for the averages are stored as class constants
+  private double calcCharityTrendingScore(Charity charity) {
+    boolean hasCharityNavRating = hasCharityNavRating(charity);
+    double charityNavRating = 0;
+    if (hasCharityNavRating) {
+      charityNavRating = calcCharityNavRating(charity);
     }
+    double userRating = charity.getUserRating();
+    double avgReview;
+    if (hasCharityNavRating) {
+      avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;
+    } else {
+      avgReview = userRating;
+    }
+    // TODO: Integrate db with correct method to retreive tags for one charity
+    Collection<Tag> tags = new ArrayList<>();
+    try {
+      tags = db.getTagObjectsByIds(charity.getCategories());
+    } catch (Exception e) {
+      System.out.println("Exception in retreiving tags for charity: " + e);
+    }
+    double charityTagsScore = 0;
+    try {
+      charityTagsScore = getTagTrendingScore(tags);
+    } catch (Exception e) {
+      System.out.println("Exception in retreiving tag scores: " + e);
+    }
+    double charityTrendingScore =
+        TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
+    return charityTrendingScore;
+  }
 
-    //return the average trending score of a collection of tags
-    private double getTagTrendingScore(Collection<Tag> tags) throws Exception {
-        double sumScores = 0;
-        int numTags = tags.size();
-        for (Tag tag: tags) {
-            //double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
-            //TODO: Integrate db with correct method to retreive trending score of specific tag
-            double tagScore = tag.getTrendingScoreTag();
-            
-            //TODO: Use GoogleTrends API to update tag trending score
-            //tagScore = use Google Trend API to get trending score
-            sumScores += tagScore;
-        }
-        return (sumScores / numTags);
+  // TODO: Integrate db with correct method to retreive navRating for one charity
+  private double calcCharityNavRating(Charity charity) {
+    // double charityNavRating;
+    // return charityNavRating * CHARITY_NAV_SCALE_FACTOR;
+    return 0;
+  }
+
+  private boolean hasCharityNavRating(Charity charity) {
+    return false;
+  }
+
+  // return the average trending score of a collection of tags
+  private double getTagTrendingScore(Collection<Tag> tags) throws Exception {
+    double sumScores = 0;
+    int numTags = tags.size();
+    for (Tag tag : tags) {
+      // double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
+      // TODO: Integrate db with correct method to retreive trending score of specific tag
+      double tagScore = tag.getTrendingScoreTag();
+
+      // TODO: Use GoogleTrends API to update tag trending score
+      // tagScore = use Google Trend API to get trending score
+      sumScores += tagScore;
     }
+    return (sumScores / numTags);
+  }
 }
