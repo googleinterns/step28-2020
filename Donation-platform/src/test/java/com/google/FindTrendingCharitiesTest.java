@@ -23,11 +23,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.HashMap;
 import java.util.Map;
+import com.google.model.Charity;
 
 /** */
 @RunWith(JUnit4.class)
 public final class FindTrendingCharitiesTest {
-
   private static final Charity FA = HardCodedCharitiesAndTags.charities[0];
   private static final Charity RC = HardCodedCharitiesAndTags.charities[1];
   private static final Charity SJ = HardCodedCharitiesAndTags.charities[2];
@@ -41,6 +41,11 @@ public final class FindTrendingCharitiesTest {
   @Before
   public void setUp() {
     query = new FindTrendingCharities();
+  }
+
+  @Test
+  public void testCharitiesInDB() {
+      Assert.assertEquals(0, 0);
   }
 
   @Test

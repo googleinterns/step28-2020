@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public final class HardCodedCharitiesAndTags {
 
   public static final Charity[] charities = {

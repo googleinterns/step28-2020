@@ -39,7 +39,6 @@ public final class DbSetUpUtils {
     public DbSetUpUtils() {
         this.ds = DatastoreServiceFactory.getDatastoreService();
         this.db = new DbCalls(ds);
-        populateDatabase();
     }
 
     public DbSetUpUtils(DatastoreService ds, DbCalls db) {

@@ -80,7 +80,7 @@ public class DbCallsTest {
   }
   // Test checks if function adds charity to the database.
   @Test
-  public void addCharityTest() throws Exception {
+  public void addCharityTest() throws Exception{
     dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     assertEquals(1, ds.prepare(new Query(CHARITY)).countEntities(withLimit(10)));
   }
@@ -256,3 +256,4 @@ public class DbCallsTest {
     }
   }
 }
+
