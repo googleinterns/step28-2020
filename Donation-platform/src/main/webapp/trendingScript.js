@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", sendTrendingRequest());
 function sendTrendingRequest() {
   queryServer().then((charities) => {
       console.log(charities);
-      //updateCardsOnPage(charities);
       updateContOnPage(charities);
   });
 }
@@ -56,7 +55,9 @@ function updateResultsOnPage(charities) {
 }
 
 /**
- * Updates the display with bootstrap cards.
+ * OUTDATED: old display
+ * TODO: delete once updateContOnPage is approved.
+ * Updates the display with bootstrap cards in a card-deck.
  */
 function updateCardsOnPage(charities) {
     const cards = document.getElementById('cards');
@@ -75,7 +76,7 @@ function updateCardsOnPage(charities) {
 }
 
 /**
- * Updates the display with bootstrap cards.
+ * Updates the display with bootstrap cards organized in rows and columns in a grid-like system.
  */
 function updateContOnPage(charities) {
     const cards = document.getElementById('cont');
