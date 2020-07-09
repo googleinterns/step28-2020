@@ -92,3 +92,4 @@ public final class CharityOld {
     return this.imgSrc;
   }
 }
+
