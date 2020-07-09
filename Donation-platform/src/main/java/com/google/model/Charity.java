@@ -14,9 +14,6 @@
 
 package com.google.model;
 
-import com.google.model.Tag;
-import java.util.List;
-import java.util.Objects;
 import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
 
@@ -41,8 +38,15 @@ public final class Charity implements Comparable<Charity> {
   private double userRating;
 
   // Initialize all fields of a Charity
-  public Charity(Key id, String name, String link, String imgSrc,
-              Collection<Tag>  categories, String description, double trendingScore, double userRating) {
+  public Charity(
+      Key id,
+      String name,
+      String link,
+      String imgSrc,
+      Collection<Tag> categories,
+      String description,
+      double trendingScore,
+      double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
