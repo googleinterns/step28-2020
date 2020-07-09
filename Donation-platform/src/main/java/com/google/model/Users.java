@@ -1,28 +1,29 @@
 package com.google.model;
 
 import java.util.List;
-import java.util.Objects;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
 
 /** Represents a Users : id, userName, email, userInterests, charitiesDonatedTo. */
 public final class Users {
-  
+
   // Datastore key uniquely identifying user.
   private Key id;
   // Username of user
   private String userName;
-  // Email address of user 
+  // Email address of user
   private String email;
   // Tag IDs representing category tags the user selected that they were interested in.
   private List<Key> userInterests;
   // Charity IDs representing charities the user donated to.
-  private List<Key>  charitiesDonatedTo;
+  private List<Key> charitiesDonatedTo;
 
   // Initialize all fields of Users
-  public Users(Key id, String userName, String email,
-              List<Key> userInterests, List<Key>  charitiesDonatedTo) {
+  public Users(
+      Key id,
+      String userName,
+      String email,
+      List<Key> userInterests,
+      List<Key> charitiesDonatedTo) {
     this.id = id;
     this.userName = userName;
     this.email = email;

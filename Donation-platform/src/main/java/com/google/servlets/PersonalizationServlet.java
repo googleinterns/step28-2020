@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /* Servlet that returns personalized charities according to the user's selected causes.*/
 @WebServlet("/personalize")
@@ -46,12 +44,12 @@ public class PersonalizationServlet extends HttpServlet {
     Map<String, String> tagMap = new HashMap<String, String>();
     try {
       tagMap = mapper.readValue(requestData, Map.class);
-    } catch(IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
     // Iterate over the mapping and add the tag values to the tags list
     for (Map.Entry<String, String> entry : tagMap.entrySet()) {
-	  tags.add(entry.getValue());
+      tags.add(entry.getValue());
     }
 
     // Get the best-matching charities from the Recommendation System
@@ -63,5 +61,4 @@ public class PersonalizationServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(bestMatches));
   }
-
 }

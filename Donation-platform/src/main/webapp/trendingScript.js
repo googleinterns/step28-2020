@@ -48,7 +48,6 @@ function updateResultsOnPage(charities) {
   resultsContainer.innerHTML = '';
 
   // add results to the page
-  //for (const name of charities) {
   charities.forEach(charity => {
     resultsContainer.innerHTML += '<li>' + charity.name + ': ' + charity.tags + '</li>';
   });

@@ -1,24 +1,17 @@
-
 package com.google;
-
 
 import com.google.model.Charity;
 import com.google.model.Tag;
-import com.google.model.Users; 
+import com.google.model.Users;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static org.junit.Assert.assertEquals;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.KeyFactory.Builder;
-import com.google.appengine.api.datastore.Query.CompositeFilter;
-import com.google.appengine.api.datastore.Query.Filter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Arrays;
@@ -32,7 +25,7 @@ public class DbCallsTest {
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 
   private DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-  
+
   private DbCalls dbCalls;
 
   // Some variables that we can use in our tests.
@@ -55,7 +48,7 @@ public class DbCallsTest {
   private static final Collection<Key> CHARITIES_DONATED_TO_A = Collections.emptyList();
   private static final Collection<Key> CHARITIES_DONATED_TO_B = Collections.emptyList();
   private static final String DESCRIPTION_A = "Very testy description.";
-  private static final String DESCRIPTION_B= "Not a Very testy description.";
+  private static final String DESCRIPTION_B = "Not a Very testy description.";
   private static final double TRENDINGSCORE_A = 0.0;
   private static final double TRENDINGSCORE_B = 0.0;
   private static final double USER_RATING_A = 0.0;
@@ -87,25 +80,25 @@ public class DbCallsTest {
   }
   // Test checks if function adds charity to the database.
   @Test
-  public void addCharityTest() throws Exception{
+  public void addCharityTest() throws Exception {
     dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     assertEquals(1, ds.prepare(new Query(CHARITY)).countEntities(withLimit(10)));
   }
   // Test checks if function adds tag to the database.
   @Test
-  public void addTagTest() throws Exception{
+  public void addTagTest() throws Exception {
     dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
     assertEquals(1, ds.prepare(new Query(TAG)).countEntities(withLimit(10)));
   }
   // Test checks if function adds user to the database.
   @Test
-  public void addUserTest() throws Exception{
+  public void addUserTest() throws Exception {
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     assertEquals(1, ds.prepare(new Query(USERS)).countEntities(withLimit(10)));
   }
   // Test checks if function returns all charities in database.
   @Test
-  public void getAllCharitiesTest() throws Exception{
+  public void getAllCharitiesTest() throws Exception {
     dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     dbCalls.addCharity(CHARITY_B, LINK_B, CATEGORIES_B, DESCRIPTION_B);
     Collection<Charity> expected = dbCalls.getAllCharities();
@@ -113,7 +106,7 @@ public class DbCallsTest {
   }
   // Test checks if function returns all tags in database.
   @Test
-  public void getAllTagsTest() throws Exception{
+  public void getAllTagsTest() throws Exception {
     dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
     dbCalls.addTag(TAG_B, TRENDINGSCORE_B);
     Collection<Tag> expected = dbCalls.getAllTags();
@@ -121,7 +114,7 @@ public class DbCallsTest {
   }
   // Test checks if function returns all users in database.
   @Test
-  public void getAllUsersTest() throws Exception{
+  public void getAllUsersTest() throws Exception {
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     dbCalls.addUser(USERNAME_B, EMAIL_B, USER_INTRESTS_B, CHARITIES_DONATED_TO_B);
     Collection<Users> expected = dbCalls.getAllUsers();
@@ -129,7 +122,7 @@ public class DbCallsTest {
   }
   // Test checks if object returned corresponds to name passed in.
   @Test
-  public void getCharityByNameTest() throws Exception{
+  public void getCharityByNameTest() throws Exception {
     dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     dbCalls.addCharity(CHARITY_B, LINK_B, CATEGORIES_B, DESCRIPTION_B);
     Charity expected = dbCalls.getCharityByName(CHARITY_A);
@@ -137,14 +130,14 @@ public class DbCallsTest {
   }
   // Test checks if object returned corresponds to name passed in.
   @Test
-  public void getTagByNameTest() throws Exception{
+  public void getTagByNameTest() throws Exception {
     dbCalls.addTag(PLACEHOLDER_STRING, 6.0);
     Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     assertEquals(PLACEHOLDER_STRING, actualTag.getName());
   }
   // Test checks if function returns all charities that contain certain tag.
   @Test
-  public void getCharitiesByTagTest() throws Exception{ 
+  public void getCharitiesByTagTest() throws Exception {
     dbCalls.addTag(PLACEHOLDER_STRING, 6.0);
     Tag blmTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     Key blmKey = blmTag.getId();
@@ -158,21 +151,21 @@ public class DbCallsTest {
   }
   // Test checks if function returns object when queried with username.
   @Test
-  public void getUserByUserNameTest() throws Exception{
+  public void getUserByUserNameTest() throws Exception {
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users actualUser = dbCalls.getUserByUserName(USERNAME_A);
     assertEquals(actualUser.getUserName(), USERNAME_A);
   }
   // Test checks if function returns object when queried with email.
   @Test
-  public void getUserByEmailTest() throws Exception{
+  public void getUserByEmailTest() throws Exception {
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users actualUser = dbCalls.getUserByEmail(EMAIL_A);
     assertEquals(actualUser.getUserName(), USERNAME_A);
   }
   // Test checks if function converts entity into class object.
   @Test
-  public void setCharityClassTest() throws Exception{
+  public void setCharityClassTest() throws Exception {
     Entity charityEntity = new Entity(CHARITY);
     charityEntity.setProperty(NAME, CHARITY_A);
     charityEntity.setProperty(LINK, LINK_A);
@@ -185,7 +178,7 @@ public class DbCallsTest {
   }
   // Test checks if function converts entity into class object.
   @Test
-  public void setTagClassTest() throws Exception{
+  public void setTagClassTest() throws Exception {
     Entity tagEntity = new Entity(TAG);
     tagEntity.setProperty(NAME, TAG_A);
     tagEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
@@ -194,7 +187,7 @@ public class DbCallsTest {
   }
   // Test checks if function converts entity into class object.
   @Test
-  public void setUsersClassTest() throws Exception{
+  public void setUsersClassTest() throws Exception {
     Entity userEntity = new Entity(USERS);
     userEntity.setProperty(USERNAME, USERNAME_A);
     userEntity.setProperty(EMAIL, EMAIL_A);
@@ -205,7 +198,7 @@ public class DbCallsTest {
   }
   // Test checks if function updates database entity properties.
   @Test
-  public void updateCharityTest() throws Exception{
+  public void updateCharityTest() throws Exception {
     dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     Charity charity = dbCalls.getCharityByName(CHARITY_A);
     charity.setName(PLACEHOLDER_STRING);
@@ -215,7 +208,7 @@ public class DbCallsTest {
   }
   // Test checks if function updates database entity properties.
   @Test
-  public void updateTagTest() throws Exception{
+  public void updateTagTest() throws Exception {
     dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
     Tag tag = dbCalls.getTagByName(TAG_A);
     tag.setName(PLACEHOLDER_STRING);
@@ -225,7 +218,7 @@ public class DbCallsTest {
   }
   // Test checks if function updates database entity properties.
   @Test
-  public void updateUserTest() throws Exception{
+  public void updateUserTest() throws Exception {
     dbCalls.addUser(USERNAME_A, EMAIL_A, USER_INTRESTS_A, CHARITIES_DONATED_TO_A);
     Users user = dbCalls.getUserByUserName(USERNAME_A);
     user.setUserName(PLACEHOLDER_STRING);
@@ -235,7 +228,7 @@ public class DbCallsTest {
   }
   // Test checks if function gets charity by ID from database.
   @Test
-  public void getCharityByIdTest() throws Exception{
+  public void getCharityByIdTest() throws Exception {
     dbCalls.addCharity(CHARITY_A, LINK_A, CATEGORIES_A, DESCRIPTION_A);
     Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
     Key expectedCharityId = expectedCharity.getId();
@@ -244,7 +237,7 @@ public class DbCallsTest {
   }
   // Test checks if function gets Tag by ID from database.
   @Test
-  public void getTagByIdTest() throws Exception{
+  public void getTagByIdTest() throws Exception {
     dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
     Tag expectedTag = dbCalls.getTagByName(TAG_A);
     Key expectedTagId = expectedTag.getId();
@@ -252,15 +245,14 @@ public class DbCallsTest {
     assertEquals(expectedTag.getId(), actualTag.getId());
   }
   // Test checks if we can get Tag objects from collection of Ids.
-  public void getTagObjectsByIdsTest() throws Exception{
+  public void getTagObjectsByIdsTest() throws Exception {
     dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A);
     Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     Key actualKey = actualTag.getId();
     Collection<Key> CATEGORY_A_WITHKEY = Arrays.asList(actualKey);
     Collection<Tag> expectedTags = dbCalls.getTagObjectsByIds(CATEGORY_A_WITHKEY);
-    for (Tag tag : expectedTags){
+    for (Tag tag : expectedTags) {
       assertEquals(tag.getId(), actualTag.getId());
     }
-
   }
 }

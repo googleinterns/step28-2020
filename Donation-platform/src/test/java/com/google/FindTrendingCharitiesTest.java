@@ -14,11 +14,8 @@
 
 package com.google;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +27,7 @@ import java.util.Map;
 /** */
 @RunWith(JUnit4.class)
 public final class FindTrendingCharitiesTest {
-  
+
   private static final Charity FA = HardCodedCharitiesAndTags.charities[0];
   private static final Charity RC = HardCodedCharitiesAndTags.charities[1];
   private static final Charity SJ = HardCodedCharitiesAndTags.charities[2];
@@ -48,18 +45,19 @@ public final class FindTrendingCharitiesTest {
 
   @Test
   public void testTrendingOrderIsCorrect() {
-      Collection<Charity> actual = query.query();
-      Collection<Charity> expected = Arrays.asList(ACLU, AHA, RC, SJ, FA, YMCA, NC);
+    Collection<Charity> actual = query.query();
+    Collection<Charity> expected = Arrays.asList(ACLU, AHA, RC, SJ, FA, YMCA, NC);
 
-      Assert.assertEquals(expected, actual);
+    Assert.assertEquals(expected, actual);
   }
 
   @Test
   public void testTrendingScoresIsCorrect() {
-      Collection<Charity> trendingCharities = query.query();
+    Collection<Charity> trendingCharities = query.query();
 
-      Map<Charity, Double> expected = new HashMap<Charity, Double>() {
-        {
+    Map<Charity, Double> expected =
+        new HashMap<Charity, Double>() {
+          {
             put(ACLU, 38.828125);
             put(AHA, 30.796875);
             put(RC, 27.40625);
@@ -67,11 +65,12 @@ public final class FindTrendingCharitiesTest {
             put(FA, 19.8515625);
             put(YMCA, 15.609375);
             put(NC, 8.59375);
-        }
-      };
+          }
+        };
 
-      Map<Charity, Double> actual = new HashMap<Charity, Double>() {
-        {
+    Map<Charity, Double> actual =
+        new HashMap<Charity, Double>() {
+          {
             put(ACLU, ACLU.getTrendingScore());
             put(AHA, AHA.getTrendingScore());
             put(RC, RC.getTrendingScore());
@@ -79,11 +78,9 @@ public final class FindTrendingCharitiesTest {
             put(FA, FA.getTrendingScore());
             put(YMCA, YMCA.getTrendingScore());
             put(NC, NC.getTrendingScore());
-        }
-      };
+          }
+        };
 
-      Assert.assertEquals(expected, actual);
+    Assert.assertEquals(expected, actual);
   }
-
-  
 }

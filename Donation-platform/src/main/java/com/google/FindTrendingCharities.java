@@ -19,10 +19,6 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.lang.Double;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
@@ -88,7 +84,6 @@ public final class FindTrendingCharities {
         return charities;
     }
 
-
     // returns the trending score of inputted charity calculated 
     // as a weighted average of the tagScore and the avgReview where
     // tagScore represents the average trending score of the associated tags
@@ -124,7 +119,6 @@ public final class FindTrendingCharities {
         }
         double charityTrendingScore = TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
         return charityTrendingScore;
-    }
 
     //TODO: Integrate db with correct method to retreive navRating for one charity
     private double calcCharityNavRating(Charity charity) {
@@ -152,5 +146,4 @@ public final class FindTrendingCharities {
         }
         return (sumScores / numTags);
     }
-
 }

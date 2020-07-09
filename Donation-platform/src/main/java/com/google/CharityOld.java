@@ -25,14 +25,14 @@ import java.util.Collection;
  */
 public final class CharityOld {
 
-    private final String name;
-    private String description;
-    private Collection<String> tags;
-    private double userRating;
-    private double charityNavRating;
-    private double trendingScore;
-    private String link;
-    private String imgSrc;
+  private final String name;
+  private String description;
+  private Collection<String> tags;
+  private double userRating;
+  private double charityNavRating;
+  private double trendingScore;
+  private String link;
+  private String imgSrc;
 
     /** 
      * Constructor takes in details from the database about the charity
@@ -58,44 +58,33 @@ public final class CharityOld {
          */
      }
 
-     /**
-      * setter for trending score
-      */
-     public void setTrendingScore(double score) {
-         this.trendingScore = score;
-     }
+  /** setter for trending score */
+  public void setTrendingScore(double score) {
+    this.trendingScore = score;
+  }
 
-    public double getTrendingScore() {
-        return this.trendingScore;
-    }
+  public double getTrendingScore() {
+    return this.trendingScore;
+  }
 
-    public double getUserRating() {
-        return this.userRating;
-    }
+  public double getUserRating() {
+    return this.userRating;
+  }
 
-    public double getCharityNavRating() {
-        return this.charityNavRating;
-    }
+  public double getCharityNavRating() {
+    return this.charityNavRating;
+  }
 
-    public Collection<String> getTags() {
-        return this.tags;
-    }
+  public Collection<String> getTags() {
+    return this.tags;
+  }
 
-    public String getLink() {
-        return this.link;
-    }
+  public String getLink() {
+    return this.link;
+  }
 
-    public String getImg() {
-        return this.imgSrc;
-    }
+  public String getImg() {
+    return this.imgSrc;
+  }
 }
 
-class SortByTrending implements Comparator<CharityOld> {
-        /**
-        * A comparator for sorting charities by their trending score in descending order.
-        */
-        @Override
-        public int compare(CharityOld a, CharityOld b) {
-            return Double.compare(b.getTrendingScore(), a.getTrendingScore());
-        }
-}

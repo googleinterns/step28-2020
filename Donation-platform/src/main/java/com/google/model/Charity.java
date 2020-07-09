@@ -14,11 +14,7 @@
 
 package com.google.model;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.lang.Double;
@@ -43,7 +39,6 @@ public final class Charity implements Comparable<Charity>{
   private double trendingScore;
   // User rating of charity determined by users.
   private double userRating;
-
 
   // Initialize all fields of a Charity
   public Charity(Key id, String name, String link, String imgSrc,
@@ -81,7 +76,7 @@ public final class Charity implements Comparable<Charity>{
   public String getLink() {
     return link;
   }
-  
+
   public void setLink(String link) {
     this.link = link;
   }
@@ -122,7 +117,7 @@ public final class Charity implements Comparable<Charity>{
     return userRating;
   }
 
-  public void setUserRating( double userRating){
+  public void setUserRating(double userRating) {
     this.userRating = userRating;
   }
 
@@ -133,6 +128,3 @@ public final class Charity implements Comparable<Charity>{
     return bScore.compareTo(thisScore);
   }
 }
-
-
-
