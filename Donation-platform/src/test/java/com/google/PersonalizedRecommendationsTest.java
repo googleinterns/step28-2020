@@ -14,25 +14,20 @@
 
 package com.google;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.HashSet;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import java.util.HashMap;
-import java.util.Map;
 
 /* Unit tests for PersonalizedRecommendations.java */
 @RunWith(JUnit4.class)
 public final class PersonalizedRecommendationsTest {
-  
+
   private static final Charity FA = HardCodedCharitiesAndTags.charities[0];
   private static final Charity RC = HardCodedCharitiesAndTags.charities[1];
   private static final Charity SJ = HardCodedCharitiesAndTags.charities[2];
@@ -47,7 +42,7 @@ public final class PersonalizedRecommendationsTest {
   public void setUp() {
     // Reset each charity's trending score so that only tags are considered
     // in testing the personalized ranking.
-    for (Charity charity: Arrays.asList(HardCodedCharitiesAndTags.charities)) {
+    for (Charity charity : Arrays.asList(HardCodedCharitiesAndTags.charities)) {
       charity.setTrendingScore(0);
     }
     recommendation = new PersonalizedRecommendations();
@@ -63,7 +58,7 @@ public final class PersonalizedRecommendationsTest {
     Collection<Charity> expected = Arrays.asList(AHA, SJ, RC);
     Assert.assertEquals(new HashSet<>(expected), new HashSet<>(actual));
   }
-  
+
   @Test
   public void onlyTag2Selected() {
     // If only tag #2 is selected, recommend all charities that have tag #2
@@ -85,7 +80,7 @@ public final class PersonalizedRecommendationsTest {
     Collection<Charity> expected = Arrays.asList(AHA, SJ, RC);
     Assert.assertEquals(new HashSet<>(expected), new HashSet<>(actual));
   }
-  
+
   @Test
   public void tag1BeforeTag2() {
     // A charity with just tag #1 should come before a charity with just tag #2
@@ -104,10 +99,10 @@ public final class PersonalizedRecommendationsTest {
 
     // Find the respective indices of the charity with just tag #1 and
     // the charity with just tag #2
-    for(Charity charity : actual) {
-      if(charity.getName() == nameOfCharityWithTag1) {
+    for (Charity charity : actual) {
+      if (charity.getName() == nameOfCharityWithTag1) {
         indexOfCharityWithTag1 = actual.indexOf(charity);
-      } else if(charity.getName() == nameOfCharityWithTag2) {
+      } else if (charity.getName() == nameOfCharityWithTag2) {
         indexOfCharityWithTag2 = actual.indexOf(charity);
       }
     }
@@ -133,10 +128,10 @@ public final class PersonalizedRecommendationsTest {
 
     // Find the respective indices of the charity with just tag #2 and
     // the charity with just tag #3
-    for(Charity charity : actual) {
-      if(charity.getName() == nameOfCharityWithTag2) {
+    for (Charity charity : actual) {
+      if (charity.getName() == nameOfCharityWithTag2) {
         indexOfCharityWithTag2 = actual.indexOf(charity);
-      } else if(charity.getName() == nameOfCharityWithTag3) {
+      } else if (charity.getName() == nameOfCharityWithTag3) {
         indexOfCharityWithTag3 = actual.indexOf(charity);
       }
     }
@@ -163,10 +158,10 @@ public final class PersonalizedRecommendationsTest {
 
     // Find the respective indices of the charity with tags #1 and #2 and
     // the charity with just tag #1
-    for(Charity charity : actual) {
-      if(charity.getName() == nameOfCharityWithTags1And2) {
+    for (Charity charity : actual) {
+      if (charity.getName() == nameOfCharityWithTags1And2) {
         indexOfCharityWithTags1And2 = actual.indexOf(charity);
-      } else if(charity.getName() == nameOfCharityWithJustTag1) {
+      } else if (charity.getName() == nameOfCharityWithJustTag1) {
         indexOfCharityWithJustTag1 = actual.indexOf(charity);
       }
     }
@@ -193,10 +188,10 @@ public final class PersonalizedRecommendationsTest {
 
     // Find the respective indices of the charity with tags #2 and #3 and
     // the charity with just tag #2
-    for(Charity charity : actual) {
-      if(charity.getName() == nameOfCharityWithTags2And3) {
+    for (Charity charity : actual) {
+      if (charity.getName() == nameOfCharityWithTags2And3) {
         indexOfCharityWithTags2And3 = actual.indexOf(charity);
-      } else if(charity.getName() == nameOfCharityWithJustTag2) {
+      } else if (charity.getName() == nameOfCharityWithJustTag2) {
         indexOfCharityWithJustTag2 = actual.indexOf(charity);
       }
     }
@@ -206,7 +201,7 @@ public final class PersonalizedRecommendationsTest {
 
   @Test
   public void onlyTags1and2Selected() {
-    // If only tags #1 and #2 are selected, recommend all charities that have tag 
+    // If only tags #1 and #2 are selected, recommend all charities that have tag
     // #1, tag #2, or both #1 and #2. Every charity that has tag #1 should come before
     // every charity that does not have tag #1.
 
@@ -224,15 +219,17 @@ public final class PersonalizedRecommendationsTest {
 
     // Find the index of the highest-ranking charity without tag #1
     int indexOfHighestRankingCharityWithoutTag1 = actual.size() - 1;
-    for(Charity charity : actual) {
-      if(!(new HashSet<>(charity.getTags())).contains("children") && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag1) {
+    for (Charity charity : actual) {
+      if (!(new HashSet<>(charity.getTags())).contains("children")
+          && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag1) {
         indexOfHighestRankingCharityWithoutTag1 = actual.indexOf(charity);
       }
     }
     // Find the index of the lowest-ranking charity with tag #1
     int indexOfLowestRankingCharityWithTag1 = 0;
-    for(Charity charity : actual) {
-      if((new HashSet<>(charity.getTags())).contains("children") && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag1) {
+    for (Charity charity : actual) {
+      if ((new HashSet<>(charity.getTags())).contains("children")
+          && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag1) {
         indexOfLowestRankingCharityWithTag1 = actual.indexOf(charity);
       }
     }
@@ -243,7 +240,7 @@ public final class PersonalizedRecommendationsTest {
 
   @Test
   public void onlyTags2and3Selected() {
-    // If only tags #2 and #3 are selected, recommend all charities that have tag 
+    // If only tags #2 and #3 are selected, recommend all charities that have tag
     // #3, tag #3, or both #2 and #3. Every charity that has tag #2 should come before
     // every charity that does not have tag #2.
 
@@ -261,15 +258,17 @@ public final class PersonalizedRecommendationsTest {
 
     // Find the index of the highest-ranking charity without tag #2
     int indexOfHighestRankingCharityWithoutTag2 = actual.size() - 1;
-    for(Charity charity : actual) {
-      if(!(new HashSet<>(charity.getTags())).contains("health") && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag2) {
+    for (Charity charity : actual) {
+      if (!(new HashSet<>(charity.getTags())).contains("health")
+          && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag2) {
         indexOfHighestRankingCharityWithoutTag2 = actual.indexOf(charity);
       }
     }
     // Find the index of the lowest-ranking charity with tag #2
     int indexOfLowestRankingCharityWithTag2 = 0;
-    for(Charity charity : actual) {
-      if((new HashSet<>(charity.getTags())).contains("health") && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag2) {
+    for (Charity charity : actual) {
+      if ((new HashSet<>(charity.getTags())).contains("health")
+          && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag2) {
         indexOfLowestRankingCharityWithTag2 = actual.indexOf(charity);
       }
     }
@@ -277,5 +276,4 @@ public final class PersonalizedRecommendationsTest {
 
     Assert.assertTrue(everyCharityPresent && correctOrdering);
   }
-  
 }
