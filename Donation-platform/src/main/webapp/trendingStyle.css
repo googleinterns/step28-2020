@@ -26,3 +26,7 @@ body {
 .card-deck .card {
     max-width: calc(20% - 30px);
 }
+
+.row {
+    margin-bottom: 20px;
+}
