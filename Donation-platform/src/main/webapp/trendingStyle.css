@@ -15,20 +15,14 @@ body {
   font-family: "Roboto", sans-serif
 }
 
-.navbar {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border: 0;
-  border-radius: 0;
-  margin-bottom: 0;
-  font-size: 12px;
-  letter-spacing: 5px;
-}
-
-.navbar-nav li a:hover {
-  color: #1abc9c !important;
-}
-
 #content {
-  padding-top: 100px;
+  padding-top: 60px;
+}
+
+.container {
+    width: 100%;
+}
+
+.card-deck .card {
+    max-width: calc(20% - 30px);
 }

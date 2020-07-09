@@ -20,7 +20,9 @@ document.addEventListener("DOMContentLoaded", sendTrendingRequest());
  */
 function sendTrendingRequest() {
   queryServer().then((charities) => {
-    updateCardsOnPage(charities);
+      console.log(charities);
+      updateCardsOnPage(charities);
+      updateContOnPage(charities);
   });
 }
 
@@ -60,13 +62,51 @@ function updateCardsOnPage(charities) {
     const cards = document.getElementById('cards');
 
     cards.innerHTML = '';
-
+    var charity_count = 1;
     charities.forEach(charity => {
-        cards.innerHTML += '<div class="card border-dark mb-3">' + '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
-                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a>';
-        cards.innerHTML += '</div>' + '</div>';
+        cards.innerHTML += '<div class="card text-center border-dark mb-3">' + '<div class="card-header">Trending #' + charity_count + '</div><img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
+                            '<p class="card-text">' + displayTags(charity.categories) + '</p></div>' + '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>';
+        cards.innerHTML += '</div>';
+        cards.innerHTML += '<div class="card text-center border-dark mb-3">' + '<div class="card-header">Trending #' + charity_count + '</div><img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
+                            '<p class="card-text">' + displayTags(charity.categories) + '</p></div>' + '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>';
+        cards.innerHTML += '</div>';
+        charity_count += 1;
     });
 }
+
+/**
+ * Updates the display with bootstrap cards.
+ */
+function updateContOnPage(charities) {
+    const cards = document.getElementById('cont');
+
+    cards.innerHTML = '';
+    var cur_count = 0;
+    var toAdd = '';
+    var temp = '';
+    charities.forEach(charity => {
+        if (cur_count % 4 == 0 && cur_count != 0) {
+            toAdd = '<div class="row">' + temp + '</div>';
+            cards.innerHTML += toAdd;
+            toAdd = '';
+            temp = '';
+        }
+        cur_count += 1;
+        temp += '<div class="col-3">' + 
+                '<div class="card">' + 
+                '<div class="card-header">Trending #' + cur_count + '</div>' + 
+                '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' +
+                '<div class="card text-center">'
+                '<h4 class="card-title">' + charity.name + '</h4>' +
+                '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
+                '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
+                '</div>' + '</div>';
+        console.log(cur_count);
+    });
+    toAdd = '<div class="row">' + temp + '</div>';
+    cards.innerHTML += toAdd;
+}
+
 
 /**
  * Displays the tags of a charity in bootstrap badges.
@@ -75,7 +115,7 @@ function displayTags(tags) {
     out = "";
     out += '<h5>'
     for (const tag of tags) {
-        console.log(tag);
+        //console.log(tag);
         out += '<span class="badge badge-info">' + tag + '</span>';
     }
     out += '</h5>'
