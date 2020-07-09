@@ -16,23 +16,20 @@ package com.google.model;
 
 import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import java.lang.Double;
-
 
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity implements Comparable<Charity>{ 
+public final class Charity implements Comparable<Charity> {
 
   // Key id from datastore uniquely identifiying each charity.
   private Key id;
   // Name of charity
   private String name;
-  // Link directing users to charity.
+  // link directing users to charity.
   private String link;
   // Image source of charity logo.
   private String imgSrc;
   // Collection storing tag IDs in the form of datastore keys.
-  private Collection<Key> categories;
+  private Collection<Tag> categories;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
@@ -41,8 +38,15 @@ public final class Charity implements Comparable<Charity>{
   private double userRating;
 
   // Initialize all fields of a Charity
-  public Charity(Key id, String name, String link, String imgSrc,
-              Collection<Key>  categories, String description, double trendingScore, double userRating) {
+  public Charity(
+      Key id,
+      String name,
+      String link,
+      String imgSrc,
+      Collection<Tag> categories,
+      String description,
+      double trendingScore,
+      double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
@@ -84,16 +88,16 @@ public final class Charity implements Comparable<Charity>{
   public String getImgSrc() {
     return imgSrc;
   }
-  
+
   public void setImgSrc(String imgSrc) {
     this.imgSrc = imgSrc;
   }
 
-  public Collection<Key> getCategories() {
+  public Collection<Tag> getCategories() {
     return categories;
   }
 
-  public void setCategories(Collection<Key> categories) {
+  public void setCategories(Collection<Tag> categories) {
     this.categories = categories;
   }
 

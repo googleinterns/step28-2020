@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 /** Class handling the calls to the datastore database. */
 public final class DbCalls {
-
   private DatastoreService datastore;
   // Constructor initializes the datastore variable when called.
   public DbCalls(DatastoreService ds) {
@@ -63,12 +62,14 @@ public final class DbCalls {
   }
   // Function adds charity to database.
   // Could be used in conjunction with user charity add form.
-  public void addCharity(String name, String link, String imgsrc, Collection<Key>  categories, String description) throws Exception{
+  public void addCharity(
+      String name, String link, String imgsrc, Collection<Tag> categories, String description)
+      throws Exception {
     Entity charityEntity = new Entity(CHARITY);
     charityEntity.setProperty(NAME, name);
     charityEntity.setProperty(LINK, link);
     charityEntity.setProperty(IMGSRC, imgsrc);
-    charityEntity.setProperty(CATEGORIES, categories);
+    charityEntity.setProperty(CATEGORIES, getTagIdsByObject(categories));
     charityEntity.setProperty(DESCRIPTION, description);
     charityEntity.setProperty(TRENDING_SCORE, 0.0);
     charityEntity.setProperty(USER_RATING, 0.0);
@@ -82,8 +83,13 @@ public final class DbCalls {
     datastore.put(tagEntity);
   }
   // Function adds user to the database.
-  public void addUser(String userId, String userName, String email,
-              Collection<Key> userInterests, Collection<Key>  charitiesDonatedTo) throws Exception{
+  public void addUser(
+      String userId,
+      String userName,
+      String email,
+      Collection<Tag> userInterests,
+      Collection<Charity> charitiesDonatedTo)
+      throws Exception {
     Entity userEntity = new Entity(USERS, userId);
     userEntity.setProperty(USERNAME, userName);
     userEntity.setProperty(EMAIL, email);
@@ -108,9 +114,9 @@ public final class DbCalls {
     for (Entity entity : datastore.prepare(new Query(CHARITY)).asIterable()) {
       // Read the categories assigned to the charity
       if (setCharityClass(entity).getCategories() != null) {
-        for (Key key : setCharityClass(entity).getCategories()) {
+        for (Tag tag : setCharityClass(entity).getCategories()) {
           // Check to see if category contains tag searched for.
-          if (setTagClass(datastore.get(key)).getName().equals(name)) {
+          if (tag.getName().equals(name)) {
             charityDataStore.add(setCharityClass(entity));
           }
         }
@@ -128,13 +134,46 @@ public final class DbCalls {
     Query query = new Query(TAG).setFilter(new FilterPredicate(NAME, FilterOperator.EQUAL, name));
     return setTagClass(datastore.prepare(query).asSingleEntity());
   }
+
   // Function returns Tag class from ID.
-  public Collection<Tag> getTagObjectsByIds(Collection<Key> categories) throws Exception {
+  public Collection<Tag> getTagObjectsByIds(List<Key> categories) throws Exception {
     ArrayList<Tag> tagDataStore = new ArrayList<Tag>();
-    for (Key key : categories) {
-      tagDataStore.add(setTagClass(datastore.get(key)));
+    if (categories != null) {
+      for (Key key : categories) {
+        tagDataStore.add(setTagClass(datastore.get(key)));
+      }
     }
     return tagDataStore;
+  }
+  // Function returns Tag Ids from classes.
+  public Collection<Key> getTagIdsByObject(Collection<Tag> categories) throws Exception {
+    ArrayList<Key> tagDataStore = new ArrayList<Key>();
+    if (categories != null) {
+      for (Tag tagClass : categories) {
+        tagDataStore.add(tagClass.getId());
+      }
+    }
+    return tagDataStore;
+  }
+  // Function returns charity classes from IDs.
+  public Collection<Charity> getCharityObjectsByIds(List<Key> charities) throws Exception {
+    ArrayList<Charity> charityDataStore = new ArrayList<Charity>();
+    if (charities != null) {
+      for (Key key : charities) {
+        charityDataStore.add(setCharityClass(datastore.get(key)));
+      }
+    }
+    return charityDataStore;
+  }
+  // Function returns charity Ids from classes.
+  public Collection<Key> getCharityIdsByObject(Collection<Charity> charities) throws Exception {
+    ArrayList<Key> charityDataStore = new ArrayList<Key>();
+    if (charities != null) {
+      for (Charity charityClass : charities) {
+        charityDataStore.add(charityClass.getId());
+      }
+    }
+    return charityDataStore;
   }
   // Function that returns user from user name.
   public Users getUserByUserName(String userName) throws Exception {
@@ -150,12 +189,13 @@ public final class DbCalls {
   }
 
   // Function turns entity into class.
-  public Charity setCharityClass(Entity entity) {
+  public Charity setCharityClass(Entity entity) throws Exception {
     Key id = (Key) entity.getKey();
     String name = (String) entity.getProperty(NAME);
     String link = (String) entity.getProperty(LINK);
     String imgsrc = (String) entity.getProperty(IMGSRC);
-    List<Key> categories = (List<Key>) entity.getProperty(CATEGORIES);
+    List<Key> categoryKeys = (List<Key>) entity.getProperty(CATEGORIES);
+    Collection<Tag> categories = getTagObjectsByIds(categoryKeys);
     String description = (String) entity.getProperty(DESCRIPTION);
     double trendingScore = (double) entity.getProperty(TRENDING_SCORE);
     double userRating = (double) entity.getProperty(USER_RATING);
@@ -163,7 +203,7 @@ public final class DbCalls {
     return new Charity(id, name, link, imgsrc, categories, description, trendingScore, userRating);
   }
   // Function turns entity into class.
-  public Tag setTagClass(Entity entity) {
+  public Tag setTagClass(Entity entity) throws Exception {
     Key id = (Key) entity.getKey();
     String name = (String) entity.getProperty(NAME);
     double trendingScore = (double) entity.getProperty(TRENDING_SCORE);
@@ -171,12 +211,14 @@ public final class DbCalls {
     return new Tag(id, name, trendingScore);
   }
   // Function turns entity into class.
-  public Users setUsersClass(Entity entity) {
+  public Users setUsersClass(Entity entity) throws Exception {
     Key id = (Key) entity.getKey();
     String userName = (String) entity.getProperty(USERNAME);
     String email = (String) entity.getProperty(EMAIL);
-    List<Key> userInterests = (List<Key>) entity.getProperty(USER_INTERESTS);
-    List<Key> charitiesDonatedTo = (List<Key>) entity.getProperty(CHARITIES_DONATED_TO);
+    List<Key> userInterestsKeys = (List<Key>) entity.getProperty(USER_INTERESTS);
+    Collection<Tag> userInterests = getTagObjectsByIds(userInterestsKeys);
+    List<Key> charitiesDonatedToKeys = (List<Key>) entity.getProperty(CHARITIES_DONATED_TO);
+    Collection<Charity> charitiesDonatedTo = getCharityObjectsByIds(charitiesDonatedToKeys);
     // Converts data to users object.
     return new Users(id, userName, email, userInterests, charitiesDonatedTo);
   }
@@ -186,7 +228,7 @@ public final class DbCalls {
     charityEntity.setProperty(NAME, charity.getName());
     charityEntity.setProperty(LINK, charity.getLink());
     charityEntity.setProperty(IMGSRC, charity.getImgSrc());
-    charityEntity.setProperty(CATEGORIES, charity.getCategories());
+    charityEntity.setProperty(CATEGORIES, getTagIdsByObject(charity.getCategories()));
     charityEntity.setProperty(DESCRIPTION, charity.getDescription());
     charityEntity.setProperty(TRENDING_SCORE, charity.getTrendingScoreCharity());
     charityEntity.setProperty(USER_RATING, charity.getUserRating());
