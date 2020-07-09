@@ -14,6 +14,9 @@
 
 package com.google.model;
 
+import com.google.model.Tag;
+import java.util.List;
+import java.util.Objects;
 import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
 
@@ -29,7 +32,7 @@ public final class Charity implements Comparable<Charity> {
   // Image source of charity logo.
   private String imgSrc;
   // Collection storing tag IDs in the form of datastore keys.
-  private Collection<Key> categories;
+  private Collection<Tag> categories;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
@@ -38,15 +41,8 @@ public final class Charity implements Comparable<Charity> {
   private double userRating;
 
   // Initialize all fields of a Charity
-  public Charity(
-      Key id,
-      String name,
-      String link,
-      String imgSrc,
-      Collection<Key> categories,
-      String description,
-      double trendingScore,
-      double userRating) {
+  public Charity(Key id, String name, String link, String imgSrc,
+              Collection<Tag>  categories, String description, double trendingScore, double userRating) {
     this.id = id;
     this.name = name;
     this.link = link;
@@ -93,11 +89,11 @@ public final class Charity implements Comparable<Charity> {
     this.imgSrc = imgSrc;
   }
 
-  public Collection<Key> getCategories() {
+  public Collection<Tag> getCategories() {
     return categories;
   }
 
-  public void setCategories(Collection<Key> categories) {
+  public void setCategories(Collection<Tag> categories) {
     this.categories = categories;
   }
 
