@@ -85,10 +85,10 @@ public final class FindTrendingCharities {
     }
 
     // returns the trending score of inputted charity calculated 
-    // as aweighted average of the tagScore and the avgReview where
+    // as a weighted average of the tagScore and the avgReview where
     // tagScore represents the average trending score of the associated tags
     // and avgReview is a weighted average of the userRating and the charityNavigatory API rating
-    // weights for the averages are stored as class constants 
+    // Note: weights for the averages are stored as class constants 
     private double calcCharityTrendingScore(Charity charity) {
         boolean hasCharityNavRating = hasCharityNavRating(charity);
         double charityNavRating = 0;
