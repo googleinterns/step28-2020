@@ -24,7 +24,7 @@ public final class Charity implements Comparable<Charity> {
   private Key id;
   // Name of charity
   private String name;
-  // Link directing users to charity.
+  // link directing users to charity.
   private String link;
   // Image source of charity logo.
   private String imgSrc;
