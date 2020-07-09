@@ -14,7 +14,7 @@
 
 package com.google.model;
 
-import java.util.List;
+import java.util.Collection;
 import com.google.appengine.api.datastore.Key;
 
 /** Represents a Users : id, userName, email, userInterests, charitiesDonatedTo. */
@@ -27,17 +27,17 @@ public final class Users {
   // Email address of user
   private String email;
   // Tag IDs representing category tags the user selected that they were interested in.
-  private List<Key> userInterests;
+  private Collection<Tag> userInterests;
   // Charity IDs representing charities the user donated to.
-  private List<Key> charitiesDonatedTo;
+  private Collection<Charity> charitiesDonatedTo;
 
   // Initialize all fields of Users
   public Users(
       Key id,
       String userName,
       String email,
-      List<Key> userInterests,
-      List<Key> charitiesDonatedTo) {
+      Collection<Tag> userInterests,
+      Collection<Charity> charitiesDonatedTo) {
     this.id = id;
     this.userName = userName;
     this.email = email;
@@ -73,19 +73,19 @@ public final class Users {
     this.email = email;
   }
 
-  public List<Key> getUserInterests() {
+  public Collection<Tag> getUserInterests() {
     return userInterests;
   }
 
-  public void setUserInterests(List<Key> userInterests) {
+  public void setUserInterests(Collection<Tag> userInterests) {
     this.userInterests = userInterests;
   }
 
-  public List<Key> getCharitiesDonatedTo() {
+  public Collection<Charity> getCharitiesDonatedTo() {
     return charitiesDonatedTo;
   }
 
-  public void setCharitiesDonatedTo(List<Key> charitiesDonatedTo) {
+  public void setCharitiesDonatedTo(Collection<Charity> charitiesDonatedTo) {
     this.charitiesDonatedTo = charitiesDonatedTo;
   }
 }
