@@ -25,6 +25,9 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
+
 public final class FindTrendingCharities {
 
   private DbCalls db;
@@ -78,8 +81,12 @@ public final class FindTrendingCharities {
     Collection<Charity> charities = new ArrayList<>();
     try {
       charities = db.getAllCharities();
+    } catch (EntityNotFoundException e) {
+      System.out.println("charity entities not found: " + e);
+      return null;
     } catch (Exception e) {
-      System.out.println("Failure in retrieving charities: " + e);
+      System.out.println("unexpected exception: e");
+      return null;
     }
     return charities;
   }
@@ -107,8 +114,12 @@ public final class FindTrendingCharities {
     double charityTagsScore = 0;
     try {
       charityTagsScore = getTagTrendingScore(tags);
+    } catch (EntityNotFoundException e) {
+      System.out.println("tag entity not found: " + e);
+    } catch (TooManyResultsException e) {
+      System.out.println("duplicate tags exist in db: " + e);
     } catch (Exception e) {
-      System.out.println("Exception in retreiving tag scores: " + e);
+      System.out.println("unexpected exception: e");
     }
     double charityTrendingScore =
         TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
