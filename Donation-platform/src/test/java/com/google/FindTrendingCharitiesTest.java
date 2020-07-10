@@ -23,6 +23,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import java.util.HashMap;
 import java.util.Map;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+
+import com.google.model.Charity;
 
 /** */
 @RunWith(JUnit4.class)
@@ -43,13 +48,18 @@ public final class FindTrendingCharitiesTest {
   public void setUp() {
     query = new FindTrendingCharities();
     db = query.db;
-    FA = db.getCharityByName("Feeding America");
-    RC = db.getCharityByName("Red Cross");
-    SJ = db.getCharityByName("St. Jude's");
-    NC = db.getCharityByName("Nature Conservancy");
-    YMCA = db.getCharityByName("YMCA");
-    ACLU = db.getCharityByName("ACLU");
-    AHA = db.getCharityByName("American Heart Association");
+    try {
+        FA = db.getCharityByName("Feeding America");
+        RC = db.getCharityByName("Red Cross");
+        SJ = db.getCharityByName("St. Jude's");
+        NC = db.getCharityByName("Nature Conservancy");
+        YMCA = db.getCharityByName("YMCA");
+        ACLU = db.getCharityByName("ACLU");
+        AHA = db.getCharityByName("American Heart Association");
+    }
+    catch (Exception e) {
+        System.out.println("charities not found in db during testing");
+    }
   }
 
   @Test
@@ -80,13 +90,13 @@ public final class FindTrendingCharitiesTest {
     Map<Charity, Double> actual =
         new HashMap<Charity, Double>() {
           {
-            put(ACLU, ACLU.getTrendingScore());
-            put(AHA, AHA.getTrendingScore());
-            put(RC, RC.getTrendingScore());
-            put(SJ, SJ.getTrendingScore());
-            put(FA, FA.getTrendingScore());
-            put(YMCA, YMCA.getTrendingScore());
-            put(NC, NC.getTrendingScore());
+            put(ACLU, ACLU.getTrendingScoreCharity());
+            put(AHA, AHA.getTrendingScoreCharity());
+            put(RC, RC.getTrendingScoreCharity());
+            put(SJ, SJ.getTrendingScoreCharity());
+            put(FA, FA.getTrendingScoreCharity());
+            put(YMCA, YMCA.getTrendingScoreCharity());
+            put(NC, NC.getTrendingScoreCharity());
           }
         };
 

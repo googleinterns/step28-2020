@@ -41,16 +41,25 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
+  public FindTrendingCharities() {
+      
+  }
+
   // returns the collection of top trending charities
   public Collection<Charity> query() {
     DbSetUpUtils setUp = new DbSetUpUtils();
     db = setUp.getDbCalls();
-    // setUp.dbSetUp();                                      //only call once
-    // TODO: Change to getAllCharities() when integrating db
+    //setUp.populateDatabase();                                    //only call once
     Collection<Charity> charities = getAllCharities();
     for (Charity charity : charities) {
       double charityScore = calcCharityTrendingScore(charity);
       charity.setTrendingScoreCharity(charityScore);
+      try {
+          db.updateCharity(charity);
+      }
+      catch (Exception e) {
+          System.out.println("unable to update charity: " + e);
+      }
     }
     ArrayList<Charity> charitiesList = new ArrayList<>(charities);
     Collections.sort(charitiesList);

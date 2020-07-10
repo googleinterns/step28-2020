@@ -14,7 +14,6 @@
 
 package com.google.servlets;
 
-import com.google.Charity;
 import com.google.FindTrendingCharities;
 
 import java.io.IOException;
