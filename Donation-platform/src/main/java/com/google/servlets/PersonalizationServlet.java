@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.annotation.WebServlet;
@@ -41,7 +40,7 @@ public class PersonalizationServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the current user's session
     HttpSession session = request.getSession(false);
-    
+
     // Parse tags JSON from request into a list of tags
     List<String> tags = new ArrayList<>();
     // requestData example: {"tag1":"hunger","tag2":"education","tag3":"children"}
@@ -58,7 +57,7 @@ public class PersonalizationServlet extends HttpServlet {
     int numberOfBlankTagSelections = 0;
     for (Map.Entry<String, String> entry : tagMap.entrySet()) {
       String tag = entry.getValue();
-      if(tag.isEmpty()) {
+      if (tag.isEmpty()) {
         numberOfBlankTagSelections++;
       }
       tags.add(tag);
@@ -66,11 +65,11 @@ public class PersonalizationServlet extends HttpServlet {
 
     // If a user session already exists and new tags have not been selected
     // (which is signified by the number of blank selected tags equalling the
-    // total number of tag selection fields), then use the tags previously 
+    // total number of tag selection fields), then use the tags previously
     // selected in this session.
     if (session != null && numberOfBlankTagSelections == NUMBER_OF_TAG_SELECTION_FIELDS) {
       tags = (ArrayList<String>) session.getAttribute("selected-tags");
-    // Otherwise, keep using the recently-selected tags processed from requestData.
+      // Otherwise, keep using the recently-selected tags processed from requestData.
     } else {
       // Create a user session and save the tag selection with it
       session = request.getSession();
