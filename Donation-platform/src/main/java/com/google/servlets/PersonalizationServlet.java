@@ -58,7 +58,7 @@ public class PersonalizationServlet extends HttpServlet {
     int numberOfBlankTagSelections = 0;
     for (Map.Entry<String, String> entry : tagMap.entrySet()) {
       String tag = entry.getValue();
-      if(tag.length() == 0) {
+      if(tag.isEmpty()) {
         numberOfBlankTagSelections++;
       }
       tags.add(tag);
