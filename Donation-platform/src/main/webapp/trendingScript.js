@@ -116,7 +116,7 @@ function displayTags(tags) {
     out += '<h5>'
     for (const tag of tags) {
         //console.log(tag);
-        out += '<span class="badge badge-info">' + tag + '</span>';
+        out += '<span class="badge badge-info">' + tag.name + '</span>';
     }
     out += '</h5>'
     return out;

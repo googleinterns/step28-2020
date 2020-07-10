@@ -21,12 +21,14 @@ import java.util.List;
 import com.google.model.Charity;
 import com.google.model.Tag;
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 
 public final class FindTrendingCharities {
 
-  DbCalls db;
+  private DbCalls db;
+  private DatastoreService ds;
 
   // number of trending charities to be returned
   final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
@@ -41,14 +43,13 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
-  public FindTrendingCharities() {
-      
-  }
 
   // returns the collection of top trending charities
   public Collection<Charity> query() {
-    DbSetUpUtils setUp = new DbSetUpUtils();
-    db = setUp.getDbCalls();
+    ds = DatastoreServiceFactory.getDatastoreService();
+    db = new DbCalls(ds);
+    DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
+    //db = setUp.getDbCalls();
     //setUp.populateDatabase();                                    //only call once
     Collection<Charity> charities = getAllCharities();
     for (Charity charity : charities) {

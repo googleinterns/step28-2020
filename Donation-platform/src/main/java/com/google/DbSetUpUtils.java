@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.model.Charity;
+import com.google.model.Tag;
 
 public final class DbSetUpUtils {
 
@@ -29,7 +30,11 @@ public final class DbSetUpUtils {
   public DbSetUpUtils() {
     this.ds = DatastoreServiceFactory.getDatastoreService();
     this.db = new DbCalls(ds);
-    populateDatabase();
+  }
+
+  public DbSetUpUtils(DatastoreService ds) {
+    this.ds = ds;
+    this.db = new DbCalls(ds);
   }
 
   public DbSetUpUtils(DatastoreService ds, DbCalls db) {
@@ -69,12 +74,12 @@ public final class DbSetUpUtils {
   private void addCharities() {
     try {
       // translate tags to keys
-      Key hunger = db.getTagByName("hunger").getId();
-      Key education = db.getTagByName("education").getId();
-      Key children = db.getTagByName("children").getId();
-      Key environment = db.getTagByName("environment").getId();
-      Key racialEquality = db.getTagByName("racial equality").getId();
-      Key health = db.getTagByName("health").getId();
+      Tag hunger = db.getTagByName("hunger");
+      Tag education = db.getTagByName("education");
+      Tag children = db.getTagByName("children");
+      Tag environment = db.getTagByName("environment");
+      Tag racialEquality = db.getTagByName("racial equality");
+      Tag health = db.getTagByName("health");
 
       // //addCharities
       db.addCharity(
