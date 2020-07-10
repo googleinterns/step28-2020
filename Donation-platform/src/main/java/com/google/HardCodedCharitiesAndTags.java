@@ -21,7 +21,7 @@ import java.util.Map;
 
 public final class HardCodedCharitiesAndTags {
 
-  public static final Charity[] charities = {
+  public static final CharityOld[] charitiesOld = {
     new Charity(
         "Feeding America",
         "",
@@ -91,4 +91,5 @@ public final class HardCodedCharitiesAndTags {
           put("health", 40);
         }
       };
+
 }

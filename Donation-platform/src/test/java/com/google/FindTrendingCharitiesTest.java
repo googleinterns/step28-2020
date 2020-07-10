@@ -28,19 +28,28 @@ import java.util.Map;
 @RunWith(JUnit4.class)
 public final class FindTrendingCharitiesTest {
 
-  private static final Charity FA = HardCodedCharitiesAndTags.charities[0];
-  private static final Charity RC = HardCodedCharitiesAndTags.charities[1];
-  private static final Charity SJ = HardCodedCharitiesAndTags.charities[2];
-  private static final Charity NC = HardCodedCharitiesAndTags.charities[3];
-  private static final Charity YMCA = HardCodedCharitiesAndTags.charities[4];
-  private static final Charity ACLU = HardCodedCharitiesAndTags.charities[5];
-  private static final Charity AHA = HardCodedCharitiesAndTags.charities[6];
+  private Charity FA;
+  private Charity RC;
+  private Charity SJ;
+  private Charity NC;
+  private Charity YMCA;
+  private Charity ACLU;
+  private Charity AHA;
 
   private FindTrendingCharities query;
+  private DbCalls db;
 
   @Before
   public void setUp() {
     query = new FindTrendingCharities();
+    db = query.db;
+    FA = db.getCharityByName("Feeding America");
+    RC = db.getCharityByName("Red Cross");
+    SJ = db.getCharityByName("St. Jude's");
+    NC = db.getCharityByName("Nature Conservancy");
+    YMCA = db.getCharityByName("YMCA");
+    ACLU = db.getCharityByName("ACLU");
+    AHA = db.getCharityByName("American Heart Association");
   }
 
   @Test
@@ -58,13 +67,13 @@ public final class FindTrendingCharitiesTest {
     Map<Charity, Double> expected =
         new HashMap<Charity, Double>() {
           {
-            put(ACLU, 38.828125);
-            put(AHA, 30.796875);
-            put(RC, 27.40625);
-            put(SJ, 23.296875);
-            put(FA, 19.8515625);
-            put(YMCA, 15.609375);
-            put(NC, 8.59375);
+            put(ACLU, 38.75);
+            put(AHA, 30.75);
+            put(RC, 27.375);
+            put(SJ, 23.25);
+            put(FA, 19.75);
+            put(YMCA, 15.5);
+            put(NC, 8.75);
           }
         };
 
