@@ -71,30 +71,30 @@ public class PersonalizedRecommendations {
       // If the charity contains any of the user-selected tags, it will appear on the personalized
       // page
       Collection<Tag> charityTagObjects = charity.getCategories();
-      Collection<String> charityTagStrings = new ArrayList<String>();
+      Collection<String> charityTagNames = new ArrayList<String>();
       for(Tag tag : charityTagObjects) {
-        charityTagStrings.add(tag.getName());
+        charityTagNames.add(tag.getName());
       }
-      if (charityTagStrings.contains(selectedTags.get(0))
-          | charityTagStrings.contains(selectedTags.get(1))
-          | charityTagStrings.contains(selectedTags.get(2))) {
+      if (charityTagNames.contains(selectedTags.get(0))
+          | charityTagNames.contains(selectedTags.get(1))
+          | charityTagNames.contains(selectedTags.get(2))) {
         double tagScore = 0.0;
         // If the charity has the user's #1 ranked tag
-        if (charityTagStrings.contains(selectedTags.get(0))) {
+        if (charityTagNames.contains(selectedTags.get(0))) {
           tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_1;
-          if (charityTagStrings.contains(selectedTags.get(1))) {
+          if (charityTagNames.contains(selectedTags.get(1))) {
             tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_2;
-          } else if (charityTagStrings.contains(selectedTags.get(2))) {
+          } else if (charityTagNames.contains(selectedTags.get(2))) {
             tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_3;
           }
           // If the charity has the user's #2 ranked tag
-        } else if (charityTagStrings.contains(selectedTags.get(1))) {
+        } else if (charityTagNames.contains(selectedTags.get(1))) {
           tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_2;
-          if (charityTagStrings.contains(selectedTags.get(2))) {
+          if (charityTagNames.contains(selectedTags.get(2))) {
             tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_2_AND_3;
           }
           // If the charity has the user's #3 ranked tag
-        } else if (charityTagStrings.contains(selectedTags.get(2))) {
+        } else if (charityTagNames.contains(selectedTags.get(2))) {
           tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_3;
         }
         double charityScore =
