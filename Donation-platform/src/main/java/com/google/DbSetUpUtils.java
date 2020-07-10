@@ -25,6 +25,14 @@ public final class DbSetUpUtils {
 
   private DatastoreService ds;
   private DbCalls db;
+  
+  // constants for Tag names
+  final String HUNGER = "hunger";
+  final String EDU = "education";
+  final String CHILD = "children";
+  final String ENV = "environment";
+  final String RACE_EQ = "racial equality";
+  final String HEALTH = "health";
 
   // constructor for db setup
   public DbSetUpUtils() {
@@ -59,12 +67,12 @@ public final class DbSetUpUtils {
   // add hardcoded tags to db with scores
   private void addTags() {
     try {
-      db.addTag("hunger", 25.0);
-      db.addTag("education", 30.0);
-      db.addTag("children", 20.0);
-      db.addTag("environment", 10.0);
-      db.addTag("racial equality", 50.0);
-      db.addTag("health", 40.0);
+      db.addTag(HUNGER, 25.0);
+      db.addTag(EDU, 30.0);
+      db.addTag(CHILD, 20.0);
+      db.addTag(ENV, 10.0);
+      db.addTag(RACE_EQ, 50.0);
+      db.addTag(HEALTH, 40.0);
     } catch (Exception e) {
       System.out.println("Failure adding tags: " + e);
     }
@@ -74,12 +82,12 @@ public final class DbSetUpUtils {
   private void addCharities() {
     try {
       // translate tags to keys
-      Tag hunger = db.getTagByName("hunger");
-      Tag education = db.getTagByName("education");
-      Tag children = db.getTagByName("children");
-      Tag environment = db.getTagByName("environment");
-      Tag racialEquality = db.getTagByName("racial equality");
-      Tag health = db.getTagByName("health");
+      Tag hunger = db.getTagByName(HUNGER);
+      Tag education = db.getTagByName(EDU);
+      Tag children = db.getTagByName(CHILD);
+      Tag environment = db.getTagByName(ENV);
+      Tag racialEquality = db.getTagByName(RACE_EQ);
+      Tag health = db.getTagByName(HEALTH);
 
       // //addCharities
       db.addCharity(
