@@ -14,6 +14,8 @@
 
 package com.google;
 
+import com.google.model.Charity;
+import com.google.model.Tag;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,9 +31,10 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 /* Class that takes user-selected tags as input and finds the according best-matching charities.*/
 public class PersonalizedRecommendations {
 
-  // Datastore set-up
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private DbCalls db = new DbCalls(datastore);
+//   // Datastore set-up
+//   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+//   private DbCalls db = new DbCalls(datastore);
+  DbCalls db;
 
   // Determine how much the charity's tags matching matters compared to how trending the charity is
   private final double TAG_MATCHING_WEIGHT = 0.7;
@@ -60,6 +63,9 @@ public class PersonalizedRecommendations {
   // Returns mapping of charities to the scores that determine their rank on the personalzied page
   // (higher score = better match)
   public HashMap<Charity, Double> getCharityScores(List<String> selectedTags) {
+    DbSetUpUtils setUp = new DbSetUpUtils();
+    db = setUp.getDbCalls();
+    //setUp.populateDatabase();                                      //only call once
     Collection<Charity> charities = getAllCharities(); // DEFAULT
     // Collection<Charity> charities = getAllHardCodedCharities(); //HARDCODED
     HashMap<Charity, Double> charityScores = new HashMap<Charity, Double>();
@@ -67,30 +73,35 @@ public class PersonalizedRecommendations {
     for (Charity charity : charities) {
       // If the charity contains any of the user-selected tags, it will appear on the personalized
       // page
-      if ((charity.getTags()).contains(selectedTags.get(0))
-          | (charity.getTags()).contains(selectedTags.get(1))
-          | (charity.getTags()).contains(selectedTags.get(2))) {
+      Collection<Tag> charityTagObjects = charity.getCategories();
+      Collection<String> charityTagStrings = new ArrayList<String>();
+      for(Tag tag : charityTagObjects) {
+        charityTagStrings.add(tag.getName());
+      }
+      if (charityTagStrings.contains(selectedTags.get(0))
+          | charityTagStrings.contains(selectedTags.get(1))
+          | charityTagStrings.contains(selectedTags.get(2))) {
         double tagScore = 0.0;
         // If the charity has the user's #1 ranked tag
-        if ((charity.getTags()).contains(selectedTags.get(0))) {
+        if (charityTagStrings.contains(selectedTags.get(0))) {
           tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_1;
-          if ((charity.getTags()).contains(selectedTags.get(1))) {
+          if (charityTagStrings.contains(selectedTags.get(1))) {
             tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_2;
-          } else if ((charity.getTags()).contains(selectedTags.get(2))) {
+          } else if (charityTagStrings.contains(selectedTags.get(2))) {
             tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_3;
           }
           // If the charity has the user's #2 ranked tag
-        } else if ((charity.getTags()).contains(selectedTags.get(1))) {
+        } else if (charityTagStrings.contains(selectedTags.get(1))) {
           tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_2;
-          if ((charity.getTags()).contains(selectedTags.get(2))) {
+          if (charityTagStrings.contains(selectedTags.get(2))) {
             tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_2_AND_3;
           }
           // If the charity has the user's #3 ranked tag
-        } else if ((charity.getTags()).contains(selectedTags.get(2))) {
+        } else if (charityTagStrings.contains(selectedTags.get(2))) {
           tagScore += TAGSCORE_INCREMENT_FOR_HAVING_TAG_3;
         }
         double charityScore =
-            TAG_MATCHING_WEIGHT * tagScore + CHARITY_TRENDING_WEIGHT * charity.getTrendingScore();
+            TAG_MATCHING_WEIGHT * tagScore + CHARITY_TRENDING_WEIGHT * charity.getTrendingScoreCharity();
         charityScores.put(charity, charityScore);
       }
     }
@@ -99,14 +110,19 @@ public class PersonalizedRecommendations {
 
   // Gets charities from the database
   private Collection<Charity> getAllCharities() {
-    Collection<Charity> charities = db.getAllCharities();
+    Collection<Charity> charities = new ArrayList<>();
+    try {
+      charities = db.getAllCharities();
+    } catch (Exception e) {
+      System.out.println("Failure in retrieving charities: " + e);
+    }
     return charities;
   }
 
-  // Gets charities from the HardCodedCharitiesAndTags class
-  private Collection<Charity> getAllHardCodedCharities() {
-    return Arrays.asList(HardCodedCharitiesAndTags.charities);
-  }
+//   // Gets charities from the HardCodedCharitiesAndTags class
+//   private Collection<Charity> getAllHardCodedCharities() {
+//     return Arrays.asList(HardCodedCharitiesAndTags.charities);
+//   }
 
   // Sorts HashMap in decreasing order of values
   public LinkedHashMap<Charity, Double> sortByValue(HashMap<Charity, Double> map) {

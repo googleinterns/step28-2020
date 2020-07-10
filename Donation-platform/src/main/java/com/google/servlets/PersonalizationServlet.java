@@ -14,7 +14,7 @@
 
 package com.google.servlets;
 
-import com.google.Charity;
+import com.google.model.Charity;
 import com.google.PersonalizedRecommendations;
 import com.google.gson.Gson;
 import com.fasterxml.jackson.databind.ObjectMapper;
