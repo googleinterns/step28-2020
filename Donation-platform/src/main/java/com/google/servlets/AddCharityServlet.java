@@ -69,13 +69,13 @@ public class AddCharityServlet extends HttpServlet
         DbCalls dbCalls = new DbCalls(datastore);
         try
         {
-            Collection<Key> categoryKeys = new ArrayList<Key>();
+            Collection<Tag> categoryTags = new ArrayList<Tag>();
             String[] categoryNames = request.getParameterValues("categories");
             for (String name : categoryNames)
             {
-                categoryKeys.add(dbCalls.getTagByName(name).getId());
+                categoryTags.add(dbCalls.getTagByName(name));
             }
-            dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryKeys, request.getParameter("description"));
+            dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
             response.sendRedirect("/");
         }
         catch (Exception e) {}
