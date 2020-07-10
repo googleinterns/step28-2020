@@ -75,7 +75,6 @@ public final class DbSetUpUtils {
       Tag racialEquality = db.getTagByName("racial equality");
       Tag health = db.getTagByName("health");
 
-      //addCharities
       db.addCharity(
           "Feeding America",
           "https://secure.feedingamerica.org/site/Donation2",

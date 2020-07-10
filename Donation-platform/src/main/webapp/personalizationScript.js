@@ -48,7 +48,7 @@ function getPersonalizedCharitiesFromServlet() {
 
 /* (2) Displays the list of personalized charities them on personalized.html */
 function updatePersonalizedCardsOnPage(charities) {
-    const cards = document.getElementById('cont');
+    const cards = document.getElementById('charities-display');
 
     cards.innerHTML = '';
     var cur_count = 0;

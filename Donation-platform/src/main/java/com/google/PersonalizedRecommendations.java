@@ -31,9 +31,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 /* Class that takes user-selected tags as input and finds the according best-matching charities.*/
 public class PersonalizedRecommendations {
 
-//   // Datastore set-up
-//   private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-//   private DbCalls db = new DbCalls(datastore);
   DbCalls db;
 
   // Determine how much the charity's tags matching matters compared to how trending the charity is
@@ -63,11 +60,11 @@ public class PersonalizedRecommendations {
   // Returns mapping of charities to the scores that determine their rank on the personalzied page
   // (higher score = better match)
   public HashMap<Charity, Double> getCharityScores(List<String> selectedTags) {
+    // Datastore set-up
     DbSetUpUtils setUp = new DbSetUpUtils();
     db = setUp.getDbCalls();
     //setUp.populateDatabase();                                      //only call once
-    Collection<Charity> charities = getAllCharities(); // DEFAULT
-    // Collection<Charity> charities = getAllHardCodedCharities(); //HARDCODED
+    Collection<Charity> charities = getAllCharities();
     HashMap<Charity, Double> charityScores = new HashMap<Charity, Double>();
 
     for (Charity charity : charities) {
@@ -118,11 +115,6 @@ public class PersonalizedRecommendations {
     }
     return charities;
   }
-
-//   // Gets charities from the HardCodedCharitiesAndTags class
-//   private Collection<Charity> getAllHardCodedCharities() {
-//     return Arrays.asList(HardCodedCharitiesAndTags.charities);
-//   }
 
   // Sorts HashMap in decreasing order of values
   public LinkedHashMap<Charity, Double> sortByValue(HashMap<Charity, Double> map) {
