@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
 
 public final class FindTrendingCharities {
 
@@ -60,12 +63,6 @@ public final class FindTrendingCharities {
     return topTrending;
   }
 
-  // returns a list of all hardcoded charities
-  /*private Collection<Charity> getAllHardCodedCharities(){
-      Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
-      return allCharities;
-  }*/
-
   // returns a list of all charities in the database
   private Collection<Charity> getAllCharities() {
     Collection<Charity> charities = new ArrayList<>();
@@ -95,13 +92,8 @@ public final class FindTrendingCharities {
     } else {
       avgReview = userRating;
     }
-    // TODO: Integrate db with correct method to retreive tags for one charity
     Collection<Tag> tags = new ArrayList<>();
-    try {
-      tags = db.getTagObjectsByIds(charity.getCategories());
-    } catch (Exception e) {
-      System.out.println("Exception in retreiving tags for charity: " + e);
-    }
+    tags = charity.getCategories();
     double charityTagsScore = 0;
     try {
       charityTagsScore = getTagTrendingScore(tags);
@@ -113,7 +105,7 @@ public final class FindTrendingCharities {
     return charityTrendingScore;
   }
 
-  // TODO: Integrate db with correct method to retreive navRating for one charity
+  // TODO: Decide whether we will be using charityNavRating and change accordingly
   private double calcCharityNavRating(Charity charity) {
     // double charityNavRating;
     // return charityNavRating * CHARITY_NAV_SCALE_FACTOR;
@@ -129,12 +121,10 @@ public final class FindTrendingCharities {
     double sumScores = 0;
     int numTags = tags.size();
     for (Tag tag : tags) {
-      // double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
-      // TODO: Integrate db with correct method to retreive trending score of specific tag
       double tagScore = tag.getTrendingScoreTag();
 
       // TODO: Use GoogleTrends API to update tag trending score
-      // tagScore = use Google Trend API to get trending score
+
       sumScores += tagScore;
     }
     return (sumScores / numTags);
