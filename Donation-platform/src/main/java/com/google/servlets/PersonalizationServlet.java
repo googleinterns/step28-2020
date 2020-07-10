@@ -35,6 +35,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/personalize")
 public class PersonalizationServlet extends HttpServlet {
 
+  private final int NUMBER_OF_TAG_SELECTION_FIELDS = 3;
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the current user's session
@@ -53,19 +55,20 @@ public class PersonalizationServlet extends HttpServlet {
       e.printStackTrace();
     }
     // Iterate over the mapping and add the tag values to the tags list
-    int numberOfBlankTags = 0;
+    int numberOfBlankTagSelections = 0;
     for (Map.Entry<String, String> entry : tagMap.entrySet()) {
       String tag = entry.getValue();
       if(tag.length() == 0) {
-        numberOfBlankTags++;
+        numberOfBlankTagSelections++;
       }
       tags.add(tag);
     }
 
     // If a user session already exists and new tags have not been selected
-    // (which is signified by the number of blank selected tags equalling 3), 
-    // then use the tags previously selected in this session.
-    if (session != null && numberOfBlankTags == 3) {
+    // (which is signified by the number of blank selected tags equalling the
+    // total number of tag selection fields), then use the tags previously 
+    // selected in this session.
+    if (session != null && numberOfBlankTagSelections == NUMBER_OF_TAG_SELECTION_FIELDS) {
       tags = (ArrayList<String>) session.getAttribute("selected-tags");
     // Otherwise, keep using the recently-selected tags processed from requestData.
     } else {
