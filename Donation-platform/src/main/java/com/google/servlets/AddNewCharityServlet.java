@@ -35,8 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 /* Servlet that returns tag names to be added to charity and
 *  sends add charity form into database.
 */
-@WebServlet("/addCharity")
-public class AddCharityServlet extends HttpServlet
+@WebServlet("/addNewCharity")
+public class AddNewCharityServlet extends HttpServlet
 {
 
     @Override
@@ -76,7 +76,7 @@ public class AddCharityServlet extends HttpServlet
                 categoryTags.add(dbCalls.getTagByName(name));
             }
             dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
-            response.sendRedirect("/");
+            response.sendRedirect("/addNewCharity.html");
         }
         catch (Exception e) {}
     }
