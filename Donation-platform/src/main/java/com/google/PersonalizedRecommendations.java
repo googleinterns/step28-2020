@@ -27,11 +27,15 @@ import java.util.LinkedHashMap;
 import java.util.Arrays;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 
 /* Class that takes user-selected tags as input and finds the according best-matching charities.*/
 public class PersonalizedRecommendations {
 
-  DbCalls db;
+  private DbCalls db;
+  private DatastoreService ds;
+  private Collection<Charity> charities;
 
   // Determine how much the charity's tags matching matters compared to how trending the charity is
   private final double TAG_MATCHING_WEIGHT = 0.7;
@@ -45,6 +49,18 @@ public class PersonalizedRecommendations {
   private final double TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_2 = 0.2;
   private final double TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_3 = 0.15;
   private final double TAGSCORE_INCREMENT_FOR_HAVING_TAG_2_AND_3 = 0.1;
+
+  // Constructor to setup db (and populate db if necessary)
+  public PersonalizedRecommendations(DatastoreService ds) {
+    this.ds = ds;
+    db = new DbCalls(ds);
+    DbSetUpUtils setup = new DbSetUpUtils(ds, db);
+    charities = getAllCharities();
+    // only populate database if there is nothing in the database already
+    if(charities.size() == 0) {
+      setup.populateDatabase();
+    }
+  }
 
   // Returns the best-matching charities sorted according to the scores calculated by
   // getCharityScores
@@ -60,11 +76,6 @@ public class PersonalizedRecommendations {
   // Returns mapping of charities to the scores that determine their rank on the personalzied page
   // (higher score = better match)
   public HashMap<Charity, Double> getCharityScores(List<String> selectedTags) {
-    // Datastore set-up
-    DbSetUpUtils setUp = new DbSetUpUtils();
-    db = setUp.getDbCalls();
-    //setUp.populateDatabase();                                      //only call once
-    Collection<Charity> charities = getAllCharities();
     HashMap<Charity, Double> charityScores = new HashMap<Charity, Double>();
 
     for (Charity charity : charities) {
@@ -110,8 +121,12 @@ public class PersonalizedRecommendations {
     Collection<Charity> charities = new ArrayList<>();
     try {
       charities = db.getAllCharities();
+    } catch (EntityNotFoundException e) {
+      System.out.println("Charity entities not found: " + e);
+      return null;
     } catch (Exception e) {
-      System.out.println("Failure in retrieving charities: " + e);
+      System.out.println("Unexpected exception: " + e);
+      return null;
     }
     return charities;
   }

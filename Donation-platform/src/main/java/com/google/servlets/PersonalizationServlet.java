@@ -28,6 +28,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
 /* Servlet that returns personalized charities according to the user's selected causes.*/
 @WebServlet("/personalize")
@@ -53,7 +55,8 @@ public class PersonalizationServlet extends HttpServlet {
     }
 
     // Get the best-matching charities from the Recommendation System
-    PersonalizedRecommendations recommendation = new PersonalizedRecommendations();
+    DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+    PersonalizedRecommendations recommendation = new PersonalizedRecommendations(ds);
     List<Charity> bestMatches = recommendation.getBestMatches(tags);
 
     // Display the recommended charities as a JSON sorted in order of best to worst match
