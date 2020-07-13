@@ -46,7 +46,7 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
-  private Collection<Charity> charities;
+  private static Collection<Charity> charities;
 
   //constructor to do set up
   public FindTrendingCharities(DatastoreService ds) {
