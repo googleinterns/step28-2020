@@ -61,6 +61,8 @@ public final class FindTrendingCharitiesTest {
 
    private DbCalls db;
 
+  private Collaction<Charity> RESULTS;
+
   @Before
   public void setUp() {
     helper.setUp();
@@ -68,6 +70,14 @@ public final class FindTrendingCharitiesTest {
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
     query = new FindTrendingCharities(ds);
+    RESULTS = query.queryDb();
+    FA = db.getCharityByName("Feeding America");
+    RC = db.getCharityByName("Red Cross");
+    SJ = db.getCharityByName("St. Jude's");
+    NC = db.getCharityByName("Nature Conservancy");
+    YMCA = db.getCharityByName("YMCA");
+    ACLU = db.getCharityByName("ACLU");
+    AHA = db.getCharityByName("American Heart Association");
   }
 
   @After
@@ -90,14 +100,6 @@ public final class FindTrendingCharitiesTest {
         System.out.println("charities not found in db during testing");
     }
       Assert.assertEquals(1, 1);
-  }
-
-  @Test
-  public void testTrendingOrderIsCorrect() {
-    Collection<Charity> actual = query.queryDb();
-    Collection<Charity> expected = Arrays.asList(ACLU, AHA, RC, SJ, FA, YMCA, NC);
-
-    Assert.assertEquals(expected, actual);
   }
 
   @Test
