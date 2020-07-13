@@ -20,15 +20,46 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DbSetUpUtils {
 
   private DatastoreService ds;
   private DbCalls db;
+  
+  // constants for Tag names
+  private static final String HUNGER = "hunger";
+  private static final String EDU = "education";
+  private static final String CHILD = "children";
+  private static final String ENV = "environment";
+  private static final String RACE_EQ = "racial equality";
+  private static final String HEALTH = "health";
+
+  private static final List<String> tags = new ArrayList<String>(Arrays.asList(HUNGER, EDU, CHILD, ENV, RACE_EQ, HEALTH)); 
+
+  public static final Map<String, Integer> tagScores =
+    new HashMap<String, Integer>() {
+        {
+          put(HUNGER, 25);
+          put(EDU, 30);
+          put(CHILD, 20);
+          put(ENV, 10);
+          put(RACE_EQ, 50);
+          put(HEALTH, 40);
+        }
+    };
 
   // constructor for db setup
   public DbSetUpUtils() {
     this.ds = DatastoreServiceFactory.getDatastoreService();
+    this.db = new DbCalls(ds);
+  }
+
+  public DbSetUpUtils(DatastoreService ds) {
+    this.ds = ds;
     this.db = new DbCalls(ds);
   }
 
@@ -53,27 +84,25 @@ public final class DbSetUpUtils {
 
   // add hardcoded tags to db with scores
   private void addTags() {
-    try {
-      db.addTag("hunger", 25.0);
-      db.addTag("education", 30.0);
-      db.addTag("children", 20.0);
-      db.addTag("environment", 10.0);
-      db.addTag("racial equality", 50.0);
-      db.addTag("health", 40.0);
-    } catch (Exception e) {
-      System.out.println("Failure adding tags: " + e);
+    for (String tag: tags) {
+        try {
+            db.addTag(tag, tagScores.get(tag));
+        } catch (Exception e) {
+            System.out.println("Failure adding tags: " + e);
+        } 
     }
   }
 
   // add hardcoded charities to db without userRating
   private void addCharities() {
     try {
-      Tag hunger = db.getTagByName("hunger");
-      Tag education = db.getTagByName("education");
-      Tag children = db.getTagByName("children");
-      Tag environment = db.getTagByName("environment");
-      Tag racialEquality = db.getTagByName("racial equality");
-      Tag health = db.getTagByName("health");
+      // translate tags to keys
+      Tag hunger = db.getTagByName(HUNGER);
+      Tag education = db.getTagByName(EDU);
+      Tag children = db.getTagByName(CHILD);
+      Tag environment = db.getTagByName(ENV);
+      Tag racialEquality = db.getTagByName(RACE_EQ);
+      Tag health = db.getTagByName(HEALTH);
 
       db.addCharity(
           "Feeding America",

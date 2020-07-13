@@ -14,7 +14,6 @@
 
 package com.google.servlets;
 
-import com.google.Charity;
 import com.google.FindTrendingCharities;
 
 import java.io.IOException;
@@ -24,6 +23,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.model.Charity;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
 /** Servlet that handles requests for the trending page* */
 @WebServlet("/trending-query")
@@ -33,8 +35,9 @@ public class TrendingQueryServlet extends HttpServlet {
     Gson gson = new Gson();
 
     // Find the trending charities.
-    FindTrendingCharities findTrending = new FindTrendingCharities();
-    Collection<Charity> answer = findTrending.query();
+    DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+    FindTrendingCharities findTrending = new FindTrendingCharities(ds);
+    Collection<Charity> answer = findTrending.queryDb();
 
     // Convert the collection of charities to JSON
     String jsonResponse = gson.toJson(answer);

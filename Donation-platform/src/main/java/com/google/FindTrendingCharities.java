@@ -20,10 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
+
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 
 public final class FindTrendingCharities {
 
-  DbCalls db;
+  private DbCalls db;
+  private DatastoreService ds;
 
   // number of trending charities to be returned
   final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
@@ -38,16 +46,33 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
+  private static Collection<Charity> charities;
+
+  //constructor to do set up
+  public FindTrendingCharities(DatastoreService ds) {
+    //ds = DatastoreServiceFactory.getDatastoreService();
+    this.ds = ds;
+    db = new DbCalls(ds);
+    DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
+    this.charities = getAllCharities();
+    // only populate database if there is nothing in the database already
+    if (charities.size() < 1) {
+        setUp.populateDatabase();
+    }
+  }
+
   // returns the collection of top trending charities
-  public Collection<Charity> query() {
-    DbSetUpUtils setUp = new DbSetUpUtils();
-    db = setUp.getDbCalls();
-    // setUp.dbSetUp();                                      //only call once
-    // TODO: Change to getAllCharities() when integrating db
-    Collection<Charity> charities = getAllCharities();
+  public Collection<Charity> queryDb() {
+    //Collection<Charity> charities = getAllCharities();
     for (Charity charity : charities) {
       double charityScore = calcCharityTrendingScore(charity);
       charity.setTrendingScoreCharity(charityScore);
+      try {
+          db.updateCharity(charity);
+      }
+      catch (Exception e) {
+          System.out.println("unable to update charity: " + e);
+      }
     }
     ArrayList<Charity> charitiesList = new ArrayList<>(charities);
     Collections.sort(charitiesList);
@@ -60,19 +85,17 @@ public final class FindTrendingCharities {
     return topTrending;
   }
 
-  // returns a list of all hardcoded charities
-  /*private Collection<Charity> getAllHardCodedCharities(){
-      Collection<Charity> allCharities = new ArrayList<Charity>(Arrays.asList(HardCodedCharitiesAndTags.charities));
-      return allCharities;
-  }*/
-
   // returns a list of all charities in the database
   private Collection<Charity> getAllCharities() {
     Collection<Charity> charities = new ArrayList<>();
     try {
       charities = db.getAllCharities();
+    } catch (EntityNotFoundException e) {
+      System.out.println("charity entities not found: " + e);
+      return null;
     } catch (Exception e) {
-      System.out.println("Failure in retrieving charities: " + e);
+      System.out.println("unexpected exception: " + e);
+      return null;
     }
     return charities;
   }
@@ -95,25 +118,24 @@ public final class FindTrendingCharities {
     } else {
       avgReview = userRating;
     }
-    // TODO: Integrate db with correct method to retreive tags for one charity
     Collection<Tag> tags = new ArrayList<>();
-    try {
-      tags = db.getTagObjectsByIds(charity.getCategories());
-    } catch (Exception e) {
-      System.out.println("Exception in retreiving tags for charity: " + e);
-    }
+    tags = charity.getCategories();
     double charityTagsScore = 0;
     try {
       charityTagsScore = getTagTrendingScore(tags);
+    } catch (EntityNotFoundException e) {
+      System.out.println("tag entity not found: " + e);
+    } catch (TooManyResultsException e) {
+      System.out.println("duplicate tags exist in db: " + e);
     } catch (Exception e) {
-      System.out.println("Exception in retreiving tag scores: " + e);
+      System.out.println("unexpected exception: e");
     }
     double charityTrendingScore =
         TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
     return charityTrendingScore;
   }
 
-  // TODO: Integrate db with correct method to retreive navRating for one charity
+  // TODO: Decide whether we will be using charityNavRating and change accordingly
   private double calcCharityNavRating(Charity charity) {
     // double charityNavRating;
     // return charityNavRating * CHARITY_NAV_SCALE_FACTOR;
@@ -129,12 +151,10 @@ public final class FindTrendingCharities {
     double sumScores = 0;
     int numTags = tags.size();
     for (Tag tag : tags) {
-      // double tagScore = HardCodedCharitiesAndTags.tagScores.get(tag);
-      // TODO: Integrate db with correct method to retreive trending score of specific tag
       double tagScore = tag.getTrendingScoreTag();
 
       // TODO: Use GoogleTrends API to update tag trending score
-      // tagScore = use Google Trend API to get trending score
+
       sumScores += tagScore;
     }
     return (sumScores / numTags);
