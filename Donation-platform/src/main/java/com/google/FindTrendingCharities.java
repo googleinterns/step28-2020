@@ -47,8 +47,9 @@ public final class FindTrendingCharities {
   final double AVG_REVIEW_WEIGHT = 0.25;
 
   //constructor to do set up
-  public FindTrendingCharities() {
-    ds = DatastoreServiceFactory.getDatastoreService();
+  public FindTrendingCharities(DatastoreService ds) {
+    //ds = DatastoreServiceFactory.getDatastoreService();
+    this.ds = ds;
     db = new DbCalls(ds);
     DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
     Collection<Charity> charities = getAllCharities();

@@ -67,7 +67,7 @@ public final class FindTrendingCharitiesTest {
     db = new DbCalls(ds);
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
-    query = new FindTrendingCharities();
+    query = new FindTrendingCharities(ds);
   }
 
   @After
@@ -94,7 +94,7 @@ public final class FindTrendingCharitiesTest {
 
   @Test
   public void testTrendingOrderIsCorrect() {
-    Collection<Charity> actual = query.query();
+    Collection<Charity> actual = query.queryDb();
     Collection<Charity> expected = Arrays.asList(ACLU, AHA, RC, SJ, FA, YMCA, NC);
 
     Assert.assertEquals(expected, actual);
@@ -102,7 +102,7 @@ public final class FindTrendingCharitiesTest {
 
   @Test
   public void testTrendingScoresIsCorrect() {
-    Collection<Charity> trendingCharities = query.query();
+    Collection<Charity> trendingCharities = query.queryDb();
 
     Map<Charity, Double> expected =
         new HashMap<Charity, Double>() {
