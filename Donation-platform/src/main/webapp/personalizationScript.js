@@ -47,39 +47,33 @@ function getPersonalizedCharitiesFromServlet() {
 }
 
 /* (2) Displays the list of personalized charities them on personalized.html */
-function updatePersonalizedList(charities) {
-  const personalizedListElement = document.getElementById('personalized-list');
-
-  // Remove old personalized results
-  personalizedListElement.innerHTML = "";
-  
-  // Displays charity listings in the format: "[Charity Name] ([tag 1], [tag2], ...)"
-  charities.forEach(charity => {
-    var charityString = "<li><strong>" + charity.name + "</strong>  (";
-    for(i = 0; i < (charity.tags).length; i++) {
-      if(i == (charity.tags).length - 1) {
-        charityString += (charity.tags)[i] + ")</li>";
-      } else {
-        charityString += (charity.tags)[i] + ", ";
-      }
-    }
-    personalizedListElement.innerHTML += charityString;
-  });
-}
-
-/**
- * Updates the display with bootstrap cards.
- */
 function updatePersonalizedCardsOnPage(charities) {
-    const cards = document.getElementById('cards');
+    const cards = document.getElementById('charities-display');
 
     cards.innerHTML = '';
-
+    var cur_count = 0;
+    var toAdd = '';
+    var temp = '';
     charities.forEach(charity => {
-        cards.innerHTML += '<div class="card border-dark mb-3">' + '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' + '<div class="card text-center">' + '<h4 class="card-title">' + charity.name + '</h4>' + 
-                            '<p class="card-text">' + displayTags(charity.tags) + '</p>' + '<a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a>';
-        cards.innerHTML += '</div>' + '</div>';
+        if (cur_count % 4 == 0 && cur_count != 0) {
+            toAdd = '<div class="row">' + temp + '</div>';
+            cards.innerHTML += toAdd;
+            toAdd = '';
+            temp = '';
+        }
+        cur_count += 1;
+        temp += '<div class="col-3">' + 
+                '<div class="card text-center">' + 
+                '<div class="card-header">Match #' + cur_count + '</div>' + 
+                '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' +
+                '<div class="card-body">' +
+                '<h4 class="card-title">' + charity.name + '</h4>' +
+                '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
+                '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
+                '</div>' + '</div>';
     });
+    toAdd = '<div class="row">' + temp + '</div>';
+    cards.innerHTML += toAdd;
 }
 
 /**
@@ -87,15 +81,18 @@ function updatePersonalizedCardsOnPage(charities) {
  */
 function displayTags(tags) {
     out = "";
+    out += '<h5>'
     for (const tag of tags) {
-        console.log(tag);
-        out += '<h5><span class="badge badge-info">' + tag + '</span></h5>';
+        out += '<span class="badge badge-info">' + tag.name + '</span>';
     }
+    out += '</h5>'
     return out;
-} 
+}
 
-// Runs loadPersonalizedCharities() when the submit button is pressed
+// Runs loadPersonalizedCharities() on page load and when the submit button is pressed
 window.onload=function() {
+  loadPersonalizedCharities();
+  event.preventDefault();
   document.getElementById('submit').addEventListener("click", function(event) {
     loadPersonalizedCharities();
     event.preventDefault();
