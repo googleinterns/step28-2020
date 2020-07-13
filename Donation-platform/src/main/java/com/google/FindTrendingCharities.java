@@ -94,7 +94,7 @@ public final class FindTrendingCharities {
       System.out.println("charity entities not found: " + e);
       return null;
     } catch (Exception e) {
-      System.out.println("unexpected exception: e");
+      System.out.println("unexpected exception: " + e);
       return null;
     }
     return charities;
