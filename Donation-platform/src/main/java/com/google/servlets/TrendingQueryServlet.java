@@ -34,7 +34,7 @@ public class TrendingQueryServlet extends HttpServlet {
 
     // Find the trending charities.
     FindTrendingCharities findTrending = new FindTrendingCharities();
-    Collection<Charity> answer = findTrending.query();
+    Collection<Charity> answer = findTrending.queryDb();
 
     // Convert the collection of charities to JSON
     String jsonResponse = gson.toJson(answer);

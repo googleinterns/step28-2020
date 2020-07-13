@@ -20,6 +20,10 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DbSetUpUtils {
 
@@ -27,12 +31,26 @@ public final class DbSetUpUtils {
   private DbCalls db;
   
   // constants for Tag names
-  final String HUNGER = "hunger";
-  final String EDU = "education";
-  final String CHILD = "children";
-  final String ENV = "environment";
-  final String RACE_EQ = "racial equality";
-  final String HEALTH = "health";
+  private static final String HUNGER = "hunger";
+  private static final String EDU = "education";
+  private static final String CHILD = "children";
+  private static final String ENV = "environment";
+  private static final String RACE_EQ = "racial equality";
+  private static final String HEALTH = "health";
+
+  private static final List<String> tags = new ArrayList<String>(Arrays.asList(HUNGER, EDU, CHILD, ENV, RACE_EQ, HEALTH)); 
+
+  public static final Map<String, Integer> tagScores =
+    new HashMap<String, Integer>() {
+        {
+          put(HUNGER, 25);
+          put(EDU, 30);
+          put(CHILD, 20);
+          put(ENV, 10);
+          put(RACE_EQ, 50);
+          put(HEALTH, 40);
+        }
+    };
 
   // constructor for db setup
   public DbSetUpUtils() {
@@ -66,15 +84,12 @@ public final class DbSetUpUtils {
 
   // add hardcoded tags to db with scores
   private void addTags() {
-    try {
-      db.addTag(HUNGER, 25.0);
-      db.addTag(EDU, 30.0);
-      db.addTag(CHILD, 20.0);
-      db.addTag(ENV, 10.0);
-      db.addTag(RACE_EQ, 50.0);
-      db.addTag(HEALTH, 40.0);
-    } catch (Exception e) {
-      System.out.println("Failure adding tags: " + e);
+    for (String tag: tags) {
+        try {
+            db.addTag(tag, tagScores.get(tag));
+        } catch (Exception e) {
+            System.out.println("Failure adding tags: " + e);
+        } 
     }
   }
 
