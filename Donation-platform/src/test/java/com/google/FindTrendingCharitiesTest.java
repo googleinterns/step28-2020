@@ -61,10 +61,10 @@ public final class FindTrendingCharitiesTest {
 
    private DbCalls db;
 
-  private Collaction<Charity> RESULTS;
+  private Collection<Charity> RESULTS;
 
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     helper.setUp();
     db = new DbCalls(ds);
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
