@@ -46,13 +46,15 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
+  private Collection<Charity> charities;
+
   //constructor to do set up
   public FindTrendingCharities(DatastoreService ds) {
     //ds = DatastoreServiceFactory.getDatastoreService();
     this.ds = ds;
     db = new DbCalls(ds);
     DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
-    Collection<Charity> charities = getAllCharities();
+    this.charities = getAllCharities();
     // only populate database if there is nothing in the database already
     if (charities.size() < 1) {
         setUp.populateDatabase();
@@ -61,7 +63,7 @@ public final class FindTrendingCharities {
 
   // returns the collection of top trending charities
   public Collection<Charity> queryDb() {
-    Collection<Charity> charities = getAllCharities();
+    //Collection<Charity> charities = getAllCharities();
     for (Charity charity : charities) {
       double charityScore = calcCharityTrendingScore(charity);
       charity.setTrendingScoreCharity(charityScore);
