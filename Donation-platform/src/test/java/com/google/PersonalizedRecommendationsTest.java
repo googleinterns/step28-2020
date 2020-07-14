@@ -335,6 +335,7 @@ public final class PersonalizedRecommendationsTest {
     Assert.assertTrue(everyCharityPresent && correctOrdering);
   }
 
+  /* Checks if two charity collections have identical sets of charities (order does not matter). */
   public static boolean sameSetOfCharities(Collection<Charity> charities1, Collection<Charity> charities2){
     HashSet<String> charity1Names = new HashSet<String>();
     HashSet<String> charity2Names = new HashSet<String>();
