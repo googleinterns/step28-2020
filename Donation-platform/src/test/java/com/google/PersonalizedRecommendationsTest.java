@@ -46,7 +46,7 @@ public final class PersonalizedRecommendationsTest {
   private Charity AHA;
  
   private PersonalizedRecommendations recommendation;
-  private final LocalServiceTestHelper helper;
+  private LocalServiceTestHelper helper;
   private DatastoreService ds;
   private DbCalls db;
  
