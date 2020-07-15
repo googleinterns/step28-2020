@@ -263,7 +263,7 @@ public final class PersonalizedRecommendationsTest {
       for(Tag tag : charityTagObjects) {
         charityTagNames.add(tag.getName());
       }
-      if (!(new HashSet<>(charityTagNames)).contains("children")
+      if (!charityTagNames.contains("children")
           && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag1) {
         indexOfHighestRankingCharityWithoutTag1 = actual.indexOf(charity);
       }
@@ -276,7 +276,7 @@ public final class PersonalizedRecommendationsTest {
       for(Tag tag : charityTagObjects) {
         charityTagNames.add(tag.getName());
       }
-      if ((new HashSet<>(charityTagNames)).contains("children")
+      if (charityTagNames.contains("children")
           && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag1) {
         indexOfLowestRankingCharityWithTag1 = actual.indexOf(charity);
       }
@@ -312,7 +312,7 @@ public final class PersonalizedRecommendationsTest {
       for(Tag tag : charityTagObjects) {
         charityTagNames.add(tag.getName());
       }
-      if (!(new HashSet<>(charityTagNames)).contains("health")
+      if (!charityTagNames.contains("health")
           && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag2) {
         indexOfHighestRankingCharityWithoutTag2 = actual.indexOf(charity);
       }
@@ -325,7 +325,7 @@ public final class PersonalizedRecommendationsTest {
       for(Tag tag : charityTagObjects) {
         charityTagNames.add(tag.getName());
       }
-      if ((new HashSet<>(charityTagNames)).contains("health")
+      if (charityTagNames.contains("health")
           && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag2) {
         indexOfLowestRankingCharityWithTag2 = actual.indexOf(charity);
       }
