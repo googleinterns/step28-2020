@@ -258,11 +258,7 @@ public final class PersonalizedRecommendationsTest {
     // Find the index of the highest-ranking charity without tag #1
     int indexOfHighestRankingCharityWithoutTag1 = actual.size() - 1;
     for (Charity charity : actual) {
-      Collection<Tag> charityTagObjects = charity.getCategories();
-      Collection<String> charityTagNames = new ArrayList<String>();
-      for(Tag tag : charityTagObjects) {
-        charityTagNames.add(tag.getName());
-      }
+      Collection<String> charityTagNames = getTagNames(charity.getCategories());
       if (!charityTagNames.contains("children")
           && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag1) {
         indexOfHighestRankingCharityWithoutTag1 = actual.indexOf(charity);
@@ -271,11 +267,7 @@ public final class PersonalizedRecommendationsTest {
     // Find the index of the lowest-ranking charity with tag #1
     int indexOfLowestRankingCharityWithTag1 = 0;
     for (Charity charity : actual) {
-      Collection<Tag> charityTagObjects = charity.getCategories();
-      Collection<String> charityTagNames = new ArrayList<String>();
-      for(Tag tag : charityTagObjects) {
-        charityTagNames.add(tag.getName());
-      }
+      Collection<String> charityTagNames = getTagNames(charity.getCategories());
       if (charityTagNames.contains("children")
           && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag1) {
         indexOfLowestRankingCharityWithTag1 = actual.indexOf(charity);
@@ -307,11 +299,7 @@ public final class PersonalizedRecommendationsTest {
     // Find the index of the highest-ranking charity without tag #2
     int indexOfHighestRankingCharityWithoutTag2 = actual.size() - 1;
     for (Charity charity : actual) {
-      Collection<Tag> charityTagObjects = charity.getCategories();
-      Collection<String> charityTagNames = new ArrayList<String>();
-      for(Tag tag : charityTagObjects) {
-        charityTagNames.add(tag.getName());
-      }
+      Collection<String> charityTagNames = getTagNames(charity.getCategories());
       if (!charityTagNames.contains("health")
           && actual.indexOf(charity) < indexOfHighestRankingCharityWithoutTag2) {
         indexOfHighestRankingCharityWithoutTag2 = actual.indexOf(charity);
@@ -320,11 +308,7 @@ public final class PersonalizedRecommendationsTest {
     // Find the index of the lowest-ranking charity with tag #2
     int indexOfLowestRankingCharityWithTag2 = 0;
     for (Charity charity : actual) {
-      Collection<Tag> charityTagObjects = charity.getCategories();
-      Collection<String> charityTagNames = new ArrayList<String>();
-      for(Tag tag : charityTagObjects) {
-        charityTagNames.add(tag.getName());
-      }
+      Collection<String> charityTagNames = getTagNames(charity.getCategories());
       if (charityTagNames.contains("health")
           && actual.indexOf(charity) > indexOfLowestRankingCharityWithTag2) {
         indexOfLowestRankingCharityWithTag2 = actual.indexOf(charity);
@@ -346,5 +330,14 @@ public final class PersonalizedRecommendationsTest {
       charity2Names.add(charity.getName());
     }
     return charity1Names.equals(charity2Names);
+  }
+
+  /* Converts a charity's collection of tag objects into a collection of tag name strings. */
+  public static Collection<String> getTagNames(Collection<Tag> tagObjects) {
+    Collection<String> tagNames = new ArrayList<String>();
+    for(Tag tag : tagObjects) {
+      tagNames.add(tag.getName());
+    }
+    return tagNames;
   }
 }
