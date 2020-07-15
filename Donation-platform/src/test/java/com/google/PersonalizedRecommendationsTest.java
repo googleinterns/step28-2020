@@ -46,13 +46,13 @@ public final class PersonalizedRecommendationsTest {
   private Charity AHA;
  
   private PersonalizedRecommendations recommendation;
-  private final LocalServiceTestHelper helper =
-       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+  private final LocalServiceTestHelper helper;
   private DatastoreService ds;
   private DbCalls db;
  
   @Before
   public void setUp() {
+    helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
     helper.setUp();
     ds = DatastoreServiceFactory.getDatastoreService();
     db = new DbCalls(ds);
