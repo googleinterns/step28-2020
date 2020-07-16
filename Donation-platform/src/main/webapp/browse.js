@@ -51,7 +51,7 @@ function sortDict(dict)
         orderedDict[key] = dict[key];
     }
     );
-    return orderedDict
+    return orderedDict;
 }
 
 // Populates browse page with charities and categories.
