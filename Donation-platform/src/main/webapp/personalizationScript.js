@@ -89,6 +89,12 @@ function displayTags(tags) {
     return out;
 }
 
+function getRank() {
+  var dataItem = document.getElementById('sortable').sortable("serialize");
+  alert(dataItem);
+  console.log('dataItem: ' + dataItem);
+}
+
 // Runs loadPersonalizedCharities() on page load and when the submit button is pressed
 window.onload=function() {
   loadPersonalizedCharities();
@@ -97,4 +103,28 @@ window.onload=function() {
     loadPersonalizedCharities();
     event.preventDefault();
   });
+//   document.getElementById('enter').addEventListener("click", function(event) {
+//     getRank();
+//   });
 }
+
+// jQuery(function() {
+//     jQuery("#sortable").sortable();
+
+//     jQuery('#enter').click(function() {
+//         var dataItem = jQuery("#sortable").sortable("serialize");
+//         console.log(dataItem);
+//         alert(dataItem);
+        
+//         //return is added here to avoid ajax code submission in this example
+//         return true;
+        
+//         jQuery.ajax({
+//             url: 'save-sorting-position.php',
+//             data : dataItem,
+//             success: function(data) {                
+//                 alert('Positions saved');
+//             }
+//         });
+//     });
+// });

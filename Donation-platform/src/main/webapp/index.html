@@ -27,6 +27,42 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <!-- -->
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+    <style>
+    #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+    #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 50px; }
+    #sortable li span { position: absolute; margin-left: -1.3em; }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $(function() {
+      $("#sortable").sortable();
+
+      $('#enter').click(function() {
+        var dataItem = $("#sortable").sortable("serialize");
+        alert(dataItem);
+        console.log(dataItem);
+
+        //return is added here to avoid ajax code submission in this example
+        return true;
+
+        $.ajax({
+          url: 'save-sorting-position.php',
+          data: dataItem,
+          success: function(data) {
+            alert('Positions saved');
+          }
+        });
+      });
+    });
+    </script>
+
   </head>
   <body>
     <!-- NAVBAR -->
@@ -68,6 +104,58 @@
     </nav>
     <!-- CONTENT -->
     <div id="content">
+    
+      <!--
+      <ul id="sortable">
+        <li id="item-1" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1
+        </li>
+        <li id="item-2" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2
+        </li>
+        <li id="item-3" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3
+        </li>
+        <li id="item-4" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4
+        </li>
+        <li id="item-5" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5
+        </li>
+        <li id="item-6" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6
+        </li>
+        <li id="item-7" class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7
+        </li>
+      </ul>
+      <button id="enter">Enter</button>
+      -->
+
+
+      <ul id="sortable" class="list-group">
+        <li id="li_hunger" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-utensils mr-5"></i> hunger
+        </li>
+        <li id="li_education" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-school mr-5"></i>education
+        </li>
+        <li id="li_children" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-child mr-5"></i> children
+        </li>
+        <li id="li_environment" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-leaf mr-5"></i>environment
+        </li>
+        <li id="li_racial equality" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-users mr-5"></i>racial equality
+        </li>
+        <li id="li_health" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-heartbeat mr-5"></i> health
+        </li>
+      </ul>
+      <button id="enter">Enter</button>
+
+
       <!-- TODO: prevent user from selecting same tag multiple times (remove selected tag from following forms) -->
       <h2>Personalized Charity Recommendations</h2>
       <form id="tag-input">
