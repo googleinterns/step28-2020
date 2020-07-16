@@ -76,7 +76,8 @@ public class AddNewCharityServlet extends HttpServlet
                 categoryTags.add(dbCalls.getTagByName(name));
             }
             dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
-            response.sendRedirect("/addNewCharity.html");
+            request.setAttribute("charity", dbCalls.getCharityByName(request.getParameter("name")));
+            request.getRequestDispatcher("/individualCharirty.jsp").forward(request, response);
         }
         catch (Exception e) {}
     }
