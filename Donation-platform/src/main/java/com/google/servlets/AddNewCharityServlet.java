@@ -31,6 +31,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 
 /* Servlet that returns tag names to be added to charity and
 *  sends add charity form into database.
@@ -75,10 +77,27 @@ public class AddNewCharityServlet extends HttpServlet
             {
                 categoryTags.add(dbCalls.getTagByName(name));
             }
-            dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
-            request.setAttribute("charity", dbCalls.getCharityByName(request.getParameter("name")));
-            request.getRequestDispatcher("/individualCharirty.jsp").forward(request, response);
+            try
+            {
+                // Alerts the user if they tried to add a duplicate charity.
+                Charity checkUnique =  dbCalls.getCharityByName(request.getParameter("name"));
+                showMessageDialog(null, "This is a duplicate entry. Please enter again.");
+                response.sendRedirect("addNewCharity.html");
+            }
+            catch(Exception e)
+            {
+                // Sends user to individual charity page to see what they added to the db.
+                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
+                Gson gson = new Gson();
+                String json = gson.toJson(dbCalls.getCharityByName(request.getParameter("name")));
+                response.setContentType("application/json;");
+                request.setAttribute("charity", json);
+                request.getRequestDispatcher("/individualCharity.jsp").forward(request, response);
+            }
+
+            
+
         }
-        catch (Exception e) {}
+        catch (Exception e) {response.sendRedirect("addNewCharity.html");}
     }
 }
