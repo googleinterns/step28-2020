@@ -17,21 +17,43 @@
   <title>Echoing HTML Request Parameters</title>
 </head>
 <body>
-  <!-- NAVIGATION BAR -->
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-    <a class="navbar-brand" href="index.html">Charities4U</a>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="trending.html">Trending Charities</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="addNewCharity.html">Add Charities</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="browse.html">Browse</a>
-      </li>
-    </ul>
-  </nav>
+    <!-- NAVBAR -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light scrolling-navbar peach-gradient">
+      <!-- Navbar brand -->
+      <a class="navbar-brand" href="/">Charities4U</a>
+      <!-- Collapse button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="basicExampleNav">
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                  <a class="nav-link" href="/trending.html">Trending Charities
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="/addNewCharity.html">Add a Charity</a>
+              </li>
+          </ul>
+          <ul class="navbar-nav ml-auto nav-flex-icons">
+              <!-- User Profile Dropdown -->
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                    aria-labelledby="navbarDropdownMenuLink-333">
+                    <div class="g-signin2" data-onsuccess="fetchSignInUserInfo"></div>
+                    <a class="dropdown-item" a href="#" onclick="signUserOut();">Sign out</a>
+                  </div>
+              </li>
+          </ul>
+      </div>
+    </nav>
 <!-- Card -->
 <script>updateSubmittedCharityOnPage('${charity}');</script>
 <div class="center" id="charities-display"> </div>
