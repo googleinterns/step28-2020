@@ -11,8 +11,13 @@ body {
 }
 
 #tag-section {
+  padding-top: 30px;
   max-width: 500px;
   margin: auto;
+}
+
+#tag-selection-label {
+  font-family: "Roboto", sans-serif;
 }
 
 #sortable { 
@@ -35,7 +40,7 @@ body {
 }
 
 #charity-section {
-  padding-top: 30px;
+  padding-top: 50px;
   margin-left: 30px;
   /* right margin at 30px appears smaller than left so extra 5px to compensate */
   margin-right: 35px;
