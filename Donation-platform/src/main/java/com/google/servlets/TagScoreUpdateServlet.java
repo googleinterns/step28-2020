@@ -28,9 +28,9 @@ import com.google.model.Tag;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 
-/** Servlet that handles requests for the trending page* */
+/** Servlet that handles requests for updating the tag scores */
 @WebServlet("/tag-query")
-public class TagQueryServlet extends HttpServlet {
+public class TagScoreUpdateServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("started doGet");
