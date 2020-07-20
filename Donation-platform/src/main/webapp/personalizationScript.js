@@ -30,8 +30,11 @@ function loadPersonalizedCharities(tagOrder) {
 function processTagsFromRanking(tagOrder) {
   var tags = [];
   if(tagOrder.length > 0) {
-    for(var i = 0; i < 3; i++) {
+    for(var i = 0; i < tagOrder.length; i++) {
       tags.push(tagOrder[i].substring(3, tagOrder[i].length))
+    }
+    for(var i = tagOrder.length; i < 3; i++) {
+      tags.push(null);
     }
   }
   return tags;
@@ -48,6 +51,7 @@ function getPersonalizedCharitiesFromServlet(tagOrder) {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
       },
       body: JSON.stringify(tags),
     })
@@ -144,12 +148,20 @@ $(function() {
       tags.push(tagOrder[i]);
     }
 
-    // If there are 3 tags in the rank, run loadPersonalizedCharities.
-    if(tags.length == 3) {
+    // If there are 1-3 tags in the rank, run loadPersonalizedCharities.
+    if(tags.length > 0 && tags.length <= 3) {
       loadPersonalizedCharities(tags);
-    // Otherwise, alert the user to select 3 causes before re-submitting.
-    } else {
+    // Otherwise, if there are no tags in the rank, alert the user to select
+    // 3 causes before re-submitting (although 1 or 2 tags is also allowed, 
+    // encourage 3 so the user gets the most comprehensive results).
+    } else if(tags.length == 0) {
       alert("Please select 3 causes to get personalized charities.");
+    // Otherwise, if there more than 3 tags in the rank, alert the user to select
+    // no more than 3 causes before re-submitting (NOTE: the function that places 
+    // tags into the ranking already prevents more than 3 tags from being added; 
+    // this is a fail-safe).
+    } else if(tags.length > 3) {
+      alert("Please select no more than 3 tags to get personalized charities");
     }
   });
 });
