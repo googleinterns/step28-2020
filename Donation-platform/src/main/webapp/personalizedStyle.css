@@ -9,6 +9,10 @@ body {
   margin-right: 35px;
 }
 
+#charities-display {
+  padding-top: 30px;
+}
+
 .card {
   border: thick solid black;
 }
@@ -16,4 +20,12 @@ body {
 .card-img-top {
   width: 100%;
   height: 8vw;
+}
+
+.badge {
+  margin: 5px;
+}
+
+.row {
+  margin-bottom: 20px;
 }
