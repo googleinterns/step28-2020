@@ -157,13 +157,13 @@ $(function() {
     // 3 causes before re-submitting (although 1 or 2 tags is also allowed, 
     // encourage 3 so the user gets the most comprehensive results).
     } else if(tags.length == 0) {
-      alert("Please select 3 causes to get personalized charities.");
+      swal("Please select 3 causes to get personalized charities.", "", "info");
     // Otherwise, if there more than 3 tags in the rank, alert the user to select
     // no more than 3 causes before re-submitting (NOTE: the function that places 
     // tags into the ranking already prevents more than 3 tags from being added; 
     // this is a fail-safe).
     } else if(tags.length > 3) {
-      alert("Please select no more than 3 tags to get personalized charities");
+      swal("Please select no more than 3 tags to get personalized charities.", "", "info");
     }
   });
 });
@@ -326,12 +326,12 @@ $(function() {
     // If there are already 3 tags in the rank, then alert the user that 
     // they cannot add another tag.
     } else if(tagOrder.length >= 3) {
-      alert("You cannot add more than 3 causes to your ranking. If you would like to change " +
-            "your selection, please clear the ranking and try again.");
+      swal("You cannot add more than 3 causes to your ranking.", "If you would like to change your selection, " +
+      "please clear the ranking and try again.", "info");
     
     // Otherwise, if newTag is already in the rank, alert the user to select a different tag.
     } else {
-      alert("You already selected " + newTag + ". Please select a different cause.");
+      swal("You already selected " + newTag + ".", "Please select a different cause.", "info");
     }
   });
 });
