@@ -5,7 +5,6 @@
     <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Personalized Charity Recommendations</title>
-    <script src="personalizationScript.js"></script>
     <link rel="stylesheet" href="personalizedStyle.css">
     <script src="userAuth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +25,11 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <!-- PERSONALIZATION JQUERY AND JS -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="personalizationScript.js"></script>
   </head>
   <body>
     <!-- NAVBAR -->
@@ -69,43 +73,38 @@
           </ul>
       </div>
     </nav>
-    <!-- CONTENT -->
-    <div id="content">
-      <!-- TODO: prevent user from selecting same tag multiple times (remove selected tag from following forms) -->
-      <h2>Personalized Charity Recommendations</h2>
-      <form id="tag-input">
-        <label for="tag-1">Select the #1 cause you care about:</label>
-        <select name="tag-1" id="tag-1" multiple>
-          <option value="hunger">hunger</option>
-          <option value="education">education</option>
-          <option value="children">children</option>
-          <option value="environment">environment</option>
-          <option value="racial equality">racial equality</option>
-          <option value="health">health</option>
-        </select>
-        <br><br>
-        <label for="tag-2">Select the #2 cause you care about:</label>
-        <select name="tag-2" id="tag-2" multiple>
-          <option value="hunger">hunger</option>
-          <option value="education">education</option>
-          <option value="children">children</option>
-          <option value="environment">environment</option>
-          <option value="racial equality">racial equality</option>
-          <option value="health">health</option>
-        </select>
-        <br><br>
-        <label for="tag-3">Select the #3 cause you care about:</label>
-        <select name="tag-3" id="tag-3" multiple>
-          <option value="hunger">hunger</option>
-          <option value="education">education</option>
-          <option value="children">children</option>
-          <option value="environment">environment</option>
-          <option value="racial equality">racial equality</option>
-          <option value="health">health</option>
-        </select>
-        <br><br>
-        <button id="submit">Submit</button>
-      </form>
+    <!-- INSTRUCTIONS -->
+    <div id="instructions">
+      <h2>What causes do you care about most?</h2>
+      <p>Rank the causes below to get personalized charity recommendations! Click and drag to order the causes.</p>
+    </div>
+    <!-- TAG RANKING SECTION -->
+    <div id="tag-section">
+      <ul id="sortable" class="list-group">
+        <li id="li_hunger" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-utensils mr-5"></i> hunger
+        </li>
+        <li id="li_education" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-school mr-5"></i>education
+        </li>
+        <li id="li_children" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-child mr-5"></i> children
+        </li>
+        <li id="li_environment" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-leaf mr-5"></i>environment
+        </li>
+        <li id="li_racial equality" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-users mr-5"></i>racial equality
+        </li>
+        <li id="li_health" class="list-group-item">
+          <div class="md-v-line"></div><i class="fas fa-heartbeat mr-5"></i> health
+        </li>
+      </ul>
+      <!-- SUBMIT BUTTON -->
+      <button id="submit" class="btn peach-gradient">Submit</button>
+    </div>
+    <!-- CHATRITIY SECTION -->
+    <div id="charity-section">
       <div class="container-fluid" id="charities-display"> </div>
     </div>
   </body>

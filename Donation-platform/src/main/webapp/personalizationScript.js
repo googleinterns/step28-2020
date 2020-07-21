@@ -15,22 +15,36 @@
 
 /* (1) Fetches personalized charities from PersonalizationServlet.java and
    (2) displays them on personalized.html */
-function loadPersonalizedCharities() {
-  getPersonalizedCharitiesFromServlet().then((charities) => {
+function loadPersonalizedCharities(tagOrder) {
+  getPersonalizedCharitiesFromServlet(tagOrder).then((charities) => {
     updatePersonalizedCardsOnPage(charities);
   });
 }
 
+/* Converts the list of sortable-compitable tag values (which require underscores) 
+   into a list of the top 3 tags with their proper names.
+
+   Example: tagOrder = ["li_health", "li_hunger", "li_education", "li_children", 
+                        "li_environment", "li_racial equality"];
+            tags = ["health", "hunger", "education"]; */
+function processTagsFromRanking(tagOrder) {
+  var tags = [];
+  if(tagOrder.length > 0) {
+    for(var i = 0; i < 3; i++) {
+      tags.push(tagOrder[i].substring(3, tagOrder[i].length))
+    }
+  }
+  return tags;
+}
+
 /* (1) Fetches personalized charities from PersonalizationServlet.java */
-function getPersonalizedCharitiesFromServlet() {
-  // Organize selected tags into a JSON-transferable format
-  const tag_1 = document.getElementById("tag-1").value;
-  const tag_2 = document.getElementById("tag-2").value;
-  const tag_3 = document.getElementById("tag-3").value;
-  const tags = { tag1: tag_1, tag2: tag_2, tag3: tag_3 };
+function getPersonalizedCharitiesFromServlet(tagOrder) {
+  // Process the top 3 ranked tags
+  const tags = processTagsFromRanking(tagOrder);
 
   return fetch('/personalize', {
-      // Send POST request to PersonalizationServlet.java with tag selections as a JSON
+      // Send POST request to PersonalizationServlet.java with tag selections
+      // as a JSON
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -69,16 +83,15 @@ function updatePersonalizedCardsOnPage(charities) {
                 '<div class="card-body">' +
                 '<h4 class="card-title">' + charity.name + '</h4>' +
                 '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
-                '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
+                '<div class="card-footer"><a href=' + charity.link + 
+                ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
                 '</div>' + '</div>';
     });
     toAdd = '<div class="row">' + temp + '</div>';
     cards.innerHTML += toAdd;
 }
 
-/**
- * Displays the tags of a charity in bootstrap badges.
- */
+/* Displays the tags of a charity in bootstrap badges. */
 function displayTags(tags) {
     out = "";
     out += '<h5>'
@@ -89,12 +102,19 @@ function displayTags(tags) {
     return out;
 }
 
-// Runs loadPersonalizedCharities() on page load and when the submit button is pressed
-window.onload=function() {
-  loadPersonalizedCharities();
-  event.preventDefault();
-  document.getElementById('submit').addEventListener("click", function(event) {
-    loadPersonalizedCharities();
-    event.preventDefault();
+/* Both reads in the selected tag order as an array and runs 
+   loadPersonalizedCharities when the submit button is clicked. */
+$(function() {
+  $("#sortable").sortable();
+  $('#submit').click(function() {
+    var tagOrder = $("#sortable").sortable('toArray');
+    console.log(tagOrder);
+    loadPersonalizedCharities(tagOrder);
   });
+});
+
+/* Runs loadPersonalizedCharities on page load where there are no selected tags. */
+window.onload=function() {
+  loadPersonalizedCharities([]);
+  event.preventDefault();
 }
