@@ -13,31 +13,18 @@
 // limitations under the License.
 
 
+/* Runs loadPersonalizedCharities on page load where there are no selected tags. */
+window.onload=function() {
+  loadPersonalizedCharities([]);
+  event.preventDefault();
+}
+
 /* (1) Fetches personalized charities from PersonalizationServlet.java and
    (2) displays them on personalized.html */
 function loadPersonalizedCharities(unprocessedTags) {
   getPersonalizedCharitiesFromServlet(unprocessedTags).then((charities) => {
     updatePersonalizedCardsOnPage(charities);
   });
-}
-
-/* Converts the list of sortable-compitable tag values (which require underscores) 
-   into a list of the top 3 tags with their proper names.
-
-   Example: tagOrder = ["li_health", "li_hunger", "li_education", "li_children", 
-                        "li_environment", "li_racial equality"];
-            tags = ["health", "hunger", "education"]; */
-function processTagsFromRanking(unprocessedTags) {
-  var tags = [];
-  if(unprocessedTags.length > 0) {
-    for(var i = 0; i < unprocessedTags.length; i++) {
-      tags.push(unprocessedTags[i].substring(3, unprocessedTags[i].length))
-    }
-    for(var i = unprocessedTags.length; i < 3; i++) {
-      tags.push(null);
-    }
-  }
-  return tags;
 }
 
 /* (1) Fetches personalized charities from PersonalizationServlet.java */
@@ -95,11 +82,23 @@ function updatePersonalizedCardsOnPage(charities) {
     cards.innerHTML += toAdd;
 }
 
-/* Displays the instructions on how to order the tags */
-function showRankInstructions(tag) {
-    // const tagRank = document.getElementById('sortable');
-    // //tagRank.innerHTML += '<label><b>2. Click and drag to order the causes:</b></label>';
-    // tagRank.innerHTML += '<p class="note">This is a note only</p>';
+/* Converts the list of sortable-compitable tag values (which require underscores) 
+   into a list of the top 3 tags with their proper names.
+
+   Example: tagOrder = ["li_health", "li_hunger", "li_education", "li_children", 
+                        "li_environment", "li_racial equality"];
+            tags = ["health", "hunger", "education"]; */
+function processTagsFromRanking(unprocessedTags) {
+  var tags = [];
+  if(unprocessedTags.length > 0) {
+    for(var i = 0; i < unprocessedTags.length; i++) {
+      tags.push(unprocessedTags[i].substring(3, unprocessedTags[i].length))
+    }
+    for(var i = unprocessedTags.length; i < 3; i++) {
+      tags.push(null);
+    }
+  }
+  return tags;
 }
 
 /* Creates and displays the tag element in the rank given the tag's name */
@@ -135,39 +134,13 @@ function displayTags(tags) {
     return out;
 }
 
-/* Both reads in the selected tag order as an array and runs 
-   loadPersonalizedCharities when the submit button is clicked. */
-$(function() {
-  $("#sortable").sortable({
-    items: 'li'
-  });
+/* Removes all tag elements from the ranking */
+function clearTagRank() {
+  const tagRank = document.getElementById('sortable');
+  tagRank.innerHTML = "";
+}
 
-  $('#submit').click(function() {
-
-    var tagOrder = $("#sortable").sortable('toArray');
-    var tags = [];
-    for(i = 0; i < tagOrder.length; i++) {
-      tags.push(tagOrder[i]);
-    }
-
-    // If there are 1-3 tags in the rank, run loadPersonalizedCharities.
-    if(tags.length > 0 && tags.length <= 3) {
-      loadPersonalizedCharities(tags);
-    // Otherwise, if there are no tags in the rank, alert the user to select
-    // 3 causes before re-submitting (although 1 or 2 tags is also allowed, 
-    // encourage 3 so the user gets the most comprehensive results).
-    } else if(tags.length == 0) {
-      swal("Please select 3 causes to get personalized charities.", "", "info");
-    // Otherwise, if there more than 3 tags in the rank, alert the user to select
-    // no more than 3 causes before re-submitting (NOTE: the function that places 
-    // tags into the ranking already prevents more than 3 tags from being added; 
-    // this is a fail-safe).
-    } else if(tags.length > 3) {
-      swal("Please select no more than 3 tags to get personalized charities.", "", "info");
-    }
-  });
-});
-
+// JQUERY FUNCTIONS:
 /* Creates combobox (search bar + selection menu) with autocomplete. */
 $( function() {
   $.widget( "custom.combobox", {
@@ -309,13 +282,6 @@ $(function() {
   $('#enter').click(function() {
     
     var tagOrder = $("#sortable").sortable('toArray');
-
-    // If this is the first tag to be added to the rank, display
-    // the instructions about how to order the tags in the rank.
-    if(tagOrder.length == 0) {
-      showRankInstructions();
-    }
-
     var newTag = $("#combobox").val();
 
     // If there are are fewer than 3 tags in tagOrder and newTag has not 
@@ -336,12 +302,6 @@ $(function() {
   });
 });
 
-/* Removes all tag elements from the ranking */
-function clearTagRank() {
-  const tagRank = document.getElementById('sortable');
-  tagRank.innerHTML = "";
-}
-
 /* Handles clearing the tag ranking when the clear button is clicked. */
 $(function() {
   $('#clear').click(function() {
@@ -349,8 +309,35 @@ $(function() {
   });
 });
 
-/* Runs loadPersonalizedCharities on page load where there are no selected tags. */
-window.onload=function() {
-  loadPersonalizedCharities([]);
-  event.preventDefault();
-}
+/* Both reads in the selected tag order as an array and runs 
+   loadPersonalizedCharities when the submit button is clicked. */
+$(function() {
+  $("#sortable").sortable({
+    items: 'li'
+  });
+
+  $('#submit').click(function() {
+
+    var tagOrder = $("#sortable").sortable('toArray');
+    var tags = [];
+    for(i = 0; i < tagOrder.length; i++) {
+      tags.push(tagOrder[i]);
+    }
+
+    // If there are 1-3 tags in the rank, run loadPersonalizedCharities.
+    if(tags.length > 0 && tags.length <= 3) {
+      loadPersonalizedCharities(tags);
+    // Otherwise, if there are no tags in the rank, alert the user to select
+    // 3 causes before re-submitting (although 1 or 2 tags is also allowed, 
+    // encourage 3 so the user gets the most comprehensive results).
+    } else if(tags.length == 0) {
+      swal("Please select 3 causes to get personalized charities.", "", "info");
+    // Otherwise, if there more than 3 tags in the rank, alert the user to select
+    // no more than 3 causes before re-submitting (NOTE: the function that places 
+    // tags into the ranking already prevents more than 3 tags from being added; 
+    // this is a fail-safe).
+    } else if(tags.length > 3) {
+      swal("Please select no more than 3 tags to get personalized charities.", "", "info");
+    }
+  });
+});
