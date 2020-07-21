@@ -1,0 +1,9 @@
+#welcome {
+    left: 5px;
+    top: 10px;
+    position: relative;
+}
+
+#index-container{
+  float:left;
+}

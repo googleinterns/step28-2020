@@ -41,17 +41,33 @@ public class BrowseCharitiesServlet extends HttpServlet
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        DbCalls dbCalls = new DbCalls(datastore);
-        try
-        {
-            Collection<Charity> charityCollection = dbCalls.getAllCharities();
-            Gson gson = new Gson();
-            String json = gson.toJson(charityCollection);
-            response.setContentType("application/json;");
-            response.getWriter().println(json);
+        String tagName = request.getParameter("tagName");
+        boolean isTagName = (tagName == null || tagName.length() == 0);
+        // Determines whether to get all charities by default or only charities that are part of the tag provided.
+        if (isTagName == true) {
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            DbCalls dbCalls = new DbCalls(datastore);
+            try
+            {
+                Collection<Charity> charityCollection = dbCalls.getAllCharities();
+                Gson gson = new Gson();
+                String json = gson.toJson(charityCollection);
+                response.setContentType("application/json;");
+                response.getWriter().println(json);
+            }
+            catch (Exception e) {}
+        } else {
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            DbCalls dbCalls = new DbCalls(datastore);
+            try
+            {
+                Collection<Charity> charityCollection = dbCalls.getCharitiesByTag(tagName);
+                Gson gson = new Gson();
+                String json = gson.toJson(charityCollection);
+                response.setContentType("application/json;");
+                response.getWriter().println(json);
+            }
+            catch (Exception e) {}
         }
-        catch (Exception e) {}
     }
 }

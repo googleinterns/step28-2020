@@ -38,6 +38,13 @@ public final class DbSetUpUtils {
   private static final String RACE_EQ = "racial equality";
   private static final String HEALTH = "health";
 
+  private static final String HUNGER_IMAGE = "https://thumbs.dreamstime.com/b/eating-utensils-icon-trendy-eating-utensils-logo-concept-whi-eating-utensils-icon-trendy-eating-utensils-logo-concept-white-131149320.jpg";
+  private static final String EDU_IMAGE = "https://www.pngitem.com/pimgs/m/280-2802271_student-graduation-hat-school-education-icon-png-white.png";
+  private static final String CHILD_IMAGE = "https://previews.123rf.com/images/milanpetrovic/milanpetrovic1804/milanpetrovic180400038/99865919-children-icon-holding-hands-vector-on-white-background-.jpg";
+  private static final String ENV_IMAGE = "https://thumbs.dreamstime.com/z/environment-icon-vector-isolated-white-background-sign-eco-symbols-transparent-134167444.jpg";
+  private static final String RACE_EQ_IMAGE = "https://previews.123rf.com/images/alena08/alena081803/alena08180300068/97706534-people-icon-stick-figure-illustration-people-isolated-on-white-background-vector.jpg";
+  private static final String HEALTH_IMAGE = "https://image.shutterstock.com/image-vector/medical-blank-line-icon-high-260nw-756046810.jpg";
+
   private static final List<String> tags = new ArrayList<String>(Arrays.asList(HUNGER, EDU, CHILD, ENV, RACE_EQ, HEALTH)); 
 
   public static final Map<String, Integer> tagScores =
@@ -49,6 +56,18 @@ public final class DbSetUpUtils {
           put(ENV, 10);
           put(RACE_EQ, 50);
           put(HEALTH, 40);
+        }
+    };
+
+  public static final Map<String, String> tagImages =
+    new HashMap<String, String>() {
+        {
+          put(HUNGER, HUNGER_IMAGE);
+          put(EDU, EDU_IMAGE);
+          put(CHILD, CHILD_IMAGE);
+          put(ENV, ENV_IMAGE);
+          put(RACE_EQ, RACE_EQ_IMAGE);
+          put(HEALTH, HEALTH_IMAGE);
         }
     };
 
@@ -89,7 +108,7 @@ public final class DbSetUpUtils {
   private void addTags() {
     for (String tag: tags) {
         try {
-            db.addTag(tag, tagScores.get(tag));
+            db.addTag(tag, tagScores.get(tag), tagImages.get(tag));
         } catch (Exception e) {
             System.out.println("Failure adding tags: " + e);
         } 

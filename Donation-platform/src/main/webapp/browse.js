@@ -11,15 +11,38 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-document.addEventListener("DOMContentLoaded", getCharitiesForDisplay());
-
+document.addEventListener("DOMContentLoaded", getTagsForDisplay());
+/**
+ * Stores tag image scource with tag name for easy access.
+ */
+function tagToImageSourceMapper(charityCollection)
+{
+    const tagImageDict = {};
+    charityCollection.forEach(function (item)
+    {
+        item["categories"].forEach(function (tag)
+        {
+            if (tag["name"]in tagImageDict)
+            {
+                tagImageDict[tag["name"]].push(tag["imgSrc"]);
+            }
+            else
+            {
+                tagImageDict[tag["name"]] = [];
+                tagImageDict[tag["name"]].push(tag["imgSrc"]);
+            }
+        }
+        );
+    }
+    );
+    return tagImageDict;
+}
 /**
  * Creates dictionary with tag name as key and array of charity objects as values.
  */
-function tagToCharityDictConverter(charityCollection)
+function tagToCharityDictMapper(charityCollection)
 {
-    var tagCharityDict = {};
+    const tagCharityDict = {};
     //Associates each tag name with all its charity objects.
     charityCollection.forEach(function (item)
     {
@@ -53,45 +76,104 @@ function sortDict(dict)
     );
     return orderedDict;
 }
-
-// Populates browse page with charities and categories.
-function populateBrowsePage(charityCollection)
-{
-    var tagCharityDict = tagToCharityDictConverter(charityCollection);
-    var orderedTagCharityDict = sortDict(tagCharityDict);
-    // Clears previous inner HTML data to prevent duplicate data
-    // from being shown on the webpage.
-    document.getElementById('collection').innerHTML = '';
-    // Injects charity and tag data into the webpage.
-    let ul = document.createElement('ul');
-    ul.setAttribute("class", "collapsible");
-    document.getElementById('collection').appendChild(ul);
-    $(document).ready(function ()
-    {
-        $('.collapsible').collapsible();
-    }
-    );
-    for (let tagName in orderedTagCharityDict)
-    {
-        let li = document.createElement('li');
-        ul.appendChild(li);
-        li.innerHTML += '<div class="collapsible-header"><i class="material-icons">menu</i>' + tagName.charAt(0).toUpperCase() + tagName.slice(1) + '</div>';
-        var arr = orderedTagCharityDict[tagName].sort();
-        for (var i = 0, len = arr.length; i < len; i++)
-        {
-            li.innerHTML += '<div class="collapsible-body"><span><a target="_blank" rel="noopener noreferrer" href="' + arr[i]["link"] + '"class="secondary-content"><i class="material-icons">send</i></a>' + arr[i]["name"] + '</span></div>'
-        }
-    };
-}
-
 /**
  * Gets charities for display on the browse page from the Java servlet.
  */
-function getCharitiesForDisplay()
+function getTagsForDisplay()
 {
     fetch('/browseCharities').then(response => response.json()).then((charityCollection) =>
     {
         populateBrowsePage(charityCollection);
     }
     );
+}
+/**
+ * Gets charities for display on the browse page from the Java servlet.
+ */
+function getCharitiesForDisplay(tagName)
+{
+
+    fetch('/browseCharities?tagName=' + tagName).then(response => response.json()).then((charities) =>
+    {
+        updatePageWithCharities(tagName, charities);
+    }
+    );
+}
+/**
+ * Populate browse page with category cards.
+ */
+function populateBrowsePage(charityCollection)
+{
+    var tagCharityDict = tagToCharityDictMapper(charityCollection);
+    var orderedTagCharityDict = sortDict(tagCharityDict);
+    var tagImageDict = tagToImageSourceMapper(charityCollection);
+    // Clears previous inner HTML data to prevent duplicate data
+    // from being shown on the webpage.
+    document.getElementById('collection').innerHTML = '';
+    const cards = document.getElementById('collection');
+    cards.innerHTML = '';
+    var cur_count = 0;
+    var toAdd = '';
+    var temp = '';
+    Object.keys(orderedTagCharityDict).forEach(function (tag)
+    {
+        if (cur_count != 0)
+        {
+            toAdd = '<div >' + temp + '</div>';
+            cards.innerHTML += toAdd;
+            toAdd = '';
+            temp = '';
+        }
+        cur_count += 1;
+        temp += '<div>' +
+        '<div class="card h-100">' +
+        '<img id="card-img" class="card-img-top" src="' + tagImageDict[tag] + '" alt="Card image cap">' +
+        '<div class="card-body">' +
+        '<h4 class="card-title"><a>' + tag.charAt(0).toUpperCase() + tag.slice(1) + '</a></h4>' +
+        '<button id="charity-btn" class="btn btn-primary" onclick="getCharitiesForDisplay(\'' + tag + '\')">See Charities</button>' +
+        '</div>' + '</div>';
+    }
+    );
+    document.getElementById('browse').innerHTML = '';
+    document.getElementById('browse').innerHTML = '<h1>Browse Charities</h1>';
+    toAdd = '<div>' + temp + '</div>';
+    cards.innerHTML += toAdd;
+}
+/**
+ * Updates browse page with thje charities in the selected category card.
+ */
+function updatePageWithCharities(tagName, charities)
+{
+    // Clears previous inner HTML data to prevent duplicate data
+    // from being shown on the webpage.
+    document.getElementById('collection').innerHTML = '';
+    const cards = document.getElementById('collection');
+    cards.innerHTML = '';
+    var cur_count = 0;
+    var toAdd = '';
+    var temp = '';
+    charities.forEach(function (charity)
+    {
+        if (cur_count != 0)
+        {
+            toAdd = '<div >' + temp + '</div>';
+            cards.innerHTML += toAdd;
+            toAdd = '';
+            temp = '';
+        }
+        cur_count += 1;
+        temp += '<div>' +
+        '<div class="card h-100">' +
+        '<img id="card-img" class="card-img-top" src="' + charity.imgSrc + '" alt="Card image cap">' +
+        '<div class="card-body">' +
+        '<h4 class="card-title"><a>' + charity.name + '</a></h4>' +
+        '<p class="card-text">' + charity.description + '</p>' +
+        '<button id="charity-btn" class="btn btn-primary" onclick="location.href=\'' + charity.link + '\'">Donate</button>' +
+        '</div>' + '</div>';
+    }
+    );
+    document.getElementById('browse').innerHTML = '';
+    document.getElementById('browse').innerHTML = '<h1>' + tagName.charAt(0).toUpperCase() + tagName.slice(1) + '</h1>';
+    toAdd = '<div><button id="charity-btn" class="back-btn btn btn-primary" onclick="getTagsForDisplay()" type="button">Back</button>' + temp + '</div>';
+    cards.innerHTML += toAdd;
 }
