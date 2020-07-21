@@ -27,16 +27,25 @@ import com.google.model.Charity;
 import com.google.model.Tag;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Enumeration;
 
 /** Servlet that handles requests for updating the tag scores */
 @WebServlet("/tag-query")
 public class TagScoreUpdateServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson = new Gson();
         System.out.println("started doGet");
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
-        Collection<Tag> tags = findTrending.getTagsDb(); 
+        Collection<Tag> tags = new ArrayList<Tag>();
+        try {
+            tags = findTrending.getTagsDb(); 
+        } catch (Exception e) {
+            System.out.println("Was not able to get all tags with exception: " + e);
+        }
         System.out.println(tags);
 
         String jsonResponse = gson.toJson(tags);
@@ -49,11 +58,15 @@ public class TagScoreUpdateServlet extends HttpServlet {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
 
-        Collection<Tag> tagsToUpdate() = new ArrayList<>();
+        Collection<Tag> tagsToUpdate = new ArrayList<>();
         Enumeration attributeNames = request.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
-            tagsToUpdate.add(attributeNames.nextElement());
+            tagsToUpdate.add((Tag) attributeNames.nextElement());
         }
-        findTrending.updateTagScores(tagsToUpdate);
+        try {
+            findTrending.updateTagScores(tagsToUpdate);
+        } catch (Exception e) {
+            System.out.println("Was not able to update all tag scores with exception: " + e);
+        }
     }
 }
