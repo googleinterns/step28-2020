@@ -2,15 +2,43 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-#content {
+#instructions {
   padding-top: 100px;
   margin-left: 30px;
   /* right margin at 30px appears smaller than left so extra 5px to compensate */
   margin-right: 35px;
+  text-align: center;
 }
 
-#charities-display {
+#tag-section {
+  max-width: 500px;
+  margin: auto;
+}
+
+#sortable { 
+  list-style-type: none; 
+  margin-top: 30px;
+  padding: 0; 
+}
+
+#sortable li { 
+  margin: 0 3px 3px 3px; 
+  padding: 0.4em; 
+  padding-left: 1.5em; 
+  font-size: 1.4em; 
+  height: 50px; 
+}
+
+#sortable li div { 
+  position: absolute; 
+  margin-left: -1.3em; 
+}
+
+#charity-section {
   padding-top: 30px;
+  margin-left: 30px;
+  /* right margin at 30px appears smaller than left so extra 5px to compensate */
+  margin-right: 35px;
 }
 
 .card {
