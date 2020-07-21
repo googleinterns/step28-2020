@@ -16,7 +16,10 @@ body {
 }
 
 #content {
-  padding-top: 60px;
+  padding-top: 100px;
+  margin-left: 30px;
+  /* right margin at 30px appears smaller than left so extra 5px to compensate */
+  margin-right: 35px;
 }
 
 .container {

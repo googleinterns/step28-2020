@@ -74,6 +74,9 @@ public final class DbSetUpUtils {
   }
 
   // add hardcoded charities into the db
+  // NOTE: PersonalizedRecommendationsTest.java relies on populateDatabase
+  // only adding the original set of charities (Feeding America, Red Cross,
+  // St. Jude's, Nature Conservancy, YMCA, ACLU, and American Heart Association).
   public void populateDatabase() {
     addTags();
 
@@ -96,7 +99,6 @@ public final class DbSetUpUtils {
   // add hardcoded charities to db without userRating
   private void addCharities() {
     try {
-      // translate tags to keys
       Tag hunger = db.getTagByName(HUNGER);
       Tag education = db.getTagByName(EDU);
       Tag children = db.getTagByName(CHILD);

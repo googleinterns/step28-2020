@@ -38,8 +38,8 @@ public class PersonalizedRecommendations {
   private Collection<Charity> charities;
 
   // Determine how much the charity's tags matching matters compared to how trending the charity is
-  private final double TAG_MATCHING_WEIGHT = 0.7;
-  private final double CHARITY_TRENDING_WEIGHT = 0.3;
+  private final double TAG_MATCHING_WEIGHT = 1.0;
+  private final double CHARITY_TRENDING_WEIGHT = 0.0; //TODO: make >0 once trending scores accurate
 
   // Increment constants to charity's tagValue for having the given user-selected tags (#1, #2, or
   // #3)
@@ -55,6 +55,9 @@ public class PersonalizedRecommendations {
     this.ds = ds;
     db = new DbCalls(ds);
     DbSetUpUtils setup = new DbSetUpUtils(ds, db);
+    // Call FindTrendingCharities so that trending scores can be considered in personalized order
+    FindTrendingCharities findTrending = new FindTrendingCharities(ds);
+    findTrending.queryDb();
     charities = getAllCharities();
     // only populate database if there is nothing in the database already
     if(charities.size() == 0) {
