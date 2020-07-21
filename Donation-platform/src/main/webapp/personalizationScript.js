@@ -15,8 +15,8 @@
 
 /* (1) Fetches personalized charities from PersonalizationServlet.java and
    (2) displays them on personalized.html */
-function loadPersonalizedCharities(tagOrder) {
-  getPersonalizedCharitiesFromServlet(tagOrder).then((charities) => {
+function loadPersonalizedCharities(unprocessedTags) {
+  getPersonalizedCharitiesFromServlet(unprocessedTags).then((charities) => {
     updatePersonalizedCardsOnPage(charities);
   });
 }
@@ -27,13 +27,13 @@ function loadPersonalizedCharities(tagOrder) {
    Example: tagOrder = ["li_health", "li_hunger", "li_education", "li_children", 
                         "li_environment", "li_racial equality"];
             tags = ["health", "hunger", "education"]; */
-function processTagsFromRanking(tagOrder) {
+function processTagsFromRanking(unprocessedTags) {
   var tags = [];
-  if(tagOrder.length > 0) {
-    for(var i = 0; i < tagOrder.length; i++) {
-      tags.push(tagOrder[i].substring(3, tagOrder[i].length))
+  if(unprocessedTags.length > 0) {
+    for(var i = 0; i < unprocessedTags.length; i++) {
+      tags.push(unprocessedTags[i].substring(3, unprocessedTags[i].length))
     }
-    for(var i = tagOrder.length; i < 3; i++) {
+    for(var i = unprocessedTags.length; i < 3; i++) {
       tags.push(null);
     }
   }
@@ -41,9 +41,9 @@ function processTagsFromRanking(tagOrder) {
 }
 
 /* (1) Fetches personalized charities from PersonalizationServlet.java */
-function getPersonalizedCharitiesFromServlet(tagOrder) {
+function getPersonalizedCharitiesFromServlet(unprocessedTags) {
   // Process the top 3 ranked tags
-  const tags = processTagsFromRanking(tagOrder);
+  const tags = processTagsFromRanking(unprocessedTags);
 
   return fetch('/personalize', {
       // Send POST request to PersonalizationServlet.java with tag selections
@@ -97,8 +97,9 @@ function updatePersonalizedCardsOnPage(charities) {
 
 /* Displays the instructions on how to order the tags */
 function showRankInstructions(tag) {
-    const tagRank = document.getElementById('sortable');
-    tagRank.innerHTML += '<label><b>2. Click and drag to order the causes:</b></label>';
+    // const tagRank = document.getElementById('sortable');
+    // //tagRank.innerHTML += '<label><b>2. Click and drag to order the causes:</b></label>';
+    // tagRank.innerHTML += '<p class="note">This is a note only</p>';
 }
 
 /* Creates and displays the tag element in the rank given the tag's name */
@@ -137,14 +138,15 @@ function displayTags(tags) {
 /* Both reads in the selected tag order as an array and runs 
    loadPersonalizedCharities when the submit button is clicked. */
 $(function() {
-  $("#sortable").sortable();
+  $("#sortable").sortable({
+    items: 'li'
+  });
+
   $('#submit').click(function() {
 
-    // Remove the first element in tagOrder (which is the instruction label)
-    // in order to get the tags.
     var tagOrder = $("#sortable").sortable('toArray');
     var tags = [];
-    for(i = 1; i < tagOrder.length; i++) {
+    for(i = 0; i < tagOrder.length; i++) {
       tags.push(tagOrder[i]);
     }
 
@@ -307,6 +309,7 @@ $(function() {
   $('#enter').click(function() {
     
     var tagOrder = $("#sortable").sortable('toArray');
+
     // If this is the first tag to be added to the rank, display
     // the instructions about how to order the tags in the rank.
     if(tagOrder.length == 0) {
@@ -315,15 +318,14 @@ $(function() {
 
     var newTag = $("#combobox").val();
 
-    // If there are are fewer than 4 elements (3 tags + 1 intruction label)
-    // in tagOrder and newTag has not already been added to the rank,
-    // then add the newTag to the rank.
-    if(tagOrder.length < 4 && !tagOrder.includes("li_" + newTag)) {
+    // If there are are fewer than 3 tags in tagOrder and newTag has not 
+    // already been added to the rank, then add the newTag to the rank.
+    if(tagOrder.length < 3 && !tagOrder.includes("li_" + newTag)) {
       placeSelectedTagInRank(newTag);
     
-    // If there are already 3 tags in the rank (4 elements = 3 tags + 1 intruction label),
-    // then alert the user that they cannot add another tag.
-    } else if(tagOrder.length >= 4) {
+    // If there are already 3 tags in the rank, then alert the user that 
+    // they cannot add another tag.
+    } else if(tagOrder.length >= 3) {
       alert("You cannot add more than 3 causes to your ranking. If you would like to change " +
             "your selection, please clear the ranking and try again.");
     
