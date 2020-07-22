@@ -92,15 +92,16 @@ function updateContOnPage(charities) {
             temp = '';
         }
         cur_count += 1;
-        temp += '<div class="col-3">' + 
-                '<div class="card text-center">' + 
-                '<div class="card-header">Trending #' + cur_count + '</div>' + 
-                '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' +
-                '<div class="card-body">' +
-                '<h4 class="card-title">' + charity.name + '</h4>' +
-                '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
-                '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
-                '</div>' + '</div>';
+        // temp += '<div class="col-3">' + 
+        //         '<div class="card text-center">' + 
+        //         '<div class="card-header">Trending #' + cur_count + '</div>' + 
+        //         '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' +
+        //         '<div class="card-body">' +
+        //         '<h4 class="card-title">' + charity.name + '</h4>' +
+        //         '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
+        //         '<div class="card-footer"><a href=' + charity.link + ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
+        //         '</div>' + '</div>';
+        temp += card(charity)
         console.log(cur_count);
     });
     toAdd = '<div class="row">' + temp + '</div>';
