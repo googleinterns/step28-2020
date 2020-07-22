@@ -85,9 +85,10 @@ function updatePersonalizedCardsOnPage(charities) {
 /* Converts the list of sortable-compitable tag values (which require underscores) 
    into a list of the top 3 tags with their proper names.
 
-   Example: tagOrder = ["li_health", "li_hunger", "li_education", "li_children", 
-                        "li_environment", "li_racial equality"];
-            tags = ["health", "hunger", "education"]; */
+   Example: 
+   Input: ["li_health", "li_hunger", "li_education", "li_children", 
+           "li_environment", "li_racial equality"];
+   Output: ["health", "hunger", "education"]; */
 function processTagsFromRanking(unprocessedTags) {
   var tags = [];
   if(unprocessedTags.length > 0) {
