@@ -25,12 +25,15 @@ public final class Tag {
   private String name;
   // Trending score calculated based on trending score algorithim for tag.
   private Double trendingScore;
+  // Image for showing each tag category.
+  private String imgSrc;
 
   // Initialize all fields of a Tag
-  public Tag(Key id, String name, Double trendingScore) {
+  public Tag(Key id, String name, Double trendingScore, String imgSrc) {
     this.id = id;
     this.name = name;
     this.trendingScore = trendingScore;
+    this.imgSrc = imgSrc;
   }
   // [END fs_class_definition]
 
@@ -60,5 +63,13 @@ public final class Tag {
 
   public void setTrendingScoreTag(Double trendingScore) {
     this.trendingScore = trendingScore;
+  }
+
+  public String getImgSrc() {
+    return imgSrc;
+  }
+
+  public void setImgSrc(String imgSrc) {
+    this.imgSrc = imgSrc;
   }
 }
