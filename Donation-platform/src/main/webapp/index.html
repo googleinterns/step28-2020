@@ -3,11 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
-    <script src="userAuth.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Personalized Charity Recommendations</title>
-    <link rel="stylesheet" href="personalizedStyle.css">
-    <script src="userAuth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- MATERIAL DESIGN BOOTSTRAP IMPORTS -->
     <!-- Font Awesome -->
@@ -26,11 +23,17 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-    <!-- PERSONALIZATION JQUERY AND JS -->
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-    <script src="https://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- PERSONALIZATION JQUERY, CCS, AND JS -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="personalizedStyle.css">
+    <link rel="stylesheet" href="tagSelectionStyle.css">
     <script src="personalizationScript.js"></script>
+    <!-- USER AUTH JavaScript -->
+    <script src="userAuth.js"></script>
   </head>
   <body>
     <!-- NAVBAR -->
@@ -72,33 +75,32 @@
     </nav>
     <!-- INSTRUCTIONS -->
     <div id="instructions">
-      <h2>What causes do you care about most?</h2>
-      <p>Rank the causes below to get personalized charity recommendations! Click and drag to order the causes.</p>
+      <h2>Get personalized charity recommendations based on your interests</h2>
     </div>
-    <!-- TAG RANKING SECTION -->
     <div id="tag-section">
+      <!-- TAG SELECTION SECTION -->
+      <div class="ui-widget">
+        <div id="tag-selection-label">
+          <label><b>1. Select 3 causes you most care about:</b></label>
+        </div>
+        <select id="combobox">
+          <option value="">Select one...</option>
+          <option value="children">children</option>
+          <option value="education">education</option>
+          <option value="environment">environment</option>
+          <option value="health">health</option>
+          <option value="hunger">hunger</option>
+          <option value="racial equality">racial equality</option>
+        </select>
+      </div>
+      <button id="enter" class="btn peach-gradient">Add Cause</button>
+      <!-- TAG RANKING SECTION -->
       <ul id="sortable" class="list-group">
-        <li id="li_hunger" class="list-group-item">
-          <div class="md-v-line"></div><i class="fas fa-utensils mr-5"></i> hunger
-        </li>
-        <li id="li_education" class="list-group-item">
-          <div class="md-v-line"></div><i class="fas fa-school mr-5"></i>education
-        </li>
-        <li id="li_children" class="list-group-item">
-          <div class="md-v-line"></div><i class="fas fa-child mr-5"></i> children
-        </li>
-        <li id="li_environment" class="list-group-item">
-          <div class="md-v-line"></div><i class="fas fa-leaf mr-5"></i>environment
-        </li>
-        <li id="li_racial equality" class="list-group-item">
-          <div class="md-v-line"></div><i class="fas fa-users mr-5"></i>racial equality
-        </li>
-        <li id="li_health" class="list-group-item">
-          <div class="md-v-line"></div><i class="fas fa-heartbeat mr-5"></i> health
-        </li>
+        <p><b>2. Click and drag to order the causes:</b></p>
       </ul>
-      <!-- SUBMIT BUTTON -->
-      <button id="submit" class="btn peach-gradient">Submit</button>
+      <div id="tag-rank-buttons"></div>
+      <button id="submit" class="btn peach-gradient">Get Personalized Charities</button>
+      <button id="clear" class="btn peach-gradient">Clear Ranking</button>
     </div>
     <!-- CHATRITIY SECTION -->
     <div id="charity-section">

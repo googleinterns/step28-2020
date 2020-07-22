@@ -54,9 +54,11 @@ public class PersonalizationServlet extends HttpServlet {
       tags = Arrays.asList();
     // Otherwise, set the tags list to the processed list of tags.
     } else {
-      // For ["hunger","education","children"], removes [" at beginning and "] at end
-      // and splits the remaining string according the the "," between the tag names.
-      tags = Arrays.asList((requestData.substring(2, requestData.length() - 2)).split("\",\""));
+      // Splits requestData (i.e. ["hunger","education","children"]) by non-alphanumeric characters
+      // (except for spaces since a tag such as "racial equality" should not be split into "racial" 
+      // and "equality") using a regex, and strips out the leading delimiter before doing so in order
+      // to prevent split() from creating a leading empty string.      
+      tags = Arrays.asList(requestData.replace("[\"", "").split("[^\\w ]+"));
     }
 
     // If a user session already exists and new tags have not been selected
