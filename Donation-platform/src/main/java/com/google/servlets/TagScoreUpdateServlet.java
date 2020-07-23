@@ -57,16 +57,20 @@ public class TagScoreUpdateServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
-
+        System.out.println("reqeust: " + request);
         Collection<Tag> tagsToUpdate = new ArrayList<>();
         Enumeration attributeNames = request.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
             tagsToUpdate.add((Tag) attributeNames.nextElement());
         }
         try {
+            System.out.println(tagsToUpdate);
             findTrending.updateTagScores(tagsToUpdate);
         } catch (Exception e) {
+            response.getWriter().println("unsuccessful update");
             System.out.println("Was not able to update all tag scores with exception: " + e);
+            return;
         }
+        response.getWriter().println("successfully updated all tags");
     }
 }

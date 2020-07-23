@@ -2,6 +2,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="userAuth.js"></script>
+  <link rel="stylesheet" href="userAuth.css">
   <link rel="stylesheet" href="individualCharity.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,17 +34,21 @@
       <div class="collapse navbar-collapse" id="basicExampleNav">
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item ">
                   <a class="nav-link" href="/trending.html">Trending Charities
                   </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item active">
                   <a class="nav-link" href="/addNewCharity.html">Add a Charity</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/browse.html">Browse</a>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto nav-flex-icons">
               <!-- User Profile Dropdown -->
               <li class="nav-item dropdown">
+                  <div id="index-container"></div>
                   <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user"></i>

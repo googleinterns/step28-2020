@@ -64,7 +64,7 @@ public class DbCallsTest {
   private static final String USERS = "Users";
   private static final String NAME = "name";
   private static final String LINK = "link";
-  private static final String IMGSRC = "imgrc";
+  private static final String IMGSRC = "imgSrc";
   private static final String CATEGORIES = "categories";
   private static final String DESCRIPTION = "description";
   private static final String USERNAME = "userName";
@@ -92,7 +92,7 @@ public class DbCallsTest {
   // Test checks if function adds tag to the database.
   @Test
   public void addTagTest() throws Exception {
-    dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
+    dbCalls.addTag(TAG_A, TRENDINGSCORE_A, IMGSRC);
     assertEquals(1, ds.prepare(new Query(TAG)).countEntities(withLimit(10)));
   }
   // Test checks if function adds user to the database.
@@ -112,8 +112,8 @@ public class DbCallsTest {
   // Test checks if function returns all tags in database.
   @Test
   public void getAllTagsTest() throws Exception {
-    dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
-    dbCalls.addTag(TAG_B, TRENDINGSCORE_B);
+    dbCalls.addTag(TAG_A, TRENDINGSCORE_A, IMGSRC);
+    dbCalls.addTag(TAG_B, TRENDINGSCORE_B, IMGSRC);
     Collection<Tag> expected = dbCalls.getAllTags();
     assertEquals(expected.size(), ds.prepare(new Query(TAG)).countEntities(withLimit(10)));
   }
@@ -136,14 +136,14 @@ public class DbCallsTest {
   // Test checks if object returned corresponds to name passed in.
   @Test
   public void getTagByNameTest() throws Exception {
-    dbCalls.addTag(PLACEHOLDER_STRING, 6.0);
+    dbCalls.addTag(PLACEHOLDER_STRING, 6.0, IMGSRC);
     Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     assertEquals(PLACEHOLDER_STRING, actualTag.getName());
   }
   // Test checks if function returns all charities that contain certain tag.
   @Test
   public void getCharitiesByTagTest() throws Exception {
-    dbCalls.addTag(PLACEHOLDER_STRING, 6.0);
+    dbCalls.addTag(PLACEHOLDER_STRING, 6.0, IMGSRC);
     Tag blmTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     Collection<Tag> CATEGORY_A_WITH_TAG = Arrays.asList(blmTag);
     Collection<Tag> CATEGORY_B_WITH_TAG = Arrays.asList(blmTag);
@@ -187,6 +187,7 @@ public class DbCallsTest {
     Entity tagEntity = new Entity(TAG);
     tagEntity.setProperty(NAME, TAG_A);
     tagEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
+    tagEntity.setProperty(IMGSRC, IMGSRC_A);
     Tag actual = dbCalls.setTagClass(tagEntity);
     assertEquals(actual.getName(), TAG_A);
   }
@@ -214,7 +215,7 @@ public class DbCallsTest {
   // Test checks if function updates database entity properties.
   @Test
   public void updateTagTest() throws Exception {
-    dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
+    dbCalls.addTag(TAG_A, TRENDINGSCORE_A, IMGSRC_A);
     Tag tag = dbCalls.getTagByName(TAG_A);
     tag.setName(PLACEHOLDER_STRING);
     dbCalls.updateTag(tag);
@@ -243,7 +244,7 @@ public class DbCallsTest {
   // Test checks if function gets Tag by ID from database.
   @Test
   public void getTagByIdTest() throws Exception {
-    dbCalls.addTag(TAG_A, TRENDINGSCORE_A);
+    dbCalls.addTag(TAG_A, TRENDINGSCORE_A, IMGSRC_A);
     Tag expectedTag = dbCalls.getTagByName(TAG_A);
     Key expectedTagId = expectedTag.getId();
     Tag actualTag = dbCalls.getTagById(expectedTagId);
@@ -252,7 +253,7 @@ public class DbCallsTest {
   // Test checks if we can get Tag objects from collection of Ids.
   @Test
   public void getTagObjectsByIdsTest() throws Exception {
-    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A);
+    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A, IMGSRC_A);
     Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     Key actualKey = actualTag.getId();
     List<Key> CATEGORY_A_WITHKEY = Arrays.asList(actualKey);
@@ -276,7 +277,7 @@ public class DbCallsTest {
   // Test checks if we can get Charity objects from collection of Ids.
   @Test
   public void getTagIdsByObjectTest() throws Exception {
-    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A);
+    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A, IMGSRC_A);
     Tag expectedTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     Key expectedKey = expectedTag.getId();
     Collection<Tag> CATEGORY_A_WITHTAG = Arrays.asList(expectedTag);

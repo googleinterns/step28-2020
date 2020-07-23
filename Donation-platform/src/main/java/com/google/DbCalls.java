@@ -76,10 +76,11 @@ public final class DbCalls {
     datastore.put(charityEntity);
   }
   // Function adds tag to the database.
-  public void addTag(String name, double trendingScore) throws Exception {
+  public void addTag(String name, double trendingScore, String imgSrc) throws Exception {
     Entity tagEntity = new Entity(TAG);
     tagEntity.setProperty(NAME, name);
     tagEntity.setProperty(TRENDING_SCORE, trendingScore);
+    tagEntity.setProperty(IMGSRC, imgSrc);
     datastore.put(tagEntity);
   }
   // Function adds user to the database.
@@ -207,8 +208,9 @@ public final class DbCalls {
     Key id = (Key) entity.getKey();
     String name = (String) entity.getProperty(NAME);
     double trendingScore = (double) entity.getProperty(TRENDING_SCORE);
+    String imgSrc = (String) entity.getProperty(IMGSRC);
     // Converts data to tag object.
-    return new Tag(id, name, trendingScore);
+    return new Tag(id, name, trendingScore, imgSrc);
   }
   // Function turns entity into class.
   public Users setUsersClass(Entity entity) throws Exception {
@@ -239,6 +241,7 @@ public final class DbCalls {
     Entity tagEntity = datastore.get(tag.getId());
     tagEntity.setProperty(NAME, tag.getName());
     tagEntity.setProperty(TRENDING_SCORE, tag.getTrendingScoreTag());
+    tagEntity.setProperty(IMGSRC, tag.getImgSrc());
     datastore.put(tagEntity);
   }
   // Function takes modified class and updates database.

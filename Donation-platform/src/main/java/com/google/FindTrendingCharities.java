@@ -167,6 +167,7 @@ public final class FindTrendingCharities {
 
     public void updateTagScores(Collection<Tag> tagsToUpdate) throws Exception {
         for (Tag tag: tagsToUpdate) {
+            System.out.println(tag);
             db.updateTag(tag);
         }
     }

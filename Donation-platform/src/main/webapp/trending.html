@@ -2,10 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Trending Page</title>
     <script src="trendingScript.js"></script>
     <script src="uniformUI.js"></script>
+    <script src="userAuth.js"></script>
     <link rel="stylesheet" href="trendingStyle.css">
+    <link rel="stylesheet" href="userAuth.css">
     <!-- MATERIAL DESIGN BOOTSTRAP IMPORTS -->
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -46,10 +50,14 @@
               <li class="nav-item">
                   <a class="nav-link" href="/addNewCharity.html">Add a Charity</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/browse.html">Browse</a>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto nav-flex-icons">
               <!-- User Profile Dropdown -->
               <li class="nav-item dropdown">
+                  <div id="index-container"></div>
                   <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user"></i>

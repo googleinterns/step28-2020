@@ -3,12 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
-    <script src="userAuth.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Personalized Charity Recommendations</title>
-    <script src="personalizationScript.js"></script>
-    <link rel="stylesheet" href="personalizedStyle.css">
-    <script src="userAuth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- MATERIAL DESIGN BOOTSTRAP IMPORTS -->
     <!-- Font Awesome -->
@@ -27,12 +23,23 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- PERSONALIZATION JQUERY, CCS, AND JS -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="personalizedStyle.css">
+    <link rel="stylesheet" href="tagSelectionStyle.css">
+    <script src="personalizationScript.js"></script>
+    <!-- USER AUTH JavaScript -->
+    <script src="userAuth.js"></script>
   </head>
   <body>
     <!-- NAVBAR -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-light scrolling-navbar peach-gradient">
       <!-- Navbar brand -->
-      <a class="navbar-brand" href="/">Charities4U</a>
+      <a class="navbar-brand active" href="/">Charities4U</a>
       <!-- Collapse button -->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -42,17 +49,21 @@
       <div class="collapse navbar-collapse" id="basicExampleNav">
           <!-- Links -->
           <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+              <li class="nav-item">
                   <a class="nav-link" href="/trending.html">Trending Charities
                   </a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="/addNewCharity.html">Add a Charity</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/browse.html">Browse</a>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto nav-flex-icons">
               <!-- User Profile Dropdown -->
               <li class="nav-item dropdown">
+                  <div id="index-container"></div>
                   <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user"></i>
@@ -66,43 +77,37 @@
           </ul>
       </div>
     </nav>
-    <!-- CONTENT -->
-    <div id="content">
-      <!-- TODO: prevent user from selecting same tag multiple times (remove selected tag from following forms) -->
-      <h2>Personalized Charity Recommendations</h2>
-      <form id="tag-input">
-        <label for="tag-1">Select the #1 cause you care about:</label>
-        <select name="tag-1" id="tag-1" multiple>
-          <option value="hunger">hunger</option>
-          <option value="education">education</option>
+    <!-- INSTRUCTIONS -->
+    <div id="instructions">
+      <h2>Get personalized charity recommendations based on your interests</h2>
+    </div>
+    <div id="tag-section">
+      <!-- TAG SELECTION SECTION -->
+      <div class="ui-widget">
+        <div id="tag-selection-label">
+          <label><b>1. Select 3 causes you most care about:</b></label>
+        </div>
+        <select id="combobox">
+          <option value="">Select one...</option>
           <option value="children">children</option>
-          <option value="environment">environment</option>
-          <option value="racial equality">racial equality</option>
-          <option value="health">health</option>
-        </select>
-        <br><br>
-        <label for="tag-2">Select the #2 cause you care about:</label>
-        <select name="tag-2" id="tag-2" multiple>
-          <option value="hunger">hunger</option>
           <option value="education">education</option>
-          <option value="children">children</option>
           <option value="environment">environment</option>
-          <option value="racial equality">racial equality</option>
           <option value="health">health</option>
-        </select>
-        <br><br>
-        <label for="tag-3">Select the #3 cause you care about:</label>
-        <select name="tag-3" id="tag-3" multiple>
           <option value="hunger">hunger</option>
-          <option value="education">education</option>
-          <option value="children">children</option>
-          <option value="environment">environment</option>
           <option value="racial equality">racial equality</option>
-          <option value="health">health</option>
         </select>
-        <br><br>
-        <button id="submit">Submit</button>
-      </form>
+      </div>
+      <button id="enter" class="btn peach-gradient">Add Cause</button>
+      <!-- TAG RANKING SECTION -->
+      <ul id="sortable" class="list-group">
+        <p><b>2. Click and drag to order the causes:</b></p>
+      </ul>
+      <div id="tag-rank-buttons"></div>
+      <button id="submit" class="btn peach-gradient">Get Personalized Charities</button>
+      <button id="clear" class="btn peach-gradient">Clear Ranking</button>
+    </div>
+    <!-- CHATRITIY SECTION -->
+    <div id="charity-section">
       <div class="container-fluid" id="charities-display"> </div>
     </div>
   </body>
