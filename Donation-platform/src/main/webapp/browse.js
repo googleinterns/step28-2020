@@ -11,7 +11,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 document.addEventListener("DOMContentLoaded", getTagsForDisplay());
+
 /**
  * Stores tag image scource with tag name for easy access.
  */
@@ -77,7 +79,7 @@ function sortDict(dict)
     return orderedDict;
 }
 /**
- * Gets charities for display on the browse page from the Java servlet.
+ * Gets tags for display on the browse page from the Java servlet.
  */
 function getTagsForDisplay()
 {
@@ -92,9 +94,10 @@ function getTagsForDisplay()
  */
 function getCharitiesForDisplay(tagName)
 {
-
+    localStorage.setItem('tagName', tagName);
     fetch('/browseCharities?tagName=' + tagName).then(response => response.json()).then((charities) =>
     {
+        localStorage.setItem('charities', JSON.stringify(charities))
         updatePageWithCharities(tagName, charities);
     }
     );
@@ -104,76 +107,62 @@ function getCharitiesForDisplay(tagName)
  */
 function populateBrowsePage(charityCollection)
 {
+    document.getElementById('pagination').innerHTML = '';
     var tagCharityDict = tagToCharityDictMapper(charityCollection);
     var orderedTagCharityDict = sortDict(tagCharityDict);
     var tagImageDict = tagToImageSourceMapper(charityCollection);
     // Clears previous inner HTML data to prevent duplicate data
     // from being shown on the webpage.
-    document.getElementById('collection').innerHTML = '';
+    document.getElementById('collection').innerHTML = "";
     const cards = document.getElementById('collection');
-    cards.innerHTML = '';
-    var cur_count = 0;
-    var toAdd = '';
-    var temp = '';
+    var charityDivElement;
     Object.keys(orderedTagCharityDict).forEach(function (tag)
     {
-        if (cur_count != 0)
-        {
-            toAdd = '<div >' + temp + '</div>';
-            cards.innerHTML += toAdd;
-            toAdd = '';
-            temp = '';
-        }
-        cur_count += 1;
-        temp += '<div>' +
-        '<div class="card h-100">' +
-        '<img id="card-img" class="card-img-top" src="' + tagImageDict[tag] + '" alt="Card image cap">' +
-        '<div class="card-body">' +
-        '<h4 class="card-title"><a>' + tag.charAt(0).toUpperCase() + tag.slice(1) + '</a></h4>' +
-        '<button id="charity-btn" class="btn btn-primary" onclick="getCharitiesForDisplay(\'' + tag + '\')">See Charities</button>' +
-        '</div>' + '</div>';
+        charityDivElement = document.createElement( "div" );
+        charityDivElement.setAttribute("class", "charity-card");
+        var charityDivInternalElement = document.createElement( "div" );
+        charityDivInternalElement.setAttribute("class", "card charity-card-internal");
+        var charityImgElement = document.createElement( "img" );
+        charityImgElement.setAttribute("id", "card-img");
+        charityImgElement.setAttribute("class", "card-img-top");
+        charityImgElement.setAttribute("src", tagImageDict[tag]);
+        charityImgElement.setAttribute("alt", "Card image" );
+        var charityDivBodyElement = document.createElement( "div" );
+        charityDivBodyElement.setAttribute("class", "card-body d-flex flex-column");
+        var charityHeaderElement = document.createElement( "h4" );
+        charityHeaderElement.setAttribute("class", "card-title");
+        var headerText = document.createTextNode(tag.charAt(0).toUpperCase() + tag.slice(1));
+        charityHeaderElement.appendChild(headerText);
+        var seeCharityButtonElement = document.createElement( "button" );
+        seeCharityButtonElement.setAttribute("class", "mt-auto btn btn-primary");
+        seeCharityButtonElement.setAttribute("id", "charity-btn");
+        var seeCharityText = document.createTextNode("See Charities");
+        seeCharityButtonElement.appendChild(seeCharityText);
+        seeCharityButtonElement.addEventListener("click", function() {
+            getCharitiesForDisplay(tag);
+        });
+        charityDivElement.appendChild(charityDivInternalElement);
+        charityDivInternalElement.appendChild(charityImgElement);
+        charityDivInternalElement.appendChild(charityDivBodyElement);
+        charityDivBodyElement.appendChild(charityHeaderElement);
+        charityDivBodyElement.appendChild(seeCharityButtonElement);
+        cards.appendChild(charityDivElement);
     }
     );
     document.getElementById('browse').innerHTML = '';
-    document.getElementById('browse').innerHTML = '<h1>Browse Charities</h1>';
-    toAdd = '<div>' + temp + '</div>';
-    cards.innerHTML += toAdd;
+    var browseHeaderElement = document.createElement( "h1" );
+    var browseHeaderText = document.createTextNode("Browse Charities");
+    browseHeaderElement.appendChild(browseHeaderText);
+    document.getElementById('browse').appendChild(browseHeaderElement);
 }
 /**
  * Updates browse page with thje charities in the selected category card.
  */
 function updatePageWithCharities(tagName, charities)
 {
-    // Clears previous inner HTML data to prevent duplicate data
-    // from being shown on the webpage.
-    document.getElementById('collection').innerHTML = '';
-    const cards = document.getElementById('collection');
-    cards.innerHTML = '';
-    var cur_count = 0;
-    var toAdd = '';
-    var temp = '';
-    charities.forEach(function (charity)
-    {
-        if (cur_count != 0)
-        {
-            toAdd = '<div >' + temp + '</div>';
-            cards.innerHTML += toAdd;
-            toAdd = '';
-            temp = '';
-        }
-        cur_count += 1;
-        temp += '<div>' +
-        '<div class="card h-100">' +
-        '<img id="card-img" class="card-img-top" src="' + charity.imgSrc + '" alt="Card image cap">' +
-        '<div class="card-body">' +
-        '<h4 class="card-title"><a>' + charity.name + '</a></h4>' +
-        '<p class="card-text">' + charity.description + '</p>' +
-        '<button id="charity-btn" class="btn btn-primary" onclick="location.href=\'' + charity.link + '\'">Donate</button>' +
-        '</div>' + '</div>';
-    }
-    );
-    document.getElementById('browse').innerHTML = '';
-    document.getElementById('browse').innerHTML = '<h1>' + tagName.charAt(0).toUpperCase() + tagName.slice(1) + '</h1>';
-    toAdd = '<div><button id="charity-btn" class="back-btn btn btn-primary" onclick="getTagsForDisplay()" type="button">Back</button>' + temp + '</div>';
-    cards.innerHTML += toAdd;
+    const pageList = new Array();
+    const currentPage = 1;
+    const numberPerPage = 9;
+    let pagination = new Pagination(charities, tagName, pageList, currentPage, numberPerPage);
+    pagination.load();
 }

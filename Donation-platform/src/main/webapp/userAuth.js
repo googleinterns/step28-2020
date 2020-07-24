@@ -20,7 +20,9 @@ function fetchSignInUserInfo(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     fetch('/userDetails?idtoken=' + id_token).then(response => response.json()).then((object) => {
         document.getElementById('index-container').innerHTML = '<p id="welcome">' + object["userName"] + '</p>';
+        document.getElementById('sign-out-btn').style.display = "block";
     });
+
 }
 /**
  * Signs the user out of the app.
@@ -29,5 +31,8 @@ function signUserOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function() {
         document.getElementById('index-container').innerHTML = "";
+        document.getElementById('sign-out-btn').style.display = "none";
     });
 }
+
+

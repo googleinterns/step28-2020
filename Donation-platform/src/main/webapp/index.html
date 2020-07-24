@@ -6,6 +6,7 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Personalized Charity Recommendations</title>
     <link rel="stylesheet" href="personalizedStyle.css">
+    <link rel="stylesheet" href="userAuth.css">
     <script src="userAuth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- MATERIAL DESIGN BOOTSTRAP IMPORTS -->
@@ -66,8 +67,8 @@
                   </a>
                   <div class="dropdown-menu dropdown-menu-right dropdown-default"
                     aria-labelledby="navbarDropdownMenuLink-333">
-                    <div class="g-signin2" data-onsuccess="fetchSignInUserInfo"></div>
-                    <a class="dropdown-item" a href="#" onclick="signUserOut();">Sign out</a>
+                    <div id="sign-in-btn" class="g-signin2" data-onsuccess="fetchSignInUserInfo"></div>
+                    <a id="sign-out-btn" class="dropdown-item" a href="#" onclick="signUserOut();">Sign out</a>
                   </div>
               </li>
           </ul>
