@@ -159,4 +159,15 @@ public final class FindTrendingCharities {
     }
     return (sumScores / numTags);
   }
+
+    public Collection<Tag> getTagsDb() throws Exception{
+        Collection<Tag> tags= db.getAllTags();
+        return tags;
+    }
+
+    public void updateTagScores(Collection<Tag> tagsToUpdate) throws Exception {
+        for (Tag tag: tagsToUpdate) {
+            db.updateTag(tag);
+        }
+    }
 }
