@@ -25,11 +25,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.DbCalls;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Enumeration;
+import java.io.*;
 
 /** Servlet that handles requests for updating the tag scores */
 @WebServlet("/tag-query")
@@ -56,21 +58,29 @@ public class TagScoreUpdateServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
+        DbCalls dbCalls = new DbCalls(ds);
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
-        System.out.println("reqeust: " + request);
+
+        String outputmsg;
         Collection<Tag> tagsToUpdate = new ArrayList<>();
         Enumeration attributeNames = request.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
-            tagsToUpdate.add((Tag) attributeNames.nextElement());
+            String current = (String) attributeNames.nextElement();
+            //tagsToUpdate.add((Tag) attributeNames.nextElement());
+            //System.out.println(request.getAttribute(current));
+            tagsToUpdate.add((Tag) request.getAttribute(current));
         }
+
         try {
             System.out.println(tagsToUpdate);
             findTrending.updateTagScores(tagsToUpdate);
+            outputmsg = "ok";
         } catch (Exception e) {
-            response.getWriter().println("unsuccessful update");
+            outputmsg = "not ok";
             System.out.println("Was not able to update all tag scores with exception: " + e);
-            return;
         }
-        response.getWriter().println("successfully updated all tags");
+ 
+        response.setContentType("text/html");
+        response.getWriter().println(outputmsg);
     }
 }
