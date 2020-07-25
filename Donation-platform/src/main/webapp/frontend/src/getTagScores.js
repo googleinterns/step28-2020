@@ -101,7 +101,7 @@ function getTagsAndUpdate() {
                                     tag.trendingScore = 0;
                                 }
                                 //console.log("trial" , tagArray);
-                                sendPostQuery(tagArray);
+                                sendPostQuery(tag);
                                 //last point where tagArray updates are in scope
                             });
                         }

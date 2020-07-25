@@ -62,25 +62,41 @@ public class TagScoreUpdateServlet extends HttpServlet {
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
 
         String outputmsg;
-        Collection<Tag> tagsToUpdate = new ArrayList<>();
-        Enumeration attributeNames = request.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            String current = (String) attributeNames.nextElement();
-            //tagsToUpdate.add((Tag) attributeNames.nextElement());
-            //System.out.println(request.getAttribute(current));
-            tagsToUpdate.add((Tag) request.getAttribute(current));
-        }
 
+        BufferedReader reader = request.getReader();
+        Gson gson = new Gson();
+
+        Tag tag = gson.fromJson(reader, Tag.class);
+        Collection<Tag> tagsToUpdate = new ArrayList<Tag>();
+        tagsToUpdate.add(tag);
         try {
-            System.out.println(tagsToUpdate);
             findTrending.updateTagScores(tagsToUpdate);
             outputmsg = "ok";
         } catch (Exception e) {
             outputmsg = "not ok";
             System.out.println("Was not able to update all tag scores with exception: " + e);
         }
- 
+
         response.setContentType("text/html");
         response.getWriter().println(outputmsg);
+    
+        // Collection<Tag> tagsToUpdate = new ArrayList<>();
+        // Enumeration attributeNames = request.getAttributeNames();
+        // while (attributeNames.hasMoreElements()) {
+        //     String current = (String) attributeNames.nextElement();
+        //     //tagsToUpdate.add((Tag) attributeNames.nextElement());
+        //     //System.out.println(request.getAttribute(current));
+        //     tagsToUpdate.add((Tag) request.getAttribute(current));
+        // }
+
+        // try {
+        //     System.out.println(tagsToUpdate);
+        //     findTrending.updateTagScores(tagsToUpdate);
+        //     outputmsg = "ok";
+        // } catch (Exception e) {
+        //     outputmsg = "not ok";
+        //     System.out.println("Was not able to update all tag scores with exception: " + e);
+        // }
+
     }
 }
