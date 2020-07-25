@@ -107,18 +107,28 @@ function placeSelectedTagInRank(tag) {
     const tagRank = document.getElementById('sortable');
 
     let tagElements = new Map([
-      ['children', '<li id="li_children" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-child mr-5"></i> children</li>'],
-      ['education', '<li id="li_education" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-school mr-5"></i>education</li>'],
-      ['environment', '<li id="li_environment" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-leaf mr-5"></i>environment</li>'],
-      ['health', '<li id="li_health" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-heartbeat mr-5"></i> health</li>'],
-      ['hunger', '<li id="li_hunger" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-utensils mr-5"></i> hunger</li>'],
-      ['racial equality', '<li id="li_racial equality" class="list-group-item"><div class="md-v-line">' +
-       '</div><i class="fas fa-users mr-5"></i>racial equality</li>']
+      ['Animals', '<li id="li_Animals" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-paw mr-5"></i></i>Animals</li>'],
+      ['Arts, Culture, Humanities', '<li id="li_Arts, Culture, Humanities" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-palette mr-5"></i></i>Arts, Culture, Humanities</li>'],
+      ['Education', '<li id="li_Education" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-school mr-5"></i>Education</li>'],
+      ['Environment', '<li id="li_Environment" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-leaf mr-5"></i>Environment</li>'],
+      ['Health', '<li id="li_Health" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-heartbeat mr-5"></i>Health</li>'],
+      ['Human Services', '<li id="li_Human Services" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-people-carry mr-5"></i></i>Human Services</li>'],
+      ['International', '<li id="li_International" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-globe-americas mr-5"></i></i></i>International</li>'],
+      ['Human and Civil Rights', '<li id="li_Human and Civil Rights" class="list-group-item"><div class="md-v-line">' +
+       '</div><i class="fas fa-users mr-5"></i>Human and Civil Rights</li>'],
+      ['Religion', '<li id="li_Religion" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-place-of-worship mr-5"></i></i></i>Religion</li>'],
+      ['Community Development', '<li id="li_Community Development" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-hands-helping mr-5"></i></i></i></i>Community Development</li>'],
+      ['Research and Public Policy', '<li id="li_Research and Public Policy" class="list-group-item"><div class="md-v-line"></div>' +
+       '<i class="fas fa-gavel mr-5"></i></i></i></i></i>Research and Public Policy</li>']
     ]);
 
     tagRank.innerHTML += tagElements.get(tag);

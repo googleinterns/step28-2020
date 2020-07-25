@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.charities.AddCharitiesFromJSON;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -46,24 +47,29 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
-  private static Collection<Charity> charities;
+  private Collection<Charity> charities;
+  private Collection<Tag> tags;
 
   //constructor to do set up
   public FindTrendingCharities(DatastoreService ds) {
     //ds = DatastoreServiceFactory.getDatastoreService();
     this.ds = ds;
     db = new DbCalls(ds);
-    DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
-    this.charities = getAllCharities();
-    // only populate database if there is nothing in the database already
-    if (charities.size() < 1) {
-        setUp.populateDatabase();
+    AddCharitiesFromJSON setup = new AddCharitiesFromJSON(ds, db);
+    charities = getAllCharities();
+    tags = getAllTags();
+    // only populate database with tags if there are none there already
+    if(tags.size() == 0) {
+      setup.addTags();
+    }
+    // only populate database with charities if there are none there already
+    if(charities.size() == 0) {
+      setup.addCharities();
     }
   }
 
   // returns the collection of top trending charities
   public Collection<Charity> queryDb() {
-    //Collection<Charity> charities = getAllCharities();
     for (Charity charity : charities) {
       double charityScore = calcCharityTrendingScore(charity);
       charity.setTrendingScoreCharity(charityScore);
@@ -98,6 +104,21 @@ public final class FindTrendingCharities {
       return null;
     }
     return charities;
+  }
+
+  // Gets charities from the database
+  private Collection<Tag> getAllTags() {
+    Collection<Tag> tags = new ArrayList<>();
+    try {
+      tags = db.getAllTags();
+    } catch (EntityNotFoundException e) {
+      System.out.println("Tag entities not found: " + e);
+      return null;
+    } catch (Exception e) {
+      System.out.println("Unexpected exception: " + e);
+      return null;
+    }
+    return tags;
   }
 
   // returns the trending score of inputted charity calculated

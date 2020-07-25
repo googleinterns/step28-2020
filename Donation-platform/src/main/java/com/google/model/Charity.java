@@ -125,6 +125,10 @@ public final class Charity implements Comparable<Charity> {
     this.userRating = userRating;
   }
 
+  public String toString() {
+    return this.name + " (" + this.categories + ")";
+  }
+
   @Override
   public int compareTo(Charity b) {
     Double bScore = new Double(b.getTrendingScoreCharity());

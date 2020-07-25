@@ -54,15 +54,11 @@ public class PersonalizedRecommendations {
   public PersonalizedRecommendations(DatastoreService ds) {
     this.ds = ds;
     db = new DbCalls(ds);
-    DbSetUpUtils setup = new DbSetUpUtils(ds, db);
+    // AddCharitiesFromJSON setup = new AddCharitiesFromJSON(ds, db);
     // Call FindTrendingCharities so that trending scores can be considered in personalized order
     FindTrendingCharities findTrending = new FindTrendingCharities(ds);
     findTrending.queryDb();
     charities = getAllCharities();
-    // only populate database if there is nothing in the database already
-    if(charities.size() == 0) {
-      setup.populateDatabase();
-    }
   }
 
   // Returns the best-matching charities sorted according to the scores calculated by
