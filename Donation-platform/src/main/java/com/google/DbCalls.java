@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
@@ -141,6 +142,7 @@ public final class DbCalls {
     ArrayList<Tag> tagDataStore = new ArrayList<Tag>();
     if (categories != null) {
       for (Key key : categories) {
+        System.out.println(key);
         tagDataStore.add(setTagClass(datastore.get(key)));
       }
     }
@@ -238,11 +240,13 @@ public final class DbCalls {
   }
   // Function takes modified class and updates database.
   public void updateTag(Tag tag) throws Exception {
-    Entity tagEntity = datastore.get(tag.getId());
-    tagEntity.setProperty(NAME, tag.getName());
-    tagEntity.setProperty(TRENDING_SCORE, tag.getTrendingScoreTag());
-    tagEntity.setProperty(IMGSRC, tag.getImgSrc());
-    datastore.put(tagEntity);
+    Query query = new Query(TAG).setFilter(new FilterPredicate("id", FilterOperator.EQUAL, tag.getId().getId()));
+    for (Entity tagEntity : datastore.prepare(query).asIterable()) {
+      tagEntity.setProperty(NAME, tag.getName());
+      tagEntity.setProperty(TRENDING_SCORE, tag.getTrendingScoreTag());
+      tagEntity.setProperty(IMGSRC, tag.getImgSrc());
+      datastore.put(tagEntity);
+    }
   }
   // Function takes modified class and updates database.
   public void updateUser(Users user) throws Exception {
