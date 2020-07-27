@@ -75,13 +75,24 @@ public class PersonalizationServlet extends HttpServlet {
     // (which is signified by the tags list being empty), then use the tags previously
     // selected in this session.
     if (session != null && tags.isEmpty()) {
+      System.out.println("111");
       tags = (List<String>) session.getAttribute("selected-tags");
-    // Otherwise, keep using the recently-selected tags processed from requestData.
-    } else {
+    // If a user session does not already exist but there are selected tags, 
+    // keep using the recently-selected tags processed from requestData.
+    } else if(!tags.isEmpty()) {
+      System.out.println("222");
       // Create a user session and save the tag selection with it
       session = request.getSession();
       session.setAttribute("selected-tags", tags);
+    // Otherwise, set each tag to null so that no personalized results appear (this
+    // occurs when the user visits the site for the first time and has not yet 
+    // selected tags).
+    } else {
+      System.out.println("333");
+      tags = new ArrayList(Arrays.asList(null, null, null));
     }
+
+    System.out.println("tags: " + tags);
 
     // Get the best-matching charities from the Recommendation System
     DatastoreService ds = DatastoreServiceFactory.getDatastoreService();

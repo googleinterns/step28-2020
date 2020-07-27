@@ -22,6 +22,7 @@ window.onload=function() {
 /* (1) Fetches personalized charities from PersonalizationServlet.java and
    (2) displays them on personalized.html */
 function loadPersonalizedCharities(unprocessedTags) {
+  console.log('unprocessedTags: ' + unprocessedTags + " " + unprocessedTags.length);
   getPersonalizedCharitiesFromServlet(unprocessedTags).then((charities) => {
     updatePersonalizedCardsOnPage(charities);
   });
@@ -31,6 +32,7 @@ function loadPersonalizedCharities(unprocessedTags) {
 function getPersonalizedCharitiesFromServlet(unprocessedTags) {
   // Process the top 3 ranked tags
   const tags = processTagsFromRanking(unprocessedTags);
+  console.log('processedTags: ' + tags);
 
   return fetch('/personalize', {
       // Send POST request to PersonalizationServlet.java with tag selections
@@ -337,6 +339,7 @@ $(function() {
 
     // If there are 1-3 tags in the rank, run loadPersonalizedCharities.
     if(tags.length > 0 && tags.length <= 3) {
+      console.log('TAGs 1: ' + tags + " " + tags.length);
       loadPersonalizedCharities(tags);
     // Otherwise, if there are no tags in the rank, alert the user to select
     // 3 causes before re-submitting (although 1 or 2 tags is also allowed, 
