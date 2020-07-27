@@ -130,7 +130,7 @@ public final class AddCharitiesFromJSON {
 
     Gson gson = new Gson();
 
-    try (Reader reader = new FileReader("/home/ryandraper/step28-2020/Donation-platform/target/donation-platform-1/../../src/main/java/com/google/charities/charities.json")) {
+    try (Reader reader = new FileReader("../../src/main/java/com/google/charities/charities.json")) {
 
       CharityClone[] clones = gson.fromJson(reader, CharityClone[].class);
 
