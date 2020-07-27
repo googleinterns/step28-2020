@@ -54,7 +54,6 @@ public class PersonalizedRecommendations {
   public PersonalizedRecommendations(DatastoreService ds) {
     this.ds = ds;
     db = new DbCalls(ds);
-    // AddCharitiesFromJSON setup = new AddCharitiesFromJSON(ds, db);
     // Call FindTrendingCharities so that trending scores can be considered in personalized order
     FindTrendingCharities findTrending = new FindTrendingCharities(ds);
     findTrending.queryDb();

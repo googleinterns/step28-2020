@@ -47,6 +47,7 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
+  // collections that hold the tags and charities from the db
   private Collection<Charity> charities;
   private Collection<Tag> tags;
 
@@ -59,11 +60,11 @@ public final class FindTrendingCharities {
     charities = getAllCharities();
     tags = getAllTags();
     // only populate database with tags if there are none there already
-    if(tags.size() == 0) {
+    if(tags.isEmpty()) {
       setup.addTags();
     }
     // only populate database with charities if there are none there already
-    if(charities.size() == 0) {
+    if(charities.isEmpty()) {
       setup.addCharities();
     }
   }
@@ -106,7 +107,7 @@ public final class FindTrendingCharities {
     return charities;
   }
 
-  // Gets charities from the database
+  // Gets tags from the database
   private Collection<Tag> getAllTags() {
     Collection<Tag> tags = new ArrayList<>();
     try {
@@ -181,14 +182,14 @@ public final class FindTrendingCharities {
     return (sumScores / numTags);
   }
 
-    public Collection<Tag> getTagsDb() throws Exception{
-        Collection<Tag> tags= db.getAllTags();
-        return tags;
-    }
+  public Collection<Tag> getTagsDb() throws Exception{
+    Collection<Tag> tags= db.getAllTags();
+    return tags;
+  }
 
-    public void updateTagScores(Collection<Tag> tagsToUpdate) throws Exception {
-        for (Tag tag: tagsToUpdate) {
-            db.updateTag(tag);
-        }
+  public void updateTagScores(Collection<Tag> tagsToUpdate) throws Exception {
+    for (Tag tag: tagsToUpdate) {
+      db.updateTag(tag);
     }
+  }
 }

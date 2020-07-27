@@ -21,18 +21,24 @@ public final class CharityClone {
 
   // Name of charity
   private String name;
-  // link directing users to charity.
+
+  // Link directing users to charity
+  // (ideally donation page, home page if donation page not found at /donate)
   private String link;
-  // Image source of charity logo.
+
+  // Image source of charity logo
   private String image;
-  // Collection storing tag IDs in the form of datastore keys.
+
+  // Collection storing tag IDs in the form of datastore keys
   private String category;
-  // Description of charity.
+
+  // Description of the charity's mission
   private String description;
-  // User rating of charity determined by users.
+
+  // User rating of charity from Charity Navigator API
   private double rating;
 
-  // Initialize all fields of a Charity
+  // Initialize all fields of a CharityClone
   public CharityClone(
       String name,
       String link,
