@@ -4,6 +4,10 @@
     position: relative;
 }
 
-#index-container{
+#index-container {
   float:left;
+}
+
+#sign-out-btn {
+	display: none;
 }
