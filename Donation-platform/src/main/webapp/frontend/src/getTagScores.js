@@ -101,7 +101,6 @@ function getTagsAndUpdate() {
                 console.log('request body',  err.requestBody);
                 });
             });
-            return tagArray;
         })
         .then(function(updatedTagArray) {
             console.log("updateTagArray: ", updatedTagArray);
@@ -111,4 +110,22 @@ function getTagsAndUpdate() {
         });
 }
 
-getTagsAndUpdate();
+//send request to update charity trending scores
+function updateCharityScores() {
+    fetch('https://donations-step-2020-new.uc.r.appspot.com/charity-update-query', {method: 'GET'})
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(response) {
+            console.log("text response: ", response);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+}
+
+//encompassing function to update tag scores and then update charity scores
+function updateAll() {
+    getTagsAndUpdate();
+    updateCharityScores();
+}
