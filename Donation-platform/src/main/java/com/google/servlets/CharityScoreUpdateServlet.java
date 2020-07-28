@@ -35,7 +35,7 @@ import java.io.*;
 
 /** Servlet that handles requests for updating the charity trending scores */
 @WebServlet("/charity-update-query")
-public class TagScoreUpdateServlet extends HttpServlet {
+public class CharityScoreUpdateServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
