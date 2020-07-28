@@ -152,23 +152,19 @@ public final class FindTrendingCharities {
     int numTags = tags.size();
     for (Tag tag : tags) {
       double tagScore = tag.getTrendingScoreTag();
-
-      // TODO: Use GoogleTrends API to update tag trending score
-
       sumScores += tagScore;
     }
     return (sumScores / numTags);
   }
 
+    //return Collection of all Tags in db
     public Collection<Tag> getTagsDb() throws Exception{
         Collection<Tag> tags= db.getAllTags();
         return tags;
     }
-
-    public void updateTagScores(Collection<Tag> tagsToUpdate) throws Exception {
-        for (Tag tag: tagsToUpdate) {
-            System.out.println(tag);
-            db.updateTag(tag);
-        }
+    
+    //updates one tag in db with a new trendingScore
+    public void updateTagScore(Tag tagToUpdate) throws Exception {
+        db.updateTag(tagToUpdate);
     }
 }
