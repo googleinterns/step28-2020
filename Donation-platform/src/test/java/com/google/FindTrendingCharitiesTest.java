@@ -70,6 +70,7 @@ public final class FindTrendingCharitiesTest {
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
     query = new FindTrendingCharities(ds);
+    query.updateCharityScores();
     RESULTS = query.queryDb();
     FA = db.getCharityByName("Feeding America");
     RC = db.getCharityByName("Red Cross");
@@ -128,7 +129,7 @@ public final class FindTrendingCharitiesTest {
             put(SJ, SJ.getTrendingScoreCharity());
             put(FA, FA.getTrendingScoreCharity());
             put(YMCA, YMCA.getTrendingScoreCharity());
-            put(NC, NC.getTrendingScoreCharity());
+           put(NC, NC.getTrendingScoreCharity());
           }
         };
 
