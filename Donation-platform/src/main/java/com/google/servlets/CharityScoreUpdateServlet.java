@@ -40,17 +40,17 @@ public class TagScoreUpdateServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
-        String outputmsg;
+        String outputMsg;
 
         try {
             findTrending.updateCharityScores();
-            outputmsg = "ok";
+            outputMsg = "ok";
         } catch (Exception e) {
             System.out.println("Was not able to update all charities with exception: " + e);
-            outputmsg = "not ok";
+            outputMsg = "not ok";
         }
 
         response.setContentType("text/html");
-        response.getWriter().println(outputmsg);
+        response.getWriter().println(outputMsg);
     }
 }

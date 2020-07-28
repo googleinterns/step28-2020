@@ -31,7 +31,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Enumeration;
-import java.io.*;
+import java.io.BufferedReader;
 
 /** Servlet that handles requests for updating the tag scores */
 @WebServlet("/tag-query")
@@ -61,7 +61,7 @@ public class TagScoreUpdateServlet extends HttpServlet {
         DbCalls dbCalls = new DbCalls(ds);
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
 
-        String outputmsg;
+        String outputMsg;
 
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
@@ -69,14 +69,14 @@ public class TagScoreUpdateServlet extends HttpServlet {
         Tag tagToUpdate = gson.fromJson(reader, Tag.class);
         try {
             findTrending.updateTagScore(tagToUpdate);
-            outputmsg = "ok";
+            outputMsg = "ok";
         } catch (Exception e) {
-            outputmsg = "not ok";
+            outputMsg = "not ok";
             System.out.println("Was not able to update all tag scores with exception: " + e);
         }
 
         response.setContentType("text/html");
-        response.getWriter().println(outputmsg);
+        response.getWriter().println(outputMsg);
 
     }
 }

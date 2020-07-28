@@ -142,7 +142,6 @@ public final class DbCalls {
     ArrayList<Tag> tagDataStore = new ArrayList<Tag>();
     if (categories != null) {
       for (Key key : categories) {
-        System.out.println(key);
         tagDataStore.add(setTagClass(datastore.get(key)));
       }
     }

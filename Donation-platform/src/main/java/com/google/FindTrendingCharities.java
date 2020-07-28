@@ -34,7 +34,7 @@ public final class FindTrendingCharities {
     private DatastoreService ds;
 
     // number of trending charities to be returned
-    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
+    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 10;
 
     final double CHARITY_NAV_SCALE_FACTOR = 1.25;
 
@@ -47,6 +47,7 @@ public final class FindTrendingCharities {
     final double AVG_REVIEW_WEIGHT = 0.25;
 
     private static Collection<Charity> charities;
+    private static List<Charity> topTrendingCharities;
 
     //constructor to do set up
     public FindTrendingCharities(DatastoreService ds) {
@@ -55,6 +56,7 @@ public final class FindTrendingCharities {
         db = new DbCalls(ds);
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
         this.charities = getAllCharities();
+        this.topTrendingCharities = new ArrayList<Charity>();
         // only populate database if there is nothing in the database already
         if (charities.size() < 1) {
             setUp.populateDatabase();
@@ -63,15 +65,6 @@ public final class FindTrendingCharities {
 
     // returns the collection of top trending charities
     public Collection<Charity> queryDb() {
-        //Collection<Charity> charities = getAllCharities();
-        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
-        Collections.sort(charitiesList);
-        List<Charity> topTrending;
-        if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
-        topTrending = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
-        } else {
-        topTrending = charitiesList;
-        }
         return topTrending;
     }
 
@@ -169,6 +162,18 @@ public final class FindTrendingCharities {
             catch (Exception e) {
                 System.out.println("unable to update charity: " + e);
             }
+        }
+        sortTrendingCharities();
+    }
+
+    //keep topTrendingCharities ready for request to return
+    public void sortTrendingCharities() {
+        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
+        Collections.sort(charitiesList);
+        if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
+            topTrendingCharities = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
+        } else {
+            topTrendingCharities = charitiesList;
         }
     }
 }

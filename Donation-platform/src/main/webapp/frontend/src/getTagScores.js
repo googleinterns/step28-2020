@@ -12,16 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-///home/anerishah/step-donation/step28-2020/Donation-platform/src/main/webapp/frontend/src
-///usr/local/nvm/versions/node/v10.14.2/bin/node
-
 var googleTrends = require('/home/anerishah/step-donation/step28-2020/Donation-platform/src/main/webapp/frontend/node_modules/google-trends-api/lib/google-trends-api.min.js');
 const fetch = require("node-fetch");
 
 //sample method to demonstrate GET request
 function sendQuery() {
     fetch('https://donations-step-2020-new.uc.r.appspot.com/tag-query', {method: 'GET'})
-    //fetch('https://8080-5a8baf4b-def3-4b41-83c1-47f3b4af6cdc.us-west1.cloudshell.dev/tag-query', {method: 'GET'})
         .then(function(response) {
             console.log(response);
             return response.json();
@@ -129,3 +125,5 @@ function updateAll() {
     getTagsAndUpdate();
     updateCharityScores();
 }
+
+updateAll();
