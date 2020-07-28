@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var googleTrends = require('/home/anerishah/step-donation/step28-2020/Donation-platform/src/main/webapp/frontend/node_modules/google-trends-api/lib/google-trends-api.min.js');
+//var googleTrends = require('/home/anerishah/step-donation/step28-2020/Donation-platform/src/main/webapp/frontend/node_modules/google-trends-api/lib/google-trends-api.min.js');
+var googleTrends = require('../node_modules/google-trends-api/lib/google-trends-api.min.js');
 const fetch = require("node-fetch");
 
 //sample method to demonstrate GET request
@@ -98,9 +99,6 @@ function getTagsAndUpdate() {
                 });
             });
         })
-        .then(function(updatedTagArray) {
-            console.log("updateTagArray: ", updatedTagArray);
-        })
         .catch(function(err) {
             console.error(err);
         });
@@ -123,7 +121,7 @@ function updateCharityScores() {
 //encompassing function to update tag scores and then update charity scores
 function updateAll() {
     getTagsAndUpdate();
-    updateCharityScores();
+    //updateCharityScores();
 }
 
 updateAll();

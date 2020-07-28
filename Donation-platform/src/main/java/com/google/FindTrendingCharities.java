@@ -63,9 +63,9 @@ public final class FindTrendingCharities {
         }
     }
 
-    // returns the collection of top trending charities
+    // returns the collection of top trending charities pre-computer offline
     public Collection<Charity> queryDb() {
-        return topTrending;
+        return topTrendingCharities;
     }
 
     // returns a list of all charities in the database
