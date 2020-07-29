@@ -125,17 +125,22 @@ public final class AddCharitiesFromJSON {
     }
   }
  
-  // Add charities from charities.json to db without userRating
+  // Add charities from charities.json to db without rating
   public void addCharities() {
 
     Gson gson = new Gson();
+    
+    // Locates file in /resources
+    File file = new File(getClass().getClassLoader().getResource("charities.json").getFile());
 
-    try (Reader reader = new FileReader("../../src/main/java/com/google/charities/charities.json")) {
-
+    try (Reader reader = new FileReader(file)) {
+      
+      // Converts charities.json into a list of CharityClone objects.
+      // CharityClone objects store all of the fields of a charity specified in the JSON.
       CharityClone[] clones = gson.fromJson(reader, CharityClone[].class);
 
-      int i = 0;
-      int j = 0;
+      int numberOfFailedCharities = 0;
+      int totalCharities = 0;
       for(CharityClone clone : clones) {
         try {
           db.addCharity(
@@ -145,12 +150,12 @@ public final class AddCharitiesFromJSON {
             Arrays.asList(db.getTagByName(clone.getCategory())),
             clone.getDescription());
         } catch (Exception e) {
-          i++;
+          numberOfFailedCharities++;
           System.out.println("Failure in adding charity: " + clone + "Error: " + e + "\n");
         }
-        j++;
+        totalCharities++;
       }
-      System.out.println("Failure adding " + i + " charities out of " + j);
+      System.out.println("Failure adding " + numberOfFailedCharities + " charities out of " + totalCharities);
 
     } catch (IOException e) {
       e.printStackTrace();

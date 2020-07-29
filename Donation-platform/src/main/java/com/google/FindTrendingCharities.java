@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.model.Charity;
 import com.google.model.Tag;
-import com.google.charities.AddCharitiesFromJSON;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -49,24 +48,13 @@ public final class FindTrendingCharities {
 
   // collections that hold the tags and charities from the db
   private Collection<Charity> charities;
-  private Collection<Tag> tags;
 
   //constructor to do set up
   public FindTrendingCharities(DatastoreService ds) {
     //ds = DatastoreServiceFactory.getDatastoreService();
     this.ds = ds;
     db = new DbCalls(ds);
-    AddCharitiesFromJSON setup = new AddCharitiesFromJSON(ds, db);
     charities = getAllCharities();
-    tags = getAllTags();
-    // only populate database with tags if there are none there already
-    if(tags.isEmpty()) {
-      setup.addTags();
-    }
-    // only populate database with charities if there are none there already
-    if(charities.isEmpty()) {
-      setup.addCharities();
-    }
   }
 
   // returns the collection of top trending charities
@@ -105,21 +93,6 @@ public final class FindTrendingCharities {
       return null;
     }
     return charities;
-  }
-
-  // Gets tags from the database
-  private Collection<Tag> getAllTags() {
-    Collection<Tag> tags = new ArrayList<>();
-    try {
-      tags = db.getAllTags();
-    } catch (EntityNotFoundException e) {
-      System.out.println("Tag entities not found: " + e);
-      return null;
-    } catch (Exception e) {
-      System.out.println("Unexpected exception: " + e);
-      return null;
-    }
-    return tags;
   }
 
   // returns the trending score of inputted charity calculated

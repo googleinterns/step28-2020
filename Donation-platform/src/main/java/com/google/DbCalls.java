@@ -126,6 +126,23 @@ public final class DbCalls {
     // Return all charity objects containing tag.
     return charityDataStore;
   }
+  // Function returns all charities with one of the three specified tags.
+  public Collection<Charity> getCharitiesByTags(String name1, String name2, String name3) throws Exception {
+    ArrayList<Charity> charityDataStore = new ArrayList<Charity>();
+    for (Entity entity : datastore.prepare(new Query(CHARITY)).asIterable()) {
+      // Read the categories assigned to the charity
+      if (setCharityClass(entity).getCategories() != null) {
+        for (Tag tag : setCharityClass(entity).getCategories()) {
+          // Check to see if category contains tag searched for.
+          if (tag.getName().equals(name1) | tag.getName().equals(name2) | tag.getName().equals(name3)) {
+            charityDataStore.add(setCharityClass(entity));
+          }
+        }
+      }
+    }
+    // Return all charity objects containing tag.
+    return charityDataStore;
+  }
   // Function returns tag object from ID.
   public Tag getTagById(Key tagId) throws Exception {
     return setTagClass(datastore.get(tagId));

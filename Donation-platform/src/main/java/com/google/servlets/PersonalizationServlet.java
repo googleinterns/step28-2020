@@ -41,6 +41,9 @@ public class PersonalizationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    
+    System.out.println("START OF /PERSONALIZE");
+
     // Get the current user's session
     HttpSession session = request.getSession(false);
 
@@ -93,11 +96,14 @@ public class PersonalizationServlet extends HttpServlet {
     }
 
     System.out.println("tags: " + tags);
+    System.out.println("TAGS SELECTED");
 
     // Get the best-matching charities from the Recommendation System
     DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
     PersonalizedRecommendations recommendation = new PersonalizedRecommendations(ds);
     List<Charity> bestMatches = recommendation.getBestMatches(tags);
+
+    System.out.println("AFTER PERSONALIZATION ALGO RAN");
 
     // Display the recommended charities as a JSON sorted in order of best to worst match
     Gson gson = new Gson();
