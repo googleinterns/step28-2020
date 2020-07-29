@@ -12,7 +12,17 @@ import java.util.Collections;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.lang.Long;
 
+/** Caching
+* Caching of the objects is being handled by objectify thorough the
+* @cache annotation in the model classes. Objectify will connect to the global 
+* memcache when the data is loaded and speed up the app perfromance. 
+*/
 
+/** Transactions
+* If you operate on the datastore without an explicit transaction,
+* each datastore operation is treated like a separate little transaction which is retried separately. 
+* This is the current implementation.
+*/
 
 /** Class handling the calls to the datastore database. */
 public final class DbCalls

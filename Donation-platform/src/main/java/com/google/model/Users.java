@@ -21,7 +21,11 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Index;
 
+// In Objectify classes must be registered as entities for the service to associate
+// the class object with datastore and store it. 
 @Entity
+// This annotation tells the objectify service to cache the class objects 
+// in memcache whenever possible.
 @Cache
 /** Represents a Users : id, userName, email, userInterests, charitiesDonatedTo. */
 public final class Users implements Serializable {
@@ -33,9 +37,9 @@ public final class Users implements Serializable {
   // Email address of user
   @Index private String email;
   // Category tags the user selected that they were interested in.
-  @Index private Collection<Tag> userInterests;
+  private Collection<Tag> userInterests;
   // Charities the user donated to.
-  @Index private Collection<Charity> charitiesDonatedTo;
+  private Collection<Charity> charitiesDonatedTo;
 
   private Users() {}
   // Initialize all fields of Users

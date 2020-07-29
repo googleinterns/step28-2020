@@ -21,7 +21,11 @@ import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Index;
 import java.lang.Long;
 
+// In Objectify classes must be registered as entities for the service to associate
+// the class object with datastore and store it. 
 @Entity
+// This annotation tells the objectify service to cache the class objects 
+// in memcache whenever possible.
 @Cache
 /** Represents a Tag : id, name, trending score */
 public final class Tag implements Serializable {
@@ -31,9 +35,9 @@ public final class Tag implements Serializable {
   // Category tag name.
   @Index private String name;
   // Trending score calculated based on trending score algorithim for tag.
-  @Index private Double trendingScore;
+  private Double trendingScore;
   // Image for showing each tag category.
-  @Index private String imgSrc;
+  private String imgSrc;
 
   private Tag() {}
   // Initialize all fields of a Tag

@@ -85,7 +85,7 @@ public class DbCallsTest {
   
   protected Closeable session;
 
-
+  // Initializes objectify class entities within its context before tests are run.
   @BeforeClass
     public static void setUpBeforeClass() {
         // Reset the Factory so that all translators work properly.

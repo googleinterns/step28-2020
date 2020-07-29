@@ -23,7 +23,12 @@ import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Index;
 import java.lang.Long;
 
+
+// In Objectify classes must be registered as entities for the service to associate
+// the class object with datastore and store it. 
 @Entity
+// This annotation tells the objectify service to cache the class objects 
+// in memcache whenever possible.
 @Cache
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
 public final class Charity implements Comparable<Charity>, Serializable {
@@ -33,17 +38,17 @@ public final class Charity implements Comparable<Charity>, Serializable {
   // Name of charity
   @Index private String name;
   // link directing users to charity.
-  @Index private String link;
+  private String link;
   // Image source of charity logo.
-  @Index private String imgSrc;
+  private String imgSrc;
   // Collection storing tags in the form of datastore keys.
   @Index private Collection<Tag> categories;
   // Description of charity.
-  @Index private String description;
+  private String description;
   // Trending score calculated based on trending score algorithim for charity.
-  @Index private double trendingScore;
+  private double trendingScore;
   // User rating of charity determined by users.
-  @Index private double userRating;
+  private double userRating;
 
   private Charity() {}
   // Initialize all fields of a Charity
