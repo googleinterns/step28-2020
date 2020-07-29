@@ -47,7 +47,7 @@ public final class FindTrendingCharities {
     final double AVG_REVIEW_WEIGHT = 0.25;
 
     private static Collection<Charity> charities;
-    private static List<Charity> topTrendingCharities;
+    public static List<Charity> topTrendingCharities;
 
     //constructor to do set up
     public FindTrendingCharities(DatastoreService ds) {
@@ -55,8 +55,9 @@ public final class FindTrendingCharities {
         this.ds = ds;
         db = new DbCalls(ds);
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
-        this.charities = getAllCharities();
-        this.topTrendingCharities = new ArrayList<Charity>();
+        if (charities == null) {
+            this.charities = getAllCharities();
+        }
         // only populate database if there is nothing in the database already
         if (charities.size() < 1) {
             setUp.populateDatabase();
@@ -152,7 +153,7 @@ public final class FindTrendingCharities {
     }
 
     //update all charity trending scores
-    public void updateCharityScores() {
+    public List<Charity> updateCharityScores() {
         for (Charity charity : charities) {
             double charityScore = calcCharityTrendingScore(charity);
             charity.setTrendingScoreCharity(charityScore);
@@ -163,7 +164,10 @@ public final class FindTrendingCharities {
                 System.out.println("unable to update charity: " + e);
             }
         }
+        System.out.println("updated charities");
+        //List<Charity> trendingCharities = sortTrendingCharities();
         sortTrendingCharities();
+        return topTrendingCharities;
     }
 
     //keep topTrendingCharities ready for request to return
@@ -175,5 +179,6 @@ public final class FindTrendingCharities {
         } else {
             topTrendingCharities = charitiesList;
         }
+        System.out.println("topTrendingCharities set: " + topTrendingCharities);
     }
 }

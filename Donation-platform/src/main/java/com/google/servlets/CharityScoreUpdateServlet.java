@@ -38,19 +38,24 @@ import java.io.*;
 public class CharityScoreUpdateServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Gson gson = new Gson();
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
         String outputMsg;
-
+        List<Charity> trendingCharities = new ArrayList<Charity>();
         try {
-            findTrending.updateCharityScores();
-            outputMsg = "ok";
+            trendingCharities = findTrending.updateCharityScores();
+            outputMsg = "updated charity";
         } catch (Exception e) {
             System.out.println("Was not able to update all charities with exception: " + e);
-            outputMsg = "not ok";
+            outputMsg = "did not update charity";
         }
 
-        response.setContentType("text/html");
-        response.getWriter().println(outputMsg);
+        String jsonResponse = gson.toJson(findTrending.topTrendingCharities);
+        response.setContentType("application/json");
+        response.getWriter().println(jsonResponse);
+
+        // response.setContentType("text/html");
+        // response.getWriter().println(outputMsg);
     }
 }

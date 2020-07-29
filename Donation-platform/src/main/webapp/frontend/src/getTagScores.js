@@ -33,7 +33,7 @@ function sendQuery() {
 
 //method to send POST request with tagToUpdate in body
 function sendPostQuery(tagToUpdate) {
-    console.log("in other func: ", tagToUpdate);
+    //console.log("in other func: ", tagToUpdate);
     console.log("stringified version: ", JSON.stringify(tagToUpdate));
     fetch('https://donations-step-2020-new.uc.r.appspot.com/tag-query', {method: 'POST', body: JSON.stringify(tagToUpdate)})
         .then(function(response) {
@@ -54,7 +54,7 @@ function getTagsAndUpdate() {
             return response.json();
         })
         .then(function(tagArray) {
-            console.log('pre: ', tagArray);
+            //console.log('pre: ', tagArray);
             tagArray.forEach(function(tag) {
                 googleTrends.autoComplete({keyword: tag.name})
                 .then(function(res) {
@@ -64,7 +64,7 @@ function getTagsAndUpdate() {
                     topics.forEach(function(search) {
                         title = search.title.toLowerCase();
                         id = search.mid;
-                        if (search.type == 'Topic' && title === tag.name.toLowerCase() && id.includes('/m/')) { 
+                        if (search.type == 'Topic' && id.includes('/m/')) { 
                             var today = new Date();
                             // startTime currently set to a week before current date
                             var start = new Date(today - (7 * 24 * 60 * 60 * 1000));
@@ -108,10 +108,10 @@ function getTagsAndUpdate() {
 function updateCharityScores() {
     fetch('https://donations-step-2020-new.uc.r.appspot.com/charity-update-query', {method: 'GET'})
         .then(function(response) {
-            return response.text();
+            return response.json();
         })
         .then(function(response) {
-            console.log("text response: ", response);
+            console.log("update charities json response: ", response);
         })
         .catch(function(err) {
             console.log(err);
@@ -120,8 +120,8 @@ function updateCharityScores() {
 
 //encompassing function to update tag scores and then update charity scores
 function updateAll() {
-    getTagsAndUpdate();
-    //updateCharityScores();
+    getTagsAndUpdate()
+    updateCharityScores();
 }
 
 updateAll();
