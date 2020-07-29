@@ -46,7 +46,7 @@ public final class FindTrendingCharities {
   final double TAGS_SCORE_WEIGHT = 0.75;
   final double AVG_REVIEW_WEIGHT = 0.25;
 
-  // collections that hold the tags and charities from the db
+  // collection that holds charities from the db
   private Collection<Charity> charities;
 
   //constructor to do set up

@@ -99,7 +99,7 @@ public class PersonalizedRecommendations {
       }
       if (charityTagNames.contains(selectedTags.get(0))
           | charityTagNames.contains(selectedTags.get(1))
-          | charityTagNames.contains(selectedTags.get(2))) { // THIS IF STATEMENT WILL NOT BE NECCESSARY IF WE ONLY GET CHARITIES WITH MATCHING TAGS
+          | charityTagNames.contains(selectedTags.get(2))) {
         double tagScore = 0.0;
         // If the charity has the user's #1 ranked tag
         if (charityTagNames.contains(selectedTags.get(0))) {

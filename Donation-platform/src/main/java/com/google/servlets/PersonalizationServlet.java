@@ -41,9 +41,6 @@ public class PersonalizationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-    System.out.println("START OF /PERSONALIZE");
-
     // Get the current user's session
     HttpSession session = request.getSession(false);
 
@@ -78,12 +75,10 @@ public class PersonalizationServlet extends HttpServlet {
     // (which is signified by the tags list being empty), then use the tags previously
     // selected in this session.
     if (session != null && tags.isEmpty()) {
-      System.out.println("111");
       tags = (List<String>) session.getAttribute("selected-tags");
     // If a user session does not already exist but there are selected tags, 
     // keep using the recently-selected tags processed from requestData.
     } else if(!tags.isEmpty()) {
-      System.out.println("222");
       // Create a user session and save the tag selection with it
       session = request.getSession();
       session.setAttribute("selected-tags", tags);
@@ -91,19 +86,13 @@ public class PersonalizationServlet extends HttpServlet {
     // occurs when the user visits the site for the first time and has not yet 
     // selected tags).
     } else {
-      System.out.println("333");
       tags = new ArrayList(Arrays.asList(null, null, null));
     }
-
-    System.out.println("tags: " + tags);
-    System.out.println("TAGS SELECTED");
 
     // Get the best-matching charities from the Recommendation System
     DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
     PersonalizedRecommendations recommendation = new PersonalizedRecommendations(ds);
     List<Charity> bestMatches = recommendation.getBestMatches(tags);
-
-    System.out.println("AFTER PERSONALIZATION ALGO RAN");
 
     // Display the recommended charities as a JSON sorted in order of best to worst match
     Gson gson = new Gson();
