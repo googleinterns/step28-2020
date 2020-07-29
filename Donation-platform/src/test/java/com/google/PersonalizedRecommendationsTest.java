@@ -32,7 +32,17 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
- 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.cache.AsyncCacheFilter;
+import com.googlecode.objectify.util.Closeable;
+import java.lang.Long;
+import org.junit.BeforeClass;
+
 /* Unit tests for PersonalizedRecommendations.java */
 @RunWith(JUnit4.class)
 public final class PersonalizedRecommendationsTest {
@@ -50,12 +60,24 @@ public final class PersonalizedRecommendationsTest {
   private DatastoreService ds;
   private DbCalls db;
  
+  protected Closeable session;
+
+
+  @BeforeClass
+    public static void setUpBeforeClass() {
+        // Reset the Factory so that all translators work properly.
+        ObjectifyService.setFactory(new ObjectifyFactory());
+        ObjectifyService.register(Charity.class);
+        ObjectifyService.register(Tag.class);
+    }
+
   @Before
   public void setUp() {
     helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
     helper.setUp();
     ds = DatastoreServiceFactory.getDatastoreService();
     db = new DbCalls(ds);
+    this.session = ObjectifyService.begin();
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
 
@@ -85,6 +107,8 @@ public final class PersonalizedRecommendationsTest {
  
   @After
   public void tearDown() {
+     AsyncCacheFilter.complete();
+     this.session.close();
      helper.tearDown();
   }
  

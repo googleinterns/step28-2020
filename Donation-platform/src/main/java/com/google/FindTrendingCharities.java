@@ -56,7 +56,7 @@ public final class FindTrendingCharities {
     DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
     this.charities = getAllCharities();
     // only populate database if there is nothing in the database already
-    if (charities.size() < 1) {
+    if (this.charities.size() < 1) {
         setUp.populateDatabase();
     }
   }

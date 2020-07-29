@@ -15,31 +15,40 @@
 package com.google.model;
 
 import java.util.Collection;
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
+import java.io.Serializable;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Cache;
+import com.googlecode.objectify.annotation.Index;
+import java.lang.Long;
 
+@Entity
+@Cache
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity implements Comparable<Charity> {
+public final class Charity implements Comparable<Charity>, Serializable {
 
   // Key id from datastore uniquely identifiying each charity.
-  private Key id;
+  @Id private Long id;
   // Name of charity
-  private String name;
+  @Index private String name;
   // link directing users to charity.
-  private String link;
+  @Index private String link;
   // Image source of charity logo.
-  private String imgSrc;
-  // Collection storing tag IDs in the form of datastore keys.
-  private Collection<Tag> categories;
+  @Index private String imgSrc;
+  // Collection storing tags in the form of datastore keys.
+  @Index private Collection<Tag> categories;
   // Description of charity.
-  private String description;
+  @Index private String description;
   // Trending score calculated based on trending score algorithim for charity.
-  private double trendingScore;
+  @Index private double trendingScore;
   // User rating of charity determined by users.
-  private double userRating;
+  @Index private double userRating;
 
+  private Charity() {}
   // Initialize all fields of a Charity
   public Charity(
-      Key id,
+      Long id,
       String name,
       String link,
       String imgSrc,
@@ -57,15 +66,15 @@ public final class Charity implements Comparable<Charity> {
     this.userRating = userRating;
   }
 
-  public Charity(Key id) {
+  public Charity(Long id) {
     this.id = id;
   }
 
-  public Key getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Key id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

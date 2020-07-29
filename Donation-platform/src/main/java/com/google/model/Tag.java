@@ -14,22 +14,30 @@
 
 package com.google.model;
 
-import com.google.appengine.api.datastore.Key;
+import java.io.Serializable;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Cache;
+import com.googlecode.objectify.annotation.Index;
+import java.lang.Long;
 
+@Entity
+@Cache
 /** Represents a Tag : id, name, trending score */
-public final class Tag {
+public final class Tag implements Serializable {
 
-  // Key id from datastore uniquely identifiying each category tag.
-  private Key id;
+  // Long id from datastore uniquely identifiying each category tag.
+  @Id private Long id;
   // Category tag name.
-  private String name;
+  @Index private String name;
   // Trending score calculated based on trending score algorithim for tag.
-  private Double trendingScore;
+  @Index private Double trendingScore;
   // Image for showing each tag category.
-  private String imgSrc;
+  @Index private String imgSrc;
 
+  private Tag() {}
   // Initialize all fields of a Tag
-  public Tag(Key id, String name, Double trendingScore, String imgSrc) {
+  public Tag(Long id, String name, Double trendingScore, String imgSrc) {
     this.id = id;
     this.name = name;
     this.trendingScore = trendingScore;
@@ -37,15 +45,15 @@ public final class Tag {
   }
   // [END fs_class_definition]
 
-  public Tag(Key id) {
+  public Tag(Long id) {
     this.id = id;
   }
 
-  public Key getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Key id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

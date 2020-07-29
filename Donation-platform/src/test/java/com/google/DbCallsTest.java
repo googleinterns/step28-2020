@@ -7,11 +7,10 @@ import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static org.junit.Assert.assertEquals;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +18,17 @@ import java.util.Arrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.cache.AsyncCacheFilter;
+import com.googlecode.objectify.util.Closeable;
+import java.lang.Long;
+import org.junit.BeforeClass;
+
 
 public class DbCallsTest {
 
@@ -72,15 +82,30 @@ public class DbCallsTest {
   private static final String EMAIL = "email";
   private static final String USER_INTERESTS = "userInterests";
   private static final String CHARITIES_DONATED_TO = "charitiesDonatedTo";
+  
+  protected Closeable session;
+
+
+  @BeforeClass
+    public static void setUpBeforeClass() {
+        // Reset the Factory so that all translators work properly.
+        ObjectifyService.setFactory(new ObjectifyFactory());
+        ObjectifyService.register(Charity.class);
+        ObjectifyService.register(Tag.class);
+        ObjectifyService.register(Users.class);
+    }
   // Sets up local datastore service and dbCalls object.
   @Before
   public void setUp() {
     helper.setUp();
     dbCalls = new DbCalls(ds);
+    this.session = ObjectifyService.begin(); 
   }
   // Cleans up test.
   @After
   public void tearDown() {
+    AsyncCacheFilter.complete();
+    this.session.close();
     helper.tearDown();
   }
   // Test checks if function adds charity to the database.
@@ -167,41 +192,6 @@ public class DbCallsTest {
     Users actualUser = dbCalls.getUserByEmail(EMAIL_A);
     assertEquals(actualUser.getUserName(), USERNAME_A);
   }
-  // Test checks if function converts entity into class object.
-  @Test
-  public void setCharityClassTest() throws Exception {
-    Entity charityEntity = new Entity(CHARITY);
-    charityEntity.setProperty(NAME, CHARITY_A);
-    charityEntity.setProperty(LINK, LINK_A);
-    charityEntity.setProperty(IMGSRC, IMGSRC_A);
-    charityEntity.setProperty(CATEGORIES, CATEGORIES_A);
-    charityEntity.setProperty(DESCRIPTION, DESCRIPTION_A);
-    charityEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
-    charityEntity.setProperty(USER_RATING, USER_RATING_A);
-    Charity actual = dbCalls.setCharityClass(charityEntity);
-    assertEquals(actual.getName(), CHARITY_A);
-  }
-  // Test checks if function converts entity into class object.
-  @Test
-  public void setTagClassTest() throws Exception {
-    Entity tagEntity = new Entity(TAG);
-    tagEntity.setProperty(NAME, TAG_A);
-    tagEntity.setProperty(TRENDING_SCORE, TRENDINGSCORE_A);
-    tagEntity.setProperty(IMGSRC, IMGSRC_A);
-    Tag actual = dbCalls.setTagClass(tagEntity);
-    assertEquals(actual.getName(), TAG_A);
-  }
-  // Test checks if function converts entity into class object.
-  @Test
-  public void setUsersClassTest() throws Exception {
-    Entity userEntity = new Entity(USERS, USER_ID);
-    userEntity.setProperty(USERNAME, USERNAME_A);
-    userEntity.setProperty(EMAIL, EMAIL_A);
-    userEntity.setProperty(USER_INTERESTS, USER_INTRESTS_A);
-    userEntity.setProperty(CHARITIES_DONATED_TO, CHARITIES_DONATED_TO_A);
-    Users actual = dbCalls.setUsersClass(userEntity);
-    assertEquals(actual.getUserName(), USERNAME_A);
-  }
   // Test checks if function updates database entity properties.
   @Test
   public void updateCharityTest() throws Exception {
@@ -237,65 +227,17 @@ public class DbCallsTest {
   public void getCharityByIdTest() throws Exception {
     dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
     Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
-    Key expectedCharityId = expectedCharity.getId();
+    Long expectedCharityId = expectedCharity.getId();
     Charity actualCharity = dbCalls.getCharityById(expectedCharityId);
-    assertEquals(expectedCharity.getId(), actualCharity.getId());
+    assertEquals(expectedCharity.getName(), actualCharity.getName());
   }
   // Test checks if function gets Tag by ID from database.
   @Test
   public void getTagByIdTest() throws Exception {
     dbCalls.addTag(TAG_A, TRENDINGSCORE_A, IMGSRC_A);
     Tag expectedTag = dbCalls.getTagByName(TAG_A);
-    Key expectedTagId = expectedTag.getId();
+    Long expectedTagId = expectedTag.getId();
     Tag actualTag = dbCalls.getTagById(expectedTagId);
     assertEquals(expectedTag.getId(), actualTag.getId());
-  }
-  // Test checks if we can get Tag objects from collection of Ids.
-  @Test
-  public void getTagObjectsByIdsTest() throws Exception {
-    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A, IMGSRC_A);
-    Tag actualTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
-    Key actualKey = actualTag.getId();
-    List<Key> CATEGORY_A_WITHKEY = Arrays.asList(actualKey);
-    Collection<Tag> expectedTags = dbCalls.getTagObjectsByIds(CATEGORY_A_WITHKEY);
-    for (Tag tag : expectedTags) {
-      assertEquals(tag.getId(), actualTag.getId());
-    }
-  }
-  // Test checks if we can get Charity objects from collection of Ids.
-  @Test
-  public void getCharityObjectsByIdsTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
-    Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
-    Key expectedCharityId = expectedCharity.getId();
-    List<Key> CHARITY_A_WITHKEY = Arrays.asList(expectedCharityId);
-    Collection<Charity> actualCharities = dbCalls.getCharityObjectsByIds(CHARITY_A_WITHKEY);
-    for (Charity charity : actualCharities) {
-      assertEquals(charity.getId(), expectedCharityId);
-    }
-  }
-  // Test checks if we can get Charity objects from collection of Ids.
-  @Test
-  public void getTagIdsByObjectTest() throws Exception {
-    dbCalls.addTag(PLACEHOLDER_STRING, TRENDINGSCORE_A, IMGSRC_A);
-    Tag expectedTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
-    Key expectedKey = expectedTag.getId();
-    Collection<Tag> CATEGORY_A_WITHTAG = Arrays.asList(expectedTag);
-    Collection<Key> actualTagKeys = dbCalls.getTagIdsByObject(CATEGORY_A_WITHTAG);
-    for (Key key : actualTagKeys) {
-      assertEquals(key, expectedKey);
-    }
-  }
-  // Test checks if we can get Charity objects from collection of Ids.
-  @Test
-  public void getCharityIdsByObjectTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
-    Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
-    Key expectedCharityId = expectedCharity.getId();
-    Collection<Charity> CATEGORY_A_WITHCHARITY = Arrays.asList(expectedCharity);
-    Collection<Key> actualCharityKeys = dbCalls.getCharityIdsByObject(CATEGORY_A_WITHCHARITY);
-    for (Key key : actualCharityKeys) {
-      assertEquals(key, expectedCharityId);
-    }
   }
 }
