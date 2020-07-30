@@ -100,12 +100,6 @@ function updatePageWithCharities(tagName, charities)
 /**
  * Sorts objects by name.
  */
-function compare( a, b ) {
-  if ( a.name < b.name ){
-    return -1;
-  }
-  if ( a.name > b.name ){
-    return 1;
-  }
-  return 0;
+function compare(a, b) {
+    return (a.name < b.name)
 }
