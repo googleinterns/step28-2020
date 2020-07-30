@@ -14,6 +14,9 @@
 
 package com.google.servlets;
 
+import com.google.model.Charity;
+import com.google.model.Tag;
+import com.google.model.Users;
 import com.google.gson.Gson;
 import com.google.DbCalls;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -57,10 +60,10 @@ public class GetUserDetailsServlet extends HttpServlet {
       if (idToken != null) {
         // Returns profile information of current user.
         Payload payload = idToken.getPayload();
-        Entity entity;
+        Users user;
         try {
           // Reads user information from datastore.
-          entity = datastore.get(KeyFactory.createKey("Users", payload.getSubject()));
+          user = dbCalls.getUserByEmail(payload.getEmail());
         }
         // If user not in datastore, add user to datastore.
         catch (EntityNotFoundException e) {
@@ -70,10 +73,10 @@ public class GetUserDetailsServlet extends HttpServlet {
               payload.getEmail(),
               Collections.emptyList(),
               Collections.emptyList());
-          entity = datastore.get(KeyFactory.createKey("Users", payload.getSubject()));
+          user = dbCalls.getUserByEmail(payload.getEmail());
         }
         Gson gson = new Gson();
-        String json = gson.toJson(dbCalls.setUsersClass(entity));
+        String json = gson.toJson(user);
         response.setContentType("application/json;");
         response.getWriter().println(json);
 
