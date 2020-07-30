@@ -13,79 +13,14 @@
 // limitations under the License.
 
 document.addEventListener("DOMContentLoaded", getTagsForDisplay());
-
-/**
- * Stores tag image scource with tag name for easy access.
- */
-function tagToImageSourceMapper(charityCollection)
-{
-    const tagImageDict = {};
-    charityCollection.forEach(function (item)
-    {
-        item["categories"].forEach(function (tag)
-        {
-            if (tag["name"]in tagImageDict)
-            {
-                tagImageDict[tag["name"]].push(tag["imgSrc"]);
-            }
-            else
-            {
-                tagImageDict[tag["name"]] = [];
-                tagImageDict[tag["name"]].push(tag["imgSrc"]);
-            }
-        }
-        );
-    }
-    );
-    return tagImageDict;
-}
-/**
- * Creates dictionary with tag name as key and array of charity objects as values.
- */
-function tagToCharityDictMapper(charityCollection)
-{
-    const tagCharityDict = {};
-    //Associates each tag name with all its charity objects.
-    charityCollection.forEach(function (item)
-    {
-        item["categories"].forEach(function (tag)
-        {
-            if (tag["name"]in tagCharityDict)
-            {
-                tagCharityDict[tag["name"]].push(item);
-            }
-            else
-            {
-                tagCharityDict[tag["name"]] = [];
-                tagCharityDict[tag["name"]].push(item);
-            }
-        }
-        );
-    }
-    );
-    return tagCharityDict;
-}
-/**
- * Sorts dictionary keys and values alphabetically.
- */
-function sortDict(dict)
-{
-    const orderedDict = {};
-    Object.keys(dict).sort().forEach(function (key)
-    {
-        orderedDict[key] = dict[key];
-    }
-    );
-    return orderedDict;
-}
 /**
  * Gets tags for display on the browse page from the Java servlet.
  */
 function getTagsForDisplay()
 {
-    fetch('/browseCharities').then(response => response.json()).then((charityCollection) =>
+    fetch('/browseCharities').then(response => response.json()).then((tagCollection) =>
     {
-        populateBrowsePage(charityCollection);
+        populateBrowsePage(tagCollection);
     }
     );
 }
@@ -105,50 +40,46 @@ function getCharitiesForDisplay(tagName)
 /**
  * Populate browse page with category cards.
  */
-function populateBrowsePage(charityCollection)
+function populateBrowsePage(tagCollection)
 {
     document.getElementById('pagination').innerHTML = '';
-    var tagCharityDict = tagToCharityDictMapper(charityCollection);
-    var orderedTagCharityDict = sortDict(tagCharityDict);
-    var tagImageDict = tagToImageSourceMapper(charityCollection);
     // Clears previous inner HTML data to prevent duplicate data
     // from being shown on the webpage.
     document.getElementById('collection').innerHTML = "";
     const cards = document.getElementById('collection');
-    var charityDivElement;
-    Object.keys(orderedTagCharityDict).forEach(function (tag)
+    var tagDivElement;
+    Object.keys(tagCollection.sort(compare)).forEach(function (tag)
     {
-        charityDivElement = document.createElement( "div" );
-        charityDivElement.setAttribute("class", "charity-card");
-        var charityDivInternalElement = document.createElement( "div" );
-        charityDivInternalElement.setAttribute("class", "card charity-card-internal");
-        var charityImgElement = document.createElement( "img" );
-        charityImgElement.setAttribute("id", "card-img");
-        charityImgElement.setAttribute("class", "card-img-top");
-        charityImgElement.setAttribute("src", tagImageDict[tag]);
-        charityImgElement.setAttribute("alt", "Card image" );
-        var charityDivBodyElement = document.createElement( "div" );
-        charityDivBodyElement.setAttribute("class", "card-body d-flex flex-column");
-        var charityHeaderElement = document.createElement( "h4" );
-        charityHeaderElement.setAttribute("class", "card-title");
-        var headerText = document.createTextNode(tag.charAt(0).toUpperCase() + tag.slice(1));
-        charityHeaderElement.appendChild(headerText);
-        var seeCharityButtonElement = document.createElement( "button" );
-        seeCharityButtonElement.setAttribute("class", "mt-auto btn btn-primary");
-        seeCharityButtonElement.setAttribute("id", "charity-btn");
-        var seeCharityText = document.createTextNode("See Charities");
-        seeCharityButtonElement.appendChild(seeCharityText);
-        seeCharityButtonElement.addEventListener("click", function() {
-            getCharitiesForDisplay(tag);
+        tagDivElement = document.createElement( "div" );
+        tagDivElement.setAttribute("class", "charity-card");
+        var tagDivInternalElement = document.createElement( "div" );
+        tagDivInternalElement.setAttribute("class", "card charity-card-internal");
+        var tagImgElement = document.createElement( "img" );
+        tagImgElement.setAttribute("id", "card-img");
+        tagImgElement.setAttribute("class", "card-img-top");
+        tagImgElement.setAttribute("src", tagCollection[tag].imgSrc);
+        tagImgElement.setAttribute("alt", "Card image" );
+        var tagDivBodyElement = document.createElement( "div" );
+        tagDivBodyElement.setAttribute("class", "card-body d-flex flex-column");
+        var tagHeaderElement = document.createElement( "h4" );
+        tagHeaderElement.setAttribute("class", "card-title");
+        var headerText = document.createTextNode(tagCollection[tag].name.charAt(0).toUpperCase() + tagCollection[tag].name.slice(1));
+        tagHeaderElement.appendChild(headerText);
+        var seeTagButtonElement = document.createElement( "button" );
+        seeTagButtonElement.setAttribute("class", "mt-auto btn btn-primary");
+        seeTagButtonElement.setAttribute("id", "charity-btn");
+        var seeTagText = document.createTextNode("See Charities");
+        seeTagButtonElement.appendChild(seeTagText);
+        seeTagButtonElement.addEventListener("click", function() {
+            getCharitiesForDisplay(tagCollection[tag].name);
         });
-        charityDivElement.appendChild(charityDivInternalElement);
-        charityDivInternalElement.appendChild(charityImgElement);
-        charityDivInternalElement.appendChild(charityDivBodyElement);
-        charityDivBodyElement.appendChild(charityHeaderElement);
-        charityDivBodyElement.appendChild(seeCharityButtonElement);
-        cards.appendChild(charityDivElement);
-    }
-    );
+        tagDivElement.appendChild(tagDivInternalElement);
+        tagDivInternalElement.appendChild(tagImgElement);
+        tagDivInternalElement.appendChild(tagDivBodyElement);
+        tagDivBodyElement.appendChild(tagHeaderElement);
+        tagDivBodyElement.appendChild(seeTagButtonElement);
+        cards.appendChild(tagDivElement);
+    });
     document.getElementById('browse').innerHTML = '';
     var browseHeaderElement = document.createElement( "h1" );
     var browseHeaderText = document.createTextNode("Browse Charities");
@@ -165,4 +96,16 @@ function updatePageWithCharities(tagName, charities)
     const numberPerPage = 9;
     let pagination = new Pagination(charities, tagName, pageList, currentPage, numberPerPage);
     pagination.load();
+}
+/**
+ * Sorts objects by name.
+ */
+function compare( a, b ) {
+  if ( a.name < b.name ){
+    return -1;
+  }
+  if ( a.name > b.name ){
+    return 1;
+  }
+  return 0;
 }
