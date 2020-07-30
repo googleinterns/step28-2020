@@ -42,20 +42,17 @@ public class CharityScoreUpdateServlet extends HttpServlet {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         FindTrendingCharities findTrending = new FindTrendingCharities(ds);
         String outputMsg;
-        List<Charity> trendingCharities = new ArrayList<Charity>();
+
         try {
-            trendingCharities = findTrending.updateCharityScores();
-            outputMsg = "updated charity";
+            findTrending.updateCharityScores();
+            outputMsg = "success";
         } catch (Exception e) {
             System.out.println("Was not able to update all charities with exception: " + e);
-            outputMsg = "did not update charity";
+            outputMsg = "unsuccessful computation of charity scores";
         }
 
-        String jsonResponse = gson.toJson(findTrending.topTrendingCharities);
-        response.setContentType("application/json");
-        response.getWriter().println(jsonResponse);
-
-        // response.setContentType("text/html");
-        // response.getWriter().println(outputMsg);
+        //String jsonResponse = gson.toJson(trendingCharities);
+        response.setContentType("text/html");
+        response.getWriter().println(outputMsg);
     }
 }

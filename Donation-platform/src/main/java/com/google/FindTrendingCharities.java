@@ -34,7 +34,7 @@ public final class FindTrendingCharities {
     private DatastoreService ds;
 
     // number of trending charities to be returned
-    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 10;
+    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
 
     final double CHARITY_NAV_SCALE_FACTOR = 1.25;
 
@@ -47,7 +47,7 @@ public final class FindTrendingCharities {
     final double AVG_REVIEW_WEIGHT = 0.25;
 
     private static Collection<Charity> charities;
-    public static List<Charity> topTrendingCharities;
+    private List<Charity> topTrendingCharities;
 
     //constructor to do set up
     public FindTrendingCharities(DatastoreService ds) {
@@ -57,15 +57,18 @@ public final class FindTrendingCharities {
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
         if (charities == null) {
             this.charities = getAllCharities();
-        }
-        // only populate database if there is nothing in the database already
-        if (charities.size() < 1) {
-            setUp.populateDatabase();
+            if (charities.size() < 1) {
+                setUp.populateDatabase();
+                this.charities = getAllCharities();
+            }
+            updateCharityScores();
         }
     }
 
     // returns the collection of top trending charities pre-computer offline
     public Collection<Charity> queryDb() {
+        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
+        sortTrendingCharities(charitiesList);
         return topTrendingCharities;
     }
 
@@ -153,7 +156,7 @@ public final class FindTrendingCharities {
     }
 
     //update all charity trending scores
-    public List<Charity> updateCharityScores() {
+    public void updateCharityScores() {
         for (Charity charity : charities) {
             double charityScore = calcCharityTrendingScore(charity);
             charity.setTrendingScoreCharity(charityScore);
@@ -164,21 +167,15 @@ public final class FindTrendingCharities {
                 System.out.println("unable to update charity: " + e);
             }
         }
-        System.out.println("updated charities");
-        //List<Charity> trendingCharities = sortTrendingCharities();
-        sortTrendingCharities();
-        return topTrendingCharities;
     }
 
-    //keep topTrendingCharities ready for request to return
-    public void sortTrendingCharities() {
-        ArrayList<Charity> charitiesList = new ArrayList<>(charities);
+    //sort charities to get topTrendingCharities
+    public void sortTrendingCharities(ArrayList<Charity> charitiesList) {
         Collections.sort(charitiesList);
         if (charitiesList.size() > MAX_NUM_OF_CHARITIES_TO_RETURN) {
             topTrendingCharities = charitiesList.subList(0, MAX_NUM_OF_CHARITIES_TO_RETURN);
         } else {
             topTrendingCharities = charitiesList;
         }
-        System.out.println("topTrendingCharities set: " + topTrendingCharities);
     }
 }

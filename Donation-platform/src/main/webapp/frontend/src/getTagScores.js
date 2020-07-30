@@ -108,10 +108,10 @@ function getTagsAndUpdate() {
 function updateCharityScores() {
     fetch('https://donations-step-2020-new.uc.r.appspot.com/charity-update-query', {method: 'GET'})
         .then(function(response) {
-            return response.json();
+            return response.text();
         })
         .then(function(response) {
-            console.log("update charities json response: ", response);
+            console.log("update charities response: ", response);
         })
         .catch(function(err) {
             console.log(err);
