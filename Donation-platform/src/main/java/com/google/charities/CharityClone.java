@@ -21,20 +21,18 @@ public final class CharityClone {
 
   // Name of charity
   private String name;
-
-  // Link directing users to charity
-  // (ideally donation page, home page if donation page not found at /donate)
+  // link directing users to charity.
   private String link;
-
-  // Image source of charity logo
-  private String image;
-
-  // Collection storing tag IDs in the form of datastore keys
+  // Image source of charity logo.
+  private String imgSrc;
+  // Charity's category.
   private String category;
-
-  // Description of the charity's mission
+  // Charity's cause.
+  private Cause cause;
+  // Description of charity.
   private String description;
-
+  // Trending score calculated based on trending score algorithim for charity.
+  private double trendingScore;
   // User rating of charity from Charity Navigator API
   private double rating;
 
@@ -44,12 +42,14 @@ public final class CharityClone {
       String link,
       String image,
       String category,
+      String cause,
       String description,
       double rating) {
     this.name = name;
     this.link = link;
     this.image = image;
     this.category = category;
+    this.cause = cause;
     this.description = description;
     this.rating = rating;
   }
@@ -69,6 +69,10 @@ public final class CharityClone {
   public String getCategory() {
     return category;
   }
+
+  public String getCause() [
+    return cause;
+  ]
 
   public String getDescription() {
     return description;

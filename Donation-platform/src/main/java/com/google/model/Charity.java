@@ -28,8 +28,10 @@ public final class Charity implements Comparable<Charity> {
   private String link;
   // Image source of charity logo.
   private String imgSrc;
-  // Collection storing tag IDs in the form of datastore keys.
+  // Collection storing tag objects.
   private Collection<Tag> categories;
+  // Charity's cause.
+  private Cause cause;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
@@ -44,6 +46,7 @@ public final class Charity implements Comparable<Charity> {
       String link,
       String imgSrc,
       Collection<Tag> categories,
+      Cause cause,
       String description,
       double trendingScore,
       double userRating) {
@@ -52,6 +55,7 @@ public final class Charity implements Comparable<Charity> {
     this.link = link;
     this.imgSrc = imgSrc;
     this.categories = categories;
+    this.cause = cause;
     this.description = description;
     this.trendingScore = trendingScore;
     this.userRating = userRating;
@@ -99,6 +103,14 @@ public final class Charity implements Comparable<Charity> {
 
   public void setCategories(Collection<Tag> categories) {
     this.categories = categories;
+  }
+
+  public Cause getCause() {
+    return cause;
+  }
+
+  public void setCause(Cause cause) {
+    this.cause = cause;
   }
 
   public String getDescription() {

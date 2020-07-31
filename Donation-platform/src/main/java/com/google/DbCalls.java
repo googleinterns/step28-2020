@@ -29,6 +29,7 @@ public final class DbCalls {
   private static final String LINK = "link";
   private static final String IMGSRC = "imgsrc";
   private static final String CATEGORIES = "categories";
+  private static final String CAUSE = "cause";
   private static final String DESCRIPTION = "description";
   private static final String USERNAME = "userName";
   private static final String USER_RATING = "userRating";
@@ -63,13 +64,14 @@ public final class DbCalls {
   // Function adds charity to database.
   // Could be used in conjunction with user charity add form.
   public void addCharity(
-      String name, String link, String imgsrc, Collection<Tag> categories, String description)
+      String name, String link, String imgsrc, Collection<Tag> categories, Cause cause, String description)
       throws Exception {
     Entity charityEntity = new Entity(CHARITY);
     charityEntity.setProperty(NAME, name);
     charityEntity.setProperty(LINK, link);
     charityEntity.setProperty(IMGSRC, imgsrc);
     charityEntity.setProperty(CATEGORIES, getTagIdsByObject(categories));
+    charityEntity.setProperty(CAUSE, getTagIdsByObject(categories));
     charityEntity.setProperty(DESCRIPTION, description);
     charityEntity.setProperty(TRENDING_SCORE, 0.0);
     charityEntity.setProperty(USER_RATING, 0.0);

@@ -148,6 +148,7 @@ public final class AddCharitiesFromJSON {
             clone.getLink(),
             clone.getImage(),
             Arrays.asList(db.getTagByName(clone.getCategory())),
+            db.getCauseByName(clone.getCause()),
             clone.getDescription());
         } catch (Exception e) {
           numberOfFailedCharities++;
