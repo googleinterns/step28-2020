@@ -57,10 +57,6 @@ public final class FindTrendingCharities {
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
         if (charities == null) {
             this.charities = getAllCharities();
-            // if (charities.size() < 1) {
-            //     setUp.populateDatabase();
-            //     this.charities = getAllCharities();
-            // }
             updateCharityScores();
         }
     }
@@ -92,6 +88,7 @@ public final class FindTrendingCharities {
     // tagScore represents the average trending score of the associated tags
     // and avgReview is a weighted average of the userRating and the charityNavigatory API rating
     // Note: weights for the averages are stored as class constants
+    // Note: runs offline
     private double calcCharityTrendingScore(Charity charity) {
         boolean hasCharityNavRating = hasCharityNavRating(charity);
         double charityNavRating = 0;
@@ -134,6 +131,7 @@ public final class FindTrendingCharities {
     }
 
     // return the average trending score of a collection of tags
+    // Note: runs offline
     private double getTagTrendingScore(Collection<Tag> tags) throws Exception {
         double sumScores = 0;
         int numTags = tags.size();
@@ -151,11 +149,13 @@ public final class FindTrendingCharities {
     }
     
     //updates one tag in db with a new trendingScore
+    // Note: runs offline
     public void updateTagScore(Tag tagToUpdate) throws Exception {
         db.updateTag(tagToUpdate);
     }
 
     //update all charity trending scores
+    // Note: runs offline
     public void updateCharityScores() {
         for (Charity charity : charities) {
             double charityScore = calcCharityTrendingScore(charity);
