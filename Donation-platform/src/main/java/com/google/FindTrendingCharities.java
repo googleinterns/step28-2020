@@ -57,10 +57,10 @@ public final class FindTrendingCharities {
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
         if (charities == null) {
             this.charities = getAllCharities();
-            if (charities.size() < 1) {
-                setUp.populateDatabase();
-                this.charities = getAllCharities();
-            }
+            // if (charities.size() < 1) {
+            //     setUp.populateDatabase();
+            //     this.charities = getAllCharities();
+            // }
             updateCharityScores();
         }
     }
@@ -76,13 +76,13 @@ public final class FindTrendingCharities {
     private Collection<Charity> getAllCharities() {
         Collection<Charity> charities = new ArrayList<>();
         try {
-        charities = db.getAllCharities();
+            charities = db.getAllCharities();
         } catch (EntityNotFoundException e) {
-        System.out.println("charity entities not found: " + e);
-        return null;
+            System.out.println("charity entities not found: " + e);
+            return null;
         } catch (Exception e) {
-        System.out.println("unexpected exception: " + e);
-        return null;
+            System.out.println("unexpected exception: " + e);
+            return null;
         }
         return charities;
     }
@@ -96,26 +96,26 @@ public final class FindTrendingCharities {
         boolean hasCharityNavRating = hasCharityNavRating(charity);
         double charityNavRating = 0;
         if (hasCharityNavRating) {
-        charityNavRating = calcCharityNavRating(charity);
+            charityNavRating = calcCharityNavRating(charity);
         }
         double userRating = charity.getUserRating();
         double avgReview;
         if (hasCharityNavRating) {
-        avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;
+            avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;
         } else {
-        avgReview = userRating;
+            avgReview = userRating;
         }
         Collection<Tag> tags = new ArrayList<>();
         tags = charity.getCategories();
         double charityTagsScore = 0;
         try {
-        charityTagsScore = getTagTrendingScore(tags);
+            charityTagsScore = getTagTrendingScore(tags);
         } catch (EntityNotFoundException e) {
-        System.out.println("tag entity not found: " + e);
+            System.out.println("tag entity not found: " + e);
         } catch (TooManyResultsException e) {
-        System.out.println("duplicate tags exist in db: " + e);
+            System.out.println("duplicate tags exist in db: " + e);
         } catch (Exception e) {
-        System.out.println("unexpected exception: e");
+            System.out.println("unexpected exception: e");
         }
         double charityTrendingScore =
             TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
@@ -138,8 +138,8 @@ public final class FindTrendingCharities {
         double sumScores = 0;
         int numTags = tags.size();
         for (Tag tag : tags) {
-        double tagScore = tag.getTrendingScoreTag();
-        sumScores += tagScore;
+            double tagScore = tag.getTrendingScoreTag();
+            sumScores += tagScore;
         }
         return (sumScores / numTags);
     }
