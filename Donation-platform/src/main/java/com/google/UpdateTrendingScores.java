@@ -32,6 +32,10 @@ import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 // Note: Only runs as a result of the offline script
 public final class UpdateTrendingScores extends CharityUtils {
 
+    public UpdateTrendingScores(DatastoreService ds) {
+        super(ds);
+    }
+
     // returns the trending score of inputted charity calculated
     // as a weighted average of the tagScore and the avgReview where
     // tagScore represents the average trending score of the associated tags
@@ -65,6 +69,20 @@ public final class UpdateTrendingScores extends CharityUtils {
         double charityTrendingScore =
             TAGS_SCORE_WEIGHT * charityTagsScore + AVG_REVIEW_WEIGHT * avgReview;
         return charityTrendingScore;
+    }
+
+    //update all charity trending scores
+    public void updateCharityScores() {
+        for (Charity charity : charities) {
+            double charityScore = calcCharityTrendingScore(charity);
+            charity.setTrendingScoreCharity(charityScore);
+            try {
+                db.updateCharity(charity);
+            }
+            catch (Exception e) {
+                System.out.println("unable to update charity: " + e);
+            }
+        }
     }
 
     // TODO: Decide whether we will be using charityNavRating and change accordingly

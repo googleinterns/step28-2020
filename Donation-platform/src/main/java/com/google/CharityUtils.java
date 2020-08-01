@@ -25,12 +25,15 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
+
 // Base class for charity utils including finding trending charities
 // and updating charity trending scores
-public final class CharityUtils {
+public class CharityUtils {
 
-    private DbCalls db;
-    private DatastoreService ds;
+    public DbCalls db;
+    public DatastoreService ds;
 
     // number of trending charities to be returned
     final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
@@ -55,7 +58,7 @@ public final class CharityUtils {
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
         if (charities == null) {
             this.charities = getAllCharities();
-            updateCharityScores();
+            //updateCharityScores();
         }
     }
 
@@ -78,20 +81,6 @@ public final class CharityUtils {
     public Collection<Tag> getTagsDb() throws Exception{
         Collection<Tag> tags= db.getAllTags();
         return tags;
-    }
-
-    //update all charity trending scores
-    public void updateCharityScores() {
-        for (Charity charity : charities) {
-            double charityScore = calcCharityTrendingScore(charity);
-            charity.setTrendingScoreCharity(charityScore);
-            try {
-                db.updateCharity(charity);
-            }
-            catch (Exception e) {
-                System.out.println("unable to update charity: " + e);
-            }
-        }
     }
 
 }

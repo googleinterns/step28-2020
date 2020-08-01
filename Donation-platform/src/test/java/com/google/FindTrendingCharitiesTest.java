@@ -74,7 +74,8 @@ public final class FindTrendingCharitiesTest {
     db = new DbCalls(ds);
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
-    utils = new CharityUtils(ds);
+    updateTrending = new UpdateTrendingScores(ds);
+    updateTrending.updateCharityScores();
     query = new FindTrendingCharities(ds);
     RESULTS = query.queryDb();
     FA = db.getCharityByName("Feeding America");

@@ -30,6 +30,10 @@ import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 
 public final class FindTrendingCharities extends CharityUtils {
 
+    public FindTrendingCharities(DatastoreService ds) {
+        super(ds);
+    }
+
     // returns the collection of top trending charities pre-computer offline
     public Collection<Charity> queryDb() {
         ArrayList<Charity> charitiesList = new ArrayList<>(charities);

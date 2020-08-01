@@ -15,6 +15,8 @@
 package com.google.servlets;
 
 import com.google.FindTrendingCharities;
+import com.google.UpdateTrendingScores;
+import com.google.CharityUtils;
 
 import java.io.IOException;
 import java.util.Collection;
