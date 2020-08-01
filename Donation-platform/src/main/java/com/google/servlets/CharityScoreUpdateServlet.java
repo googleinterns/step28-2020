@@ -40,11 +40,11 @@ public class CharityScoreUpdateServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-        FindTrendingCharities findTrending = new FindTrendingCharities(ds);
+        UpdateTrendingScores updateTrending = new UpdateTrendingScores(ds);
         String outputMsg;
 
         try {
-            findTrending.updateCharityScores();
+            updateTrending.updateCharityScores();
             outputMsg = "success";
         } catch (Exception e) {
             System.out.println("Was not able to update all charities with exception: " + e);

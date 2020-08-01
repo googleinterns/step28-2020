@@ -37,6 +37,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.DbSetUpUtils;
+import com.google.FindTrendingCharities;
+import com.google.UpdateTrendingScores;
+import com.google.CharityUtils;
 import com.google.model.Charity;
 import com.google.model.Tag;
 
@@ -53,6 +56,8 @@ public final class FindTrendingCharitiesTest {
   private Charity AHA;
 
   private FindTrendingCharities query;
+  private UpdateTrendingScores updateTrending;
+  private CharityUtils utils;
 
   private final LocalServiceTestHelper helper =
        new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -69,8 +74,8 @@ public final class FindTrendingCharitiesTest {
     db = new DbCalls(ds);
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
+    utils = new CharityUtils(ds);
     query = new FindTrendingCharities(ds);
-    query.updateCharityScores();
     RESULTS = query.queryDb();
     FA = db.getCharityByName("Feeding America");
     RC = db.getCharityByName("Red Cross");
@@ -129,7 +134,7 @@ public final class FindTrendingCharitiesTest {
             put(SJ, SJ.getTrendingScoreCharity());
             put(FA, FA.getTrendingScoreCharity());
             put(YMCA, YMCA.getTrendingScoreCharity());
-           put(NC, NC.getTrendingScoreCharity());
+            put(NC, NC.getTrendingScoreCharity());
           }
         };
 

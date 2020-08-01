@@ -41,10 +41,10 @@ public class TagScoreUpdateServlet extends HttpServlet {
         Gson gson = new Gson();
         System.out.println("started doGet");
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
-        FindTrendingCharities findTrending = new FindTrendingCharities(ds);
+        CharityUtils charityUtils = new CharityUtils(ds);
         Collection<Tag> tags = new ArrayList<Tag>();
         try {
-            tags = findTrending.getTagsDb(); 
+            tags = charityUtils.getTagsDb(); 
         } catch (Exception e) {
             System.out.println("Was not able to get all tags with exception: " + e);
         }
@@ -59,7 +59,7 @@ public class TagScoreUpdateServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         DbCalls dbCalls = new DbCalls(ds);
-        FindTrendingCharities findTrending = new FindTrendingCharities(ds);
+        UpdateTrendingScores updateTrending = new UpdateTrendingScores(ds);
 
         String outputMsg;
 
@@ -68,7 +68,7 @@ public class TagScoreUpdateServlet extends HttpServlet {
 
         Tag tagToUpdate = gson.fromJson(reader, Tag.class);
         try {
-            findTrending.updateTagScore(tagToUpdate);
+            updateTrending.updateTagScore(tagToUpdate);
             outputMsg = "ok";
         } catch (Exception e) {
             outputMsg = "not ok";
