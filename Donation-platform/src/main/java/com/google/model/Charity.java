@@ -15,33 +15,47 @@
 package com.google.model;
 
 import java.util.Collection;
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
+import java.io.Serializable;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Cache;
+import com.googlecode.objectify.annotation.Index;
+import java.lang.Long;
 
+
+// In Objectify classes must be registered as entities for the service to associate
+// the class object with datastore and store it. 
+@Entity
+// This annotation tells the objectify service to cache the class objects 
+// in memcache whenever possible.
+@Cache
 /** Represents a Charity : id, name, link, categories, description, trendingScore. */
-public final class Charity implements Comparable<Charity> {
+public final class Charity implements Comparable<Charity>, Serializable {
 
   // Key id from datastore uniquely identifiying each charity.
-  private Key id;
+  @Id private Long id;
   // Name of charity
-  private String name;
+  @Index private String name;
   // link directing users to charity.
   private String link;
   // Image source of charity logo.
   private String imgSrc;
-  // Collection storing tag objects.
-  private Collection<Tag> categories;
   // Charity's cause.
-  private Cause cause;
+  @Index private Cause cause;
+  // Collection storing tags in the form of datastore keys.
+  @Index private Collection<Tag> categories;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
   private double trendingScore;
   // User rating of charity determined by users.
-  private double userRating;
+  private double rating;
 
+  private Charity() {}
   // Initialize all fields of a Charity
   public Charity(
-      Key id,
+      Long id,
       String name,
       String link,
       String imgSrc,
@@ -49,7 +63,7 @@ public final class Charity implements Comparable<Charity> {
       Cause cause,
       String description,
       double trendingScore,
-      double userRating) {
+      double rating) {
     this.id = id;
     this.name = name;
     this.link = link;
@@ -58,18 +72,18 @@ public final class Charity implements Comparable<Charity> {
     this.cause = cause;
     this.description = description;
     this.trendingScore = trendingScore;
-    this.userRating = userRating;
+    this.rating = rating;
   }
 
-  public Charity(Key id) {
+  public Charity(Long id) {
     this.id = id;
   }
 
-  public Key getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Key id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -129,12 +143,12 @@ public final class Charity implements Comparable<Charity> {
     this.trendingScore = trendingScore;
   }
 
-  public double getUserRating() {
-    return userRating;
+  public double getRating() {
+    return rating;
   }
 
-  public void setUserRating(double userRating) {
-    this.userRating = userRating;
+  public void setRating(double rating) {
+    this.rating = rating;
   }
 
   @Override

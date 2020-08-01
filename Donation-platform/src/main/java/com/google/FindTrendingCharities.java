@@ -106,12 +106,12 @@ public final class FindTrendingCharities {
     if (hasCharityNavRating) {
       charityNavRating = calcCharityNavRating(charity);
     }
-    double userRating = charity.getUserRating();
+    double rating = charity.getRating();
     double avgReview;
     if (hasCharityNavRating) {
-      avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;
+      avgReview = USER_RATING_WEIGHT * rating + CHARITY_NAV_WEIGHT * charityNavRating;
     } else {
-      avgReview = userRating;
+      avgReview = rating;
     }
     Collection<Tag> tags = new ArrayList<>();
     tags = charity.getCategories();

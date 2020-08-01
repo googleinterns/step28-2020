@@ -70,9 +70,9 @@ public final class CharityClone {
     return category;
   }
 
-  public String getCause() [
+  public String getCause() {
     return cause;
-  ]
+  }
 
   public String getDescription() {
     return description;
