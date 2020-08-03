@@ -52,21 +52,6 @@ class Card
                 window.open(charity.link, "_blank");
             }
                 .bind(this));
-            // Changes header based on page user is on.
-            if (this.pageName == "trending")
-            {
-                var charityTrendingHeaderElement = this.divMaker("card-header");
-                var charityTrendingHeaderText = document.createTextNode("Trending #" + cur_count);
-                charityTrendingHeaderElement.appendChild(charityTrendingHeaderText);
-                charityDivInternalElement.appendChild(charityTrendingHeaderElement);
-            }
-            if (this.pageName == "personalized")
-            {
-                var charityTrendingHeaderElement = this.divMaker("card-header");
-                var charityTrendingHeaderText = document.createTextNode("Match #" + cur_count);
-                charityTrendingHeaderElement.appendChild(charityTrendingHeaderText);
-                charityDivInternalElement.appendChild(charityTrendingHeaderElement);
-            }
             var charityTextElement = document.createElement("p");
             charityTextElement.setAttribute("class", "card-text")
             // Adds badges to cards if on trending or personalized page.
