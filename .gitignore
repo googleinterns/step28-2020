@@ -42,4 +42,4 @@ Thumbs.db.DS_Store
 
 # Node Module #
 ###############
-node_modules/
+**/node_modules
