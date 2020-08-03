@@ -1,5 +1,5 @@
 .card {
-    border: thick solid black;
+    border: thick solid orange;
 }
 
 .card-img-top {
@@ -33,3 +33,8 @@ body {
 .row {
     margin-bottom: 20px;
 }
+
+/*.card-img-top {
+    width: 100%;
+    height: auto;
+}*/
