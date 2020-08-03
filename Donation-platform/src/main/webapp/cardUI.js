@@ -65,9 +65,37 @@ class Card
                 }
                 charityTextElement.appendChild(tagHeader);
             }
-            var descriptionText = document.createTextNode(charity.description);
-            charityTextElement.appendChild(descriptionText);
+            if (charity.description.length > 100) {
+                var initialDescription = charity.description.substring(0,100);
+                var moreDescription = charity.description.substring(100);
+                var initialDescriptionText = document.createTextNode(initialDescription);
+                
+                var dotsSpan = document.createElement("span");
+                dotsSpan.setAttribute("id", charity.id+"-dots");
+                var dotsText = document.createTextNode("...");
+                dotsSpan.appendChild(dotsText);
+                
+                var moreDescriptionSpan = document.createElement("span");
+                moreDescriptionSpan.setAttribute("class", "more");
+                moreDescriptionSpan.setAttribute("id", charity.id+"-more");
+                var moreDescriptionText = document.createTextNode(moreDescription);
+                moreDescriptionSpan.appendChild(moreDescriptionText);
+                
+                var buttonElement = this.buttonMaker("link-btn", charity.id+"-expand-btn", "Read More");
+                buttonElement.addEventListener("click", function ()
+                {
+                    this.readMoreLessDescription(charity.id);
+                }
+                    .bind(this, charity.id));
 
+                charityTextElement.appendChild(initialDescriptionText);
+                charityTextElement.appendChild(dotsSpan);
+                charityTextElement.appendChild(moreDescriptionSpan);
+                charityTextElement.appendChild(buttonElement);
+            } else {
+                var descriptionText = document.createTextNode(charity.description);
+                charityTextElement.appendChild(descriptionText);
+            }
             charityDivElement.appendChild(charityDivInternalElement);
             charityDivInternalElement.appendChild(charityImgElement);
             charityDivInternalElement.appendChild(charityDivBodyElement);
@@ -138,6 +166,21 @@ class Card
         var browseHeaderText = document.createTextNode("Browse Charities");
         browseHeaderElement.appendChild(browseHeaderText);
         document.getElementById('browse').appendChild(browseHeaderElement);
+    }
+    readMoreLessDescription(charityId) {
+      var dots = document.getElementById(charityId+"-dots");
+      var moreText = document.getElementById(charityId+"-more");
+      var btnText = document.getElementById(charityId+"-expand-btn");
+
+      if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Read more"; 
+        moreText.style.display = "none";
+      } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Read less"; 
+        moreText.style.display = "inline";
+      }
     }
     /**
      * Sorts objects by name.
