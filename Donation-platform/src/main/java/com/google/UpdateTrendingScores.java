@@ -99,12 +99,10 @@ public final class UpdateTrendingScores extends CharityUtils {
     // return the average trending score of a collection of tags
     private double getTagTrendingScore(Collection<Tag> tags) throws Exception {
         double sumScores = 0;
-        int numTags = tags.size();
         for (Tag tag : tags) {
-            double tagScore = tag.getTrendingScoreTag();
-            sumScores += tagScore;
+            sumScores += tag.getTrendingScoreTag();
         }
-        return (sumScores / numTags);
+        return (sumScores / tags.size());
     }
     
     //updates one tag in db with a new trendingScore
