@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -35,7 +34,16 @@ import static org.junit.Assert.assertEquals;
 import com.google.appengine.api.datastore.Key;
 import java.util.Collections;
 import java.util.List;
-
+import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.cache.AsyncCacheFilter;
+import com.googlecode.objectify.util.Closeable;
+import java.lang.Long;
+import org.junit.BeforeClass;
 import com.google.DbSetUpUtils;
 import com.google.FindTrendingCharities;
 import com.google.UpdateTrendingScores;
@@ -68,10 +76,22 @@ public final class FindTrendingCharitiesTest {
 
   private Collection<Charity> RESULTS;
 
+  protected Closeable session;
+
+  // Initializes objectify class entities within its context before tests are run.
+  @BeforeClass
+    public static void setUpBeforeClass() {
+        // Reset the Factory so that all translators work properly.
+        ObjectifyService.setFactory(new ObjectifyFactory());
+        ObjectifyService.register(Charity.class);
+        ObjectifyService.register(Tag.class);
+    }
+
   @Before
   public void setUp() throws Exception {
     helper.setUp();
     db = new DbCalls(ds);
+    this.session = ObjectifyService.begin();
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
     updateTrending = new UpdateTrendingScores(ds);
@@ -89,6 +109,8 @@ public final class FindTrendingCharitiesTest {
 
   @After
   public void tearDown() {
+     AsyncCacheFilter.complete();
+     this.session.close();
      helper.tearDown();
   }
 

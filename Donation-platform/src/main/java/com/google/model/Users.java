@@ -15,25 +15,36 @@
 package com.google.model;
 
 import java.util.Collection;
-import com.google.appengine.api.datastore.Key;
+import java.io.Serializable;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Cache;
+import com.googlecode.objectify.annotation.Index;
 
+// In Objectify classes must be registered as entities for the service to associate
+// the class object with datastore and store it. 
+@Entity
+// This annotation tells the objectify service to cache the class objects 
+// in memcache whenever possible.
+@Cache
 /** Represents a Users : id, userName, email, userInterests, charitiesDonatedTo. */
-public final class Users {
+public final class Users implements Serializable {
 
-  // Datastore key uniquely identifying user.
-  private Key id;
+  // Datastore String uniquely identifying user.
+  @Id private String id;
   // Username of user
-  private String userName;
+  @Index private String userName;
   // Email address of user
-  private String email;
-  // Tag IDs representing category tags the user selected that they were interested in.
+  @Index private String email;
+  // Category tags the user selected that they were interested in.
   private Collection<Tag> userInterests;
-  // Charity IDs representing charities the user donated to.
+  // Charities the user donated to.
   private Collection<Charity> charitiesDonatedTo;
 
+  private Users() {}
   // Initialize all fields of Users
   public Users(
-      Key id,
+      String id,
       String userName,
       String email,
       Collection<Tag> userInterests,
@@ -45,15 +56,15 @@ public final class Users {
     this.charitiesDonatedTo = charitiesDonatedTo;
   }
 
-  public Users(Key id) {
+  public Users(String id) {
     this.id = id;
   }
 
-  public Key getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(Key id) {
+  public void setId(String id) {
     this.id = id;
   }
 
