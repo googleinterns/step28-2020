@@ -15,13 +15,6 @@ body {
   font-family: "Roboto", sans-serif
 }
 
-#content {
-  padding-top: 100px;
-  margin-left: 30px;
-  /* right margin at 30px appears smaller than left so extra 5px to compensate */
-  margin-right: 35px;
-}
-
 .container {
     width: 100%;
 }
@@ -34,7 +27,9 @@ body {
     margin-bottom: 20px;
 }
 
-/*.card-img-top {
-    width: 100%;
-    height: auto;
-}*/
+#trending {
+  text-align: center;
+  margin: auto;
+  width: 60%;
+  padding-top: 70px;
+}
