@@ -49,6 +49,8 @@ public final class Charity implements Comparable<Charity>, Serializable {
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
   private double trendingScore;
+  // Trending score for the charity's name.
+  private double nameTrendingScore;
   // User rating of charity determined by users.
   private double rating;
 
@@ -72,6 +74,7 @@ public final class Charity implements Comparable<Charity>, Serializable {
     this.cause = cause;
     this.description = description;
     this.trendingScore = trendingScore;
+    this.nameTrendingScore = 0.0;
     this.rating = rating;
   }
 
@@ -140,6 +143,14 @@ public final class Charity implements Comparable<Charity>, Serializable {
   }
 
   public void setTrendingScoreCharity(double trendingScore) {
+    this.trendingScore = trendingScore;
+  }
+
+  public double getNameTrendingScore() {
+    return trendingScore;
+  }
+
+  public void setNameTrendingScore(double trendingScore) {
     this.trendingScore = trendingScore;
   }
 

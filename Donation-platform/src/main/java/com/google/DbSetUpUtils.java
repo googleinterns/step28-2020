@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
@@ -53,7 +54,8 @@ public final class DbSetUpUtils {
   private static final String RACE_EQ_IMAGE = "https://previews.123rf.com/images/alena08/alena081803/alena08180300068/97706534-people-icon-stick-figure-illustration-people-isolated-on-white-background-vector.jpg";
   private static final String HEALTH_IMAGE = "https://image.shutterstock.com/image-vector/medical-blank-line-icon-high-260nw-756046810.jpg";
 
-  private static final List<String> tags = new ArrayList<String>(Arrays.asList(HUNGER, EDU, CHILD, ENV, RACE_EQ, HEALTH)); 
+  private static final List<String> tags = new ArrayList<String>(Arrays.asList(HUNGER, EDU, CHILD, ENV, RACE_EQ, HEALTH));
+  private static final List<String> causes = new ArrayList<String>(Arrays.asList(HUNGER_CAUSE, EDU_CAUSE, CHILD_CAUSE, ENV_CAUSE, RACE_EQ_CAUSE, HEALTH_CAUSE)); 
 
   public static final Map<String, Integer> tagScores =
     new HashMap<String, Integer>() {
@@ -156,12 +158,12 @@ public final class DbSetUpUtils {
       Tag racialEquality = db.getTagByName(RACE_EQ);
       Tag health = db.getTagByName(HEALTH);
 
-      Cause hungerCause = db.getTagByName(HUNGER_CAUSE);
-      Cause educationCause = db.getTagByName(EDU_CAUSE);
-      Cause childrenCause = db.getTagByName(CHILD_CAUSE);
-      Cause environmentCause = db.getTagByName(ENV_CAUSE);
-      Cause racialEqualityCause = db.getTagByName(RACE_EQ_CAUSE);
-      Cause healthCause = db.getTagByName(HEALTH_CAUSE);
+      Cause hungerCause = db.getCauseByName(HUNGER_CAUSE);
+      Cause educationCause = db.getCauseByName(EDU_CAUSE);
+      Cause childrenCause = db.getCauseByName(CHILD_CAUSE);
+      Cause environmentCause = db.getCauseByName(ENV_CAUSE);
+      Cause racialEqualityCause = db.getCauseByName(RACE_EQ_CAUSE);
+      Cause healthCause = db.getCauseByName(HEALTH_CAUSE);
 
       db.addCharity(
           "Feeding America",

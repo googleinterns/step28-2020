@@ -16,6 +16,7 @@ package com.google.objectify;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.model.Users;
 import com.googlecode.objectify.ObjectifyService;
 import javax.servlet.ServletContextEvent;
@@ -33,6 +34,7 @@ public class ObjectifyBootstrapper implements ServletContextListener {
   public void contextInitialized(ServletContextEvent event) {
     ObjectifyService.register(Charity.class);
     ObjectifyService.register(Tag.class);
+    ObjectifyService.register(Cause.class);
     ObjectifyService.register(Users.class);
   }
 }

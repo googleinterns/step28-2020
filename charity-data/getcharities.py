@@ -9,7 +9,7 @@ base_url = 'https://api.data.charitynavigator.org/v2/Organizations?'
 app_id = '80de6d65'
 app_key = '269363d5f87d1f1834f7b5ef5f9e4c3a'
 pageSize = '1000'
-rated = 'true'
+rated = 'TRUE'
 sizeRange = '3'
 sort = 'RATING'
 params = {'app_id': app_id, 'app_key': app_key, 'pageSize': pageSize,
@@ -47,12 +47,23 @@ def get_category(charity):
     return charity['category']['categoryName']
 
 
+def get_cause(charity):
+    if 'cause' in charity:
+        return charity['cause']['causeName']
+    else:
+        return None
+    
+
 def get_description(charity):
     return charity['mission']
 
 
 def get_rating(charity):
-    return charity['currentRating']['score']
+    if 'currentRating' in charity:
+        return charity['currentRating']['score']
+    else:
+        return None
+    
 
 
 def process_charity(charity):
@@ -68,6 +79,7 @@ def process_charity(charity):
             processed_charity['link'] = get_link(charity['websiteURL'])
         else:
             num_no_valid_link += 1
+            return None
     except requests.ConnectionError as e:
         print("Failed to open url " + charity['websiteURL'])
         num_no_valid_link += 1
@@ -85,8 +97,13 @@ def process_charity(charity):
         return None
 
     processed_charity['category'] = get_category(charity)
+    processed_charity['cause'] = get_cause(charity)
     processed_charity['description'] = get_description(charity)
-    processed_charity['rating'] = get_rating(charity)
+    
+    if get_rating(charity) is not None:
+        processed_charity['rating'] = get_rating(charity)
+    else:
+        return None
 
     return processed_charity
 

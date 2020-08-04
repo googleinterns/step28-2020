@@ -2,6 +2,7 @@ package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.model.Users;
 import java.util.List;
 import java.util.ArrayList;
@@ -57,12 +58,17 @@ public final class DbCalls
         List<Charity> charityDataStore = ofy().load().type(Charity.class).list();
         return charityDataStore;
     }
-
     // Function returns all the tag objects in the database.
     public Collection<Tag> getAllTags() throws Exception
     {
         List<Tag> tagDataStore = ofy().load().type(Tag.class).list();
         return tagDataStore;
+    }
+    // Function returns all the cause objects in the database.
+    public Collection<Cause> getAllCauses() throws Exception
+    {
+        List<Cause> causeDataStore = ofy().load().type(Cause.class).list();
+        return causeDataStore;
     }
     // Function returns all the users in the database.
     public Collection<Users> getAllUsers() throws Exception
@@ -85,7 +91,7 @@ public final class DbCalls
         Tag newTag = new Tag(null,  name, trendingScore, imgSrc);
         ofy().save().entity(newTag).now();
     }
-    // Function adds tag to the database.
+    // Function adds cause to the database.
     public void addCause(String name, double trendingScore) throws Exception
     {
         Cause newCause = new Cause(null,  name, trendingScore);
@@ -136,6 +142,27 @@ public final class DbCalls
         // Return all charity objects containing tag.
         return charityDataStore;
     }
+    // Function returns all charities with one of the three specified tags.
+    public Collection<Charity> getPersonalizedMatches(String name1, String name2, String name3) throws Exception {
+        ArrayList<Charity> charityDataStore = new ArrayList<Charity>();
+        for (Charity charity : ofy().load().type(Charity.class).list())
+        {
+            // Read the categories assigned to the charity
+            if (charity.getCategories() != null)
+            {
+                for (Tag tag : charity.getCategories())
+                {
+                    // Check to see if category contains tag searched for.
+                    if (tag.getName().equals(name1) | tag.getName().equals(name2) | tag.getName().equals(name3))
+                    {
+                        charityDataStore.add(charity);
+                    }
+                }
+            }
+        }
+        // Return all charity objects containing tag.
+        return charityDataStore;
+    }
     // Function returns tag object from ID.
     public Tag getTagById(Long tagId) throws Exception
     {
@@ -147,7 +174,7 @@ public final class DbCalls
         return ofy().load().type(Tag.class).filter("name", name).first().now();
     }
     // Function returns cause object matching name passed in.
-    public Tag getCauseByName(String name) throws Exception
+    public Cause getCauseByName(String name) throws Exception
     {
         return ofy().load().type(Cause.class).filter("name", name).first().now();
     }

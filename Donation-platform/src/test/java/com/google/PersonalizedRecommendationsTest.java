@@ -16,6 +16,7 @@ package com.google;
  
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.DbSetUpUtils;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,6 +70,7 @@ public final class PersonalizedRecommendationsTest {
         ObjectifyService.setFactory(new ObjectifyFactory());
         ObjectifyService.register(Charity.class);
         ObjectifyService.register(Tag.class);
+        ObjectifyService.register(Cause.class);
     }
 
   @Before

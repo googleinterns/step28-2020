@@ -85,7 +85,12 @@
       </fieldset>
       <fieldset>
         <input name="imgsrc" id="imgsrc" placeholder="Charity Image Link" type="url" tabindex="3" required="" />
-      </fieldset><select class="select-multiple-tags" name="categories" id="categories" multiple="multiple">
+      </fieldset><select class="select-tag" name="category" id="category">
+      <option value="" selected disabled hidden>Select associated category</option>
+      </select>
+      <fieldset>
+      </fieldset><select class="select-cause" name="cause" id="cause">
+      <option value="" selected disabled hidden>Select associated cause</option>
       </select>
       <fieldset>
         <textarea name="description" id="description" placeholder="Description of charity..." tabindex="5" required=""></textarea>

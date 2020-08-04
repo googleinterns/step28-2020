@@ -2,6 +2,7 @@ package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.model.Users;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static org.junit.Assert.assertEquals;
@@ -45,6 +46,8 @@ public class DbCallsTest {
   private static final String CHARITY_C = "Charity C";
   private static final String TAG_A = "Tag A";
   private static final String TAG_B = "Tag B";
+  private static final Cause CAUSE_A = null;
+  private static final Cause CAUSE_B = null;
   private static final String EMAIL_A = "Email A";
   private static final String EMAIL_B = "Email B";
   private static final String USERNAME_A = "Username A";
@@ -71,6 +74,7 @@ public class DbCallsTest {
   private static final String CHARITY = "Charity";
   private static final String TRENDING_SCORE = "trendingScore";
   private static final String TAG = "Tag";
+  private static final String CAUSE = "Cause";
   private static final String USERS = "Users";
   private static final String NAME = "name";
   private static final String LINK = "link";
@@ -92,6 +96,7 @@ public class DbCallsTest {
         ObjectifyService.setFactory(new ObjectifyFactory());
         ObjectifyService.register(Charity.class);
         ObjectifyService.register(Tag.class);
+        ObjectifyService.register(Cause.class);
         ObjectifyService.register(Users.class);
     }
   // Sets up local datastore service and dbCalls object.
@@ -111,7 +116,7 @@ public class DbCallsTest {
   // Test checks if function adds charity to the database.
   @Test
   public void addCharityTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, CAUSE_A, DESCRIPTION_A, 0.0);
     assertEquals(1, ds.prepare(new Query(CHARITY)).countEntities(withLimit(10)));
   }
   // Test checks if function adds tag to the database.
@@ -129,8 +134,8 @@ public class DbCallsTest {
   // Test checks if function returns all charities in database.
   @Test
   public void getAllCharitiesTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
-    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORIES_B, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, CAUSE_A, DESCRIPTION_A,  0.0);
+    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORIES_B, CAUSE_B, DESCRIPTION_B, 0.0);
     Collection<Charity> expected = dbCalls.getAllCharities();
     assertEquals(expected.size(), ds.prepare(new Query(CHARITY)).countEntities(withLimit(10)));
   }
@@ -153,8 +158,8 @@ public class DbCallsTest {
   // Test checks if object returned corresponds to name passed in.
   @Test
   public void getCharityByNameTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
-    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORIES_B, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, CAUSE_A, DESCRIPTION_A, 0.0);
+    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORIES_B, CAUSE_B, DESCRIPTION_B, 0.0);
     Charity expected = dbCalls.getCharityByName(CHARITY_A);
     assertEquals(expected.getName(), CHARITY_A);
   }
@@ -172,9 +177,9 @@ public class DbCallsTest {
     Tag blmTag = dbCalls.getTagByName(PLACEHOLDER_STRING);
     Collection<Tag> CATEGORY_A_WITH_TAG = Arrays.asList(blmTag);
     Collection<Tag> CATEGORY_B_WITH_TAG = Arrays.asList(blmTag);
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORY_A_WITH_TAG, DESCRIPTION_A);
-    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORY_B_WITH_TAG, DESCRIPTION_B);
-    dbCalls.addCharity(CHARITY_C, LINK_B, IMGSRC_B, CATEGORIES_C, DESCRIPTION_B);
+    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORY_A_WITH_TAG, CAUSE_A, DESCRIPTION_A, 0.0);
+    dbCalls.addCharity(CHARITY_B, LINK_B, IMGSRC_B, CATEGORY_B_WITH_TAG, CAUSE_B, DESCRIPTION_B, 0.0);
+    dbCalls.addCharity(CHARITY_C, LINK_B, IMGSRC_B, CATEGORIES_C, CAUSE_A, DESCRIPTION_B, 0.0);
     Collection<Charity> expected = dbCalls.getCharitiesByTag(PLACEHOLDER_STRING);
     assertEquals(expected.size(), 2);
   }
@@ -195,7 +200,7 @@ public class DbCallsTest {
   // Test checks if function updates database entity properties.
   @Test
   public void updateCharityTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, CAUSE_A, DESCRIPTION_A, 0.0);
     Charity charity = dbCalls.getCharityByName(CHARITY_A);
     charity.setName(PLACEHOLDER_STRING);
     dbCalls.updateCharity(charity);
@@ -225,7 +230,7 @@ public class DbCallsTest {
   // Test checks if function gets charity by ID from database.
   @Test
   public void getCharityByIdTest() throws Exception {
-    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, DESCRIPTION_A);
+    dbCalls.addCharity(CHARITY_A, LINK_A, IMGSRC_A, CATEGORIES_A, CAUSE_A, DESCRIPTION_A, 0.0);
     Charity expectedCharity = dbCalls.getCharityByName(CHARITY_A);
     Long expectedCharityId = expectedCharity.getId();
     Charity actualCharity = dbCalls.getCharityById(expectedCharityId);

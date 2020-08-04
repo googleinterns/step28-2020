@@ -24,11 +24,11 @@ public final class CharityClone {
   // link directing users to charity.
   private String link;
   // Image source of charity logo.
-  private String imgSrc;
+  private String image;
   // Charity's category.
   private String category;
   // Charity's cause.
-  private Cause cause;
+  private String cause;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.

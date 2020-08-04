@@ -51,7 +51,7 @@ public final class AddCharitiesFromJSON {
   private static final String RELI = "Religion";
   private static final String COMM = "Community Development";
   private static final String RESEARCH = "Research and Public Policy";
- 
+
   // TAG IMAGES
   private static final String ANIMAL_IMAGE = "https://i.pinimg.com/originals/51/31/0d/51310de57fc8f015e4020ed258c763ae.jpg";
   private static final String ARTS_IMAGE = "https://tradinginsider.fr/wp-content/uploads/2018/06/culture-768x473.png";
@@ -66,8 +66,52 @@ public final class AddCharitiesFromJSON {
   private static final String RESEARCH_IMAGE = "https://www.apa.org/images/title-research-publishing_tcm7-251846.jpg";
   
   // LIST OF TAG NAMES
-  private static final List<String> tags = new ArrayList<String>(Arrays.asList(ANIMAL, ARTS, EDU, ENV, HEALTH, HUMAN, INTL, RIGHTS, RELI, COMM, RESEARCH)); 
- 
+  private static final List<String> tags = new ArrayList<String>(Arrays.asList(ANIMAL, ARTS, EDU, ENV, HEALTH, HUMAN, INTL, RIGHTS, RELI, COMM, RESEARCH));
+
+  // CAUSE NAMES
+  private static final String ADV = "Advocacy and Education";
+  private static final String MED = "Medical Research";
+  private static final String JEWISH = "Jewish Federations";
+  private static final String WILD = "Wildlife Conservation";
+  private static final String FAM = "Patient and Family Support";
+  private static final String DISEASE = "Diseases, Disorders, and Disciplines";
+  private static final String UNITED = "United Ways";
+  private static final String RELI_ACT = "Religious Activities";
+  private static final String ZOO = "Zoos and Aquariums";
+  private static final String TREAT = "Treatment and Prevention Services";
+  private static final String COMMUNITY = "Community Foundations";
+  private static final String ANIMAL_RIGHTS = "Animal Rights, Welfare, and Services";
+  private static final String RELIEF = "Humanitarian Relief Supplies";
+  private static final String RELI_MEDIA = "Religious Media and Broadcasting";
+  private static final String ADULT_EDU = "Adult Education Programs and Services";
+  private static final String SPECIAL_EDU = "Special Education";
+  private static final String CHILD_PROG = "Early Childhood Programs and Services";
+  private static final String MEDIA = "Public Broadcasting and Media";
+  private static final String DEV = "Development and Relief Services";
+  private static final String SOCIAL = "Social Services";
+  private static final String PERF = "Performing Arts";
+  private static final String PLANTS = "Botanical Gardens, Parks, and Nature Centers";
+  private static final String EDU_REFORM = "Education Policy and Reform";
+  private static final String HOMELESS = "Homeless Services";
+  private static final String RESCUE = "Rescue Missions";
+  private static final String HUM_SERVICE = "Multipurpose Human Service Organizations";
+  private static final String YOUTH = "Youth Development, Shelter, and Crisis Services";
+  private static final String PEACE = "International Peace, Security, and Affairs";
+  private static final String LANDMARK = "Libraries, Historical Societies and Landmark Preservation";
+  private static final String FOOD = "Food Banks, Food Pantries, and Food Distribution";
+  private static final String POLICY = "Social and Public Policy Research";
+  private static final String SCHLRSHP = "Scholarship and Financial Support";
+  private static final String CHILD = "Children's and Family Services";
+  private static final String YOUTH_PROG = "Youth Education Programs and Services";
+  private static final String SCI_RESEARCH = "Non-Medical Science & Technology Research";
+  private static final String HOUSING = "Housing and Neighborhood Development";
+  private static final String ENVIRON = "Environmental Protection and Conservation";
+  private static final String MUSEUMS = "Museums";
+
+  private static final List<String> causes = new ArrayList<String>(Arrays.asList(ADV, MED, JEWISH, WILD, FAM, DISEASE, UNITED, RELI_ACT, ZOO, TREAT, COMMUNITY, ANIMAL_RIGHTS, RELIEF, 
+                                                                                 RELI_MEDIA, ADULT_EDU, SPECIAL_EDU, CHILD_PROG, MEDIA, DEV, SOCIAL, PERF, PLANTS, EDU_REFORM, 
+                                                                                 HOMELESS, RESCUE, HUM_SERVICE, YOUTH, PEACE, LANDMARK, FOOD, POLICY, SCHLRSHP, CHILD, YOUTH_PROG,
+                                                                                 SCI_RESEARCH, HOUSING, ENVIRON, MUSEUMS));
   // HARDCODED MAPPING OF TAGS TO TRENDING SCORES
   public static final Map<String, Integer> tagScores =
     new HashMap<String, Integer>() {
@@ -83,6 +127,51 @@ public final class AddCharitiesFromJSON {
           put(RELI, 20);
           put(COMM, 40);
           put(RESEARCH, 20);
+        }
+    };
+
+  // HARDCODED MAPPING OF CAUSES TO TRENDING SCORES
+  public static final Map<String, Integer> causeScores =
+    new HashMap<String, Integer>() {
+        {
+          put(ADV, 15);
+          put(MED, 50);
+          put(JEWISH, 15);
+          put(WILD, 10);
+          put(FAM, 30);
+          put(DISEASE, 50);
+          put(UNITED, 10);
+          put(RELI_ACT, 15);
+          put(ZOO, 20);
+          put(TREAT, 40);
+          put(COMMUNITY, 25);
+          put(ANIMAL_RIGHTS, 20);
+          put(RELIEF, 30);
+          put(RELI_MEDIA, 15);
+          put(ADULT_EDU, 20);
+          put(SPECIAL_EDU, 25);
+          put(CHILD_PROG, 30);
+          put(MEDIA, 20);
+          put(DEV, 40);
+          put(SOCIAL, 40);
+          put(PERF, 10);
+          put(PLANTS, 20);
+          put(EDU_REFORM, 40);
+          put(HOMELESS, 50);
+          put(RESCUE, 30);
+          put(HUM_SERVICE, 35);
+          put(YOUTH, 35);
+          put(PEACE, 25);
+          put(LANDMARK, 10);
+          put(FOOD, 40);
+          put(POLICY, 30);
+          put(SCHLRSHP, 30);
+          put(CHILD, 25);
+          put(YOUTH_PROG, 25);
+          put(SCI_RESEARCH, 35);
+          put(HOUSING, 40);
+          put(ENVIRON, 20);
+          put(MUSEUMS, 20);
         }
     };
  
@@ -121,6 +210,17 @@ public final class AddCharitiesFromJSON {
             db.addTag(tag, tagScores.get(tag), tagImages.get(tag));
         } catch (Exception e) {
             System.out.println("Failure adding tags: " + e);
+        } 
+    }
+  }
+
+  // Add hardcoded causes to DB with scores
+  public void addCauses() {
+    for (String cause: causes) {
+        try {
+            db.addCause(cause, causeScores.get(cause));
+        } catch (Exception e) {
+            System.out.println("Failure adding causes: " + e);
         } 
     }
   }

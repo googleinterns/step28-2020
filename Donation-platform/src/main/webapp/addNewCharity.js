@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 document.addEventListener("DOMContentLoaded", getTagNamesForDisplay());
+document.addEventListener("DOMContentLoaded", getCauseNamesForDisplay());
 document.getElementById('charity').addEventListener('submit', function (e)
 {
     e.preventDefault();
@@ -25,14 +26,14 @@ document.getElementById('charity').addEventListener('submit', function (e)
  */
 function getTagNamesForDisplay()
 {
-    fetch('/addNewCharity').then(response => response.json()).then((tagNames) =>
+    fetch('/addNewCharity').then(response => response.json()).then((tagsAndCauses) =>
     {
         $(document).ready(function ()
         {
-            $('.select-multiple-tags').select2(
+            $('.select-tag').select2(
             {
-                placeholder: "Select associated tags",
-                data: tagNames
+                placeholder: "Select associated category",
+                data: tagsAndCauses['tags']
             }
             );
         }
@@ -40,6 +41,29 @@ function getTagNamesForDisplay()
     }
     );
 }
+
+/**
+ * Gets the tags the users select to add charities
+ * from the Java servlet.
+ */
+function getCauseNamesForDisplay()
+{
+    fetch('/addNewCharity').then(response => response.json()).then((tagsAndCauses) =>
+    {
+        $(document).ready(function ()
+        {
+            $('.select-cause').select2(
+            {
+                placeholder: "Select associated cause",
+                data: tagsAndCauses['causes']
+            }
+            );
+        }
+        );
+    }
+    );
+}
+
 /**
  * Displays confirmation alerts before form is
  * submitted to the Java servlet.
