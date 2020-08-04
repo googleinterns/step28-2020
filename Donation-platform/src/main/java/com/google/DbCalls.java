@@ -149,7 +149,6 @@ public final class DbCalls
     {
         return ofy().load().type(Users.class).filter("email", email).first().now();
     }
-
     // Function takes modified class and updates database.
     public void updateCharity(Charity charity) throws Exception
     {
