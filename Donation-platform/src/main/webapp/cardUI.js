@@ -60,7 +60,7 @@ class Card
                 var tagHeader = document.createElement("h5");
                 for (const tag of charity.categories)
                 {
-                    var tagSpan = this.spanMaker("badge badge-info", tag);
+                    var tagSpan = this.spanMaker("btn btn-outline-primary btn-sm", tag);
                     tagHeader.appendChild(tagSpan);
                 }
                 charityTextElement.appendChild(tagHeader);

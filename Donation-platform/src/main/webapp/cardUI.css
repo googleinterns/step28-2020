@@ -16,16 +16,20 @@
   height: 100%;
 }
 .card-body {
-  padding: 0;
-  margin: 1.25rem;
+  padding: 1.25rem;
+  margin: 0;
+}
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
 }
 .link-btn {
   background: none!important;
   border: none;
   padding: 0!important;
   font-family: arial, sans-serif;
-  color: #069;
-  text-decoration: underline;
+  color: #0000FF;
   cursor: pointer;
 }
 .more {
