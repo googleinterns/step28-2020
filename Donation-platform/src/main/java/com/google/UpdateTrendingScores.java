@@ -110,21 +110,4 @@ public final class UpdateTrendingScores extends CharityUtils {
         db.updateTag(tagToUpdate);
     }
 
-    //updates one charity's name trending score
-    public void updateCharityNameScore(Charity charityToUpdate) throws Exception {
-        db.updateCharity(charityToUpdate);
-        updateCharityScores(charityToUpdate);
-    }
-
-    // recalculate and update one charity's trending score
-    public void updateCharityScores(Charity charityToUpdate) {
-        charityToUpdate.setTrendingScoreCharity(calcCharityTrendingScore(charityToUpdate));
-        try {
-            db.updateCharity(charity);
-        }
-        catch (Exception e) {
-            System.out.println("unable to update charity: " + e);
-        }
-    }
-
 }
