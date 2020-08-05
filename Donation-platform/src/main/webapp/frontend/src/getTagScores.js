@@ -32,26 +32,10 @@ function sendQuery() {
 }
 
 //method to send POST request with tagToUpdate in body
-function sendTagPostQuery(tagToUpdate) {
+function sendPostQuery(tagToUpdate) {
     //console.log("in other func: ", tagToUpdate);
     console.log("stringified version: ", JSON.stringify(tagToUpdate));
     fetch('https://donations-step-2020-new.uc.r.appspot.com/tag-query', {method: 'POST', body: JSON.stringify(tagToUpdate)})
-        .then(function(response) {
-            return response.text();
-        })
-        .then(function(response) {
-            console.log("text response: ", response);
-        })
-        .catch(function(err) {
-            console.log(err);
-        });
-}
-
-//method to send POST request with tagToUpdate in body
-function sendCharityPostQuery(charityToUpdate) {
-    //console.log("in other func: ", tagToUpdate);
-    console.log("stringified version: ", JSON.stringify(charityToUpdate));
-    fetch('https://donations-step-2020-new.uc.r.appspot.com/tag-query', {method: 'POST', body: JSON.stringify(charityToUpdate)})
         .then(function(response) {
             return response.text();
         })
@@ -103,7 +87,7 @@ function getTagsAndUpdate() {
                                     console.log('average: division by 0 for ', tag.name);
                                     tag.trendingScore = 0;
                                 }
-                                sendTagPostQuery(tag);
+                                sendPostQuery(tag);
                             });
                         }
                     })       
