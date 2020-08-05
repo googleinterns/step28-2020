@@ -7,6 +7,7 @@
   <script src="userAuth.js"></script>
   <link rel="stylesheet" href="userAuth.css">
   <link rel="stylesheet" href="individualCharity.css" />
+  <link rel="stylesheet" href="cardUI.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Font Awesome -->
@@ -17,8 +18,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-  <script src="individualCharity.js"></script> 
-  <title>Echoing HTML Request Parameters</title>
+  <title>Individual Charity Page</title>
 </head>
 <body>
     <!-- NAVBAR -->
@@ -62,9 +62,8 @@
           </ul>
       </div>
     </nav>
-<!-- Card -->
-<script>updateSubmittedCharityOnPage('${charity}');</script>
-<div class="center" id="charities-display"> </div>
+<!-- <div class="center" id="charities-display"> </div> -->
+<div class="center-card" id="collection"></div>
 <div class="center" ><a href="/addNewCharity.html" class="btn btn-primary" role="button">Add another Charity</a>
 <a href="/browse.html" class="btn btn-primary" role="button">Go to Browse</a></div>   
   <!-- JQuery -->
@@ -75,6 +74,8 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-  
 </body>
+<script src="cardUI.js"></script>
+<script src="individualCharity.js"></script> 
+<script>updateSubmittedCharityOnPage('${charity}');</script>
 </html>
