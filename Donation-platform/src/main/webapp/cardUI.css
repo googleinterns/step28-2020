@@ -19,6 +19,18 @@
   padding: 0;
   margin: 1.25rem;
 }
+.link-btn {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  font-family: arial, sans-serif;
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.more {
+  display:none;
+}
 #card-img {
   width:  250px;
   height: 200px;
@@ -28,3 +40,4 @@
   width: 60%;
   padding: 10px;
 }
+

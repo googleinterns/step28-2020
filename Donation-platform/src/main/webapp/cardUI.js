@@ -65,9 +65,7 @@ class Card
                 }
                 charityTextElement.appendChild(tagHeader);
             }
-            var descriptionText = document.createTextNode(charity.description);
-            charityTextElement.appendChild(descriptionText);
-
+            this.truncateDescription(charityTextElement, charity);
             charityDivElement.appendChild(charityDivInternalElement);
             charityDivInternalElement.appendChild(charityImgElement);
             charityDivInternalElement.appendChild(charityDivBodyElement);
@@ -77,6 +75,7 @@ class Card
             cards.appendChild(charityDivElement);
         }
             .bind(this));
+
         // Displays back button if user is on browse page.
         if (this.pageName == "browse")
         {
@@ -138,6 +137,60 @@ class Card
         var browseHeaderText = document.createTextNode("Browse Charities");
         browseHeaderElement.appendChild(browseHeaderText);
         document.getElementById('browse').appendChild(browseHeaderElement);
+    }
+    /**
+     * Handles the hiding and display of the full description on each card.
+     */
+    readMoreLessDescription(charityId) {
+      var dots = document.getElementById(charityId+"-dots");
+      var moreText = document.getElementById(charityId+"-more");
+      var btnText = document.getElementById(charityId+"-expand-btn");
+      if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Read more"; 
+        moreText.style.display = "none";
+      } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Read less"; 
+        moreText.style.display = "inline";
+      }
+    }
+    /**
+     * Determines whether or not to truncate the description.
+     */
+    truncateDescription(textElememt, charity) 
+    {
+    // Detects if description is longer than 100 characters before adding read more link.
+    if (charity.description.length > 100) {
+        var initialDescription = charity.description.substring(0,100);
+        var moreDescription = charity.description.substring(100);
+        var initialDescriptionText = document.createTextNode(initialDescription);
+        // Adds dots to end of preview description.
+        var dotsSpan = document.createElement("span");
+        dotsSpan.setAttribute("id", charity.id+"-dots");
+        var dotsText = document.createTextNode("...");
+        dotsSpan.appendChild(dotsText);
+        // Hides the rest of the description.
+        var moreDescriptionSpan = document.createElement("span");
+        moreDescriptionSpan.setAttribute("class", "more");
+        moreDescriptionSpan.setAttribute("id", charity.id+"-more");
+        var moreDescriptionText = document.createTextNode(moreDescription);
+        moreDescriptionSpan.appendChild(moreDescriptionText);
+        // Creates button for read more link.
+        var buttonElement = this.buttonMaker("link-btn", charity.id+"-expand-btn", "Read More");
+        buttonElement.addEventListener("click", function ()
+        {
+            this.readMoreLessDescription(charity.id);
+        }
+            .bind(this, charity.id));
+        textElememt.appendChild(initialDescriptionText);
+        textElememt.appendChild(dotsSpan);
+        textElememt.appendChild(moreDescriptionSpan);
+        textElememt.appendChild(buttonElement);
+    } else {
+        var descriptionText = document.createTextNode(charity.description);
+        textElememt.appendChild(descriptionText);
+    }
     }
     /**
      * Sorts objects by name.
