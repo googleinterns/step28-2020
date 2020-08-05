@@ -141,3 +141,11 @@ fieldset {
   resize: none;
   padding-bottom: 25px;
 }
+
+.select2.select2-container.select2-container--default.select2-container--focus {
+  width: 100%!important;
+}
+
+.select2-search__field {
+  width: 100%!important;
+}

@@ -43,9 +43,11 @@ class Card
             cur_count++;
             charityDivElement = this.divMaker("charity-card");
             var charityDivInternalElement = this.divMaker("card charity-card-internal");
+            var charityImgContainerElement = this.divMaker("img-container");
             var charityImgElement = this.imgMaker("card-img", "card-img-top", charity.imgSrc, "Card image");
             var charityDivBodyElement = this.divMaker("card-body d-flex flex-column");
             var charityHeaderElement = this.headerMaker("h4", "card-title", charity.name);
+            var donateButtonContainerElement = this.divMaker("donate-container");
             var donateButtonElement = this.buttonMaker("mt-auto btn btn-primary", "charity-btn", "Donate");
             donateButtonElement.addEventListener("click", function ()
             {
@@ -54,24 +56,27 @@ class Card
                 .bind(this));
             var charityTextElement = document.createElement("p");
             charityTextElement.setAttribute("class", "card-text")
+            this.truncateDescription(charityTextElement, charity);
             // Adds badges to cards if on trending or personalized page.
             if (this.pageName == "trending" || this.pageName == "personalized")
             {
                 var tagHeader = document.createElement("h5");
                 for (const tag of charity.categories)
                 {
-                    var tagSpan = this.spanMaker("btn btn-outline-primary btn-sm", tag);
+                    var tagSpan = this.spanMaker("trending badge badge-light", tag);
                     tagHeader.appendChild(tagSpan);
                 }
                 charityTextElement.appendChild(tagHeader);
             }
-            this.truncateDescription(charityTextElement, charity);
+            
             charityDivElement.appendChild(charityDivInternalElement);
-            charityDivInternalElement.appendChild(charityImgElement);
+            donateButtonContainerElement.appendChild(donateButtonElement);
+            charityImgContainerElement.appendChild(charityImgElement);
+            charityDivInternalElement.appendChild(charityImgContainerElement);
             charityDivInternalElement.appendChild(charityDivBodyElement);
             charityDivBodyElement.appendChild(charityHeaderElement);
             charityDivBodyElement.appendChild(charityTextElement);
-            charityDivBodyElement.appendChild(donateButtonElement);
+            charityDivBodyElement.appendChild(donateButtonContainerElement);
             cards.appendChild(charityDivElement);
         }
             .bind(this));
@@ -84,7 +89,7 @@ class Card
             document.getElementById('browse').appendChild(browseHeaderElement);
 
             var backDivButtonElement = document.createElement("div");
-            var backButtonElement = this.buttonMaker("back-btn btn btn-primary", "charity-btn", "");
+            var backButtonElement = this.buttonMaker("back-btn btn btn-primary", "back-charity-btn", "");
             backButtonElement.addEventListener("click", function ()
             {
                 getTagsForDisplay();
@@ -114,9 +119,11 @@ class Card
         {
             tagDivElement = this.divMaker("charity-card");
             var tagDivInternalElement = this.divMaker("card charity-card-internal");
+            var tagImgContainerElement = this.divMaker("img-container");
             var tagImgElement = this.imgMaker("card-img", "card-img-top", this.pageList[tag].imgSrc, "Card image");
             var tagDivBodyElement = this.divMaker("card-body d-flex flex-column");
             var tagHeaderElement = this.headerMaker("h4", "card-title", this.pageList[tag].name.charAt(0).toUpperCase() + this.pageList[tag].name.slice(1));
+            var seeTagButtonContainerElement = this.divMaker("donate-container");
             var seeTagButtonElement = this.buttonMaker("mt-auto btn btn-primary", "charity-btn", "See Charities");
             seeTagButtonElement.addEventListener("click", function ()
             {
@@ -125,10 +132,12 @@ class Card
                 .bind(this));
 
             tagDivElement.appendChild(tagDivInternalElement);
-            tagDivInternalElement.appendChild(tagImgElement);
+            tagImgContainerElement.appendChild(tagImgElement);
+            seeTagButtonContainerElement.appendChild(seeTagButtonElement);
+            tagDivInternalElement.appendChild(tagImgContainerElement);
             tagDivInternalElement.appendChild(tagDivBodyElement);
             tagDivBodyElement.appendChild(tagHeaderElement);
-            tagDivBodyElement.appendChild(seeTagButtonElement);
+            tagDivBodyElement.appendChild(seeTagButtonContainerElement);
             cards.appendChild(tagDivElement);
         }
             .bind(this));

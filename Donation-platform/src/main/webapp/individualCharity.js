@@ -18,36 +18,9 @@
 function updateSubmittedCharityOnPage(stringObj)
 {   
     var charity = JSON.parse(stringObj);
-    document.addEventListener("DOMContentLoaded", function(event) { 
-    const cards = document.getElementById('charities-display');
-
-        cards.innerHTML = '';
-        var temp = '';
-        cards.innerHTML += temp;
-        temp = '';
-        temp += 
-        '<div class="card">' +
-        '<img class="card-img-top" src="'+charity.imgSrc+'" alt="Card image cap">' +
-        '<div class="card-body">'+
-        '<h4 class="card-title"><a>'+charity.name+'</a></h4>' +
-        '<p class="card-text">' + displayTags(charity.categories) + '</p>' +
-        '<a href=' + charity.link + ' target=_blank class="btn btn-primary" >Donate</a>' +
-        '</div>' + '</div>' ;
-        cards.innerHTML += temp;
-
-    });
+    localStorage.setItem('tagName', "");
+    var charitylist = [charity];
+    let card = new Card("trending", charitylist, ""); 
+    card.populatePageWithCharities();
 }
-/**
- * Displays the tags of a charity in bootstrap badges.
- */
-function displayTags(tags)
-{
-    out = "";
-    out += '<h5>'
-    for (const tag of tags)
-    {
-        out += '<span class="center-tags badge badge-info">' + tag.name + '</span>';
-    }
-    out += '</h5>'
-    return out;
-}
+
