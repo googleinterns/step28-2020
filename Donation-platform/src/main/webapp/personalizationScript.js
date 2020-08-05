@@ -55,33 +55,13 @@ function getPersonalizedCharitiesFromServlet(unprocessedTags) {
 
 /* (2) Displays the list of personalized charities them on personalized.html */
 function updatePersonalizedCardsOnPage(charities) {
-    const cards = document.getElementById('charities-display');
-
-    cards.innerHTML = '';
-    var cur_count = 0;
-    var toAdd = '';
-    var temp = '';
-    charities.forEach(charity => {
-        if (cur_count % 4 == 0 && cur_count != 0) {
-            toAdd = '<div class="row">' + temp + '</div>';
-            cards.innerHTML += toAdd;
-            toAdd = '';
-            temp = '';
-        }
-        cur_count += 1;
-        temp += '<div class="col-3">' + 
-                '<div class="card text-center">' + 
-                '<div class="card-header">Match #' + cur_count + '</div>' + 
-                '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' +
-                '<div class="card-body">' +
-                '<h4 class="card-title">' + charity.name + '</h4>' +
-                '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
-                '<div class="card-footer"><a href=' + charity.link + 
-                ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
-                '</div>' + '</div>';
-    });
-    toAdd = '<div class="row">' + temp + '</div>';
-    cards.innerHTML += toAdd;
+    const pageList = new Array();
+    const currentPage = 1;
+    const numberPerPage = 9;
+    localStorage.setItem('charities', JSON.stringify(charities))
+    localStorage.setItem('tagName', "");
+    let pagination = new Pagination(charities, "", pageList, currentPage, numberPerPage, "personalized");
+    pagination.load();
 }
 
 /* Converts the list of sortable-compitable tag values (which require underscores) 

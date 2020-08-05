@@ -158,10 +158,10 @@ public class PersonalizedRecommendations {
   }
 
   // Gets charities from the database that have the specified tag
-  private Collection<Charity> getCharitiesByTags(String tag1, String tag2, String tag3) {
+  private Collection<Charity> getCollectionOfPersonalizedCharities(String tag1, String tag2, String tag3) {
     Collection<Charity> charities = new ArrayList<>();
     try {
-      charities = db.getCharitiesByTags(tag1, tag2, tag3);
+      charities = db.getCollectionOfPersonalizedCharities(tag1, tag2, tag3);
     } catch (EntityNotFoundException e) {
       System.out.println("Charity entities not found: " + e);
       return null;

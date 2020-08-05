@@ -13,25 +13,10 @@ body {
   overflow: auto; /*Allows the scrollable area to have a scrollbar based on the height of its content*/
   background: #ccc;
 }
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 1fr;
-  grid-gap: 20px;
-}
 .back-btn {
   position: absolute;
   top: 100px;
-  right: 10px;
-}
-#card-img {
-  width:  250px;
-  height: 200px;
-}
-#collection {
-  margin: auto;
-  width: 60%;
-  padding: 10px;
+  left: 10px;
 }
 #browse {
   text-align: center;
@@ -39,4 +24,5 @@ body {
   width: 60%;
   padding: 10px;
 }
+
 

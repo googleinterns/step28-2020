@@ -49,9 +49,9 @@ public class BrowseCharitiesServlet extends HttpServlet
         if (!isTagName) {
             try
             {
-                Collection<Charity> charityCollection = dbCalls.getAllCharities();
+                Collection<Tag> tagCollection = dbCalls.getAllTags();
                 Gson gson = new Gson();
-                String json = gson.toJson(charityCollection);
+                String json = gson.toJson(tagCollection);
                 response.setContentType("application/json;");
                 response.getWriter().println(json);
             }
