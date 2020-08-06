@@ -36,7 +36,7 @@ public class CharityUtils {
     public DatastoreService ds;
 
     // number of trending charities to be returned
-    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 7;
+    final int MAX_NUM_OF_CHARITIES_TO_RETURN = 50;
 
     final double CHARITY_NAV_SCALE_FACTOR = 1.25;
 
@@ -58,7 +58,6 @@ public class CharityUtils {
         DbSetUpUtils setUp = new DbSetUpUtils(ds, db);
         if (charities == null) {
             this.charities = getAllCharities();
-            //updateCharityScores();
         }
     }
 

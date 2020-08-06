@@ -77,23 +77,19 @@ public class AddNewCharityServlet extends HttpServlet
             {
                 categoryTags.add(dbCalls.getTagByName(name));
             }
-            try
-            {
-                // Alerts the user if they tried to add a duplicate charity.
-                Charity checkUnique =  dbCalls.getCharityByName(request.getParameter("name"));
-                showMessageDialog(null, "This is a duplicate entry. Please enter again.");
+            // Alerts the user if they tried to add a duplicate charity.
+            Charity checkUnique =  dbCalls.getCharityByName(request.getParameter("name"));
+            if (checkUnique != null) {
                 response.sendRedirect("addNewCharity.html");
-            }
-            catch(Exception e)
-            {
-                // Sends user to individual charity page to see what they added to the db.
+            } else {
+            // Sends user to individual charity page to see what they added to the db.
                 dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
                 Gson gson = new Gson();
                 String json = gson.toJson(dbCalls.getCharityByName(request.getParameter("name")));
                 response.setContentType("application/json;");
                 request.setAttribute("charity", json);
                 request.getRequestDispatcher("/individualCharity.jsp").forward(request, response);
-            }
+            };
 
             
 
