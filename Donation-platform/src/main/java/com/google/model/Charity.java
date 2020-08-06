@@ -41,14 +41,18 @@ public final class Charity implements Comparable<Charity>, Serializable {
   private String link;
   // Image source of charity logo.
   private String imgSrc;
+  // Charity's cause.
+  @Index private Cause cause;
   // Collection storing tags in the form of datastore keys.
   @Index private Collection<Tag> categories;
   // Description of charity.
   private String description;
   // Trending score calculated based on trending score algorithim for charity.
   private double trendingScore;
+  // Trending score for the charity's name.
+  private double nameTrendingScore;
   // User rating of charity determined by users.
-  private double userRating;
+  private double rating;
 
   private Charity() {}
   // Initialize all fields of a Charity
@@ -58,17 +62,20 @@ public final class Charity implements Comparable<Charity>, Serializable {
       String link,
       String imgSrc,
       Collection<Tag> categories,
+      Cause cause,
       String description,
       double trendingScore,
-      double userRating) {
+      double rating) {
     this.id = id;
     this.name = name;
     this.link = link;
     this.imgSrc = imgSrc;
     this.categories = categories;
+    this.cause = cause;
     this.description = description;
     this.trendingScore = trendingScore;
-    this.userRating = userRating;
+    this.nameTrendingScore = 0.0;
+    this.rating = rating;
   }
 
   public Charity(Long id) {
@@ -115,6 +122,14 @@ public final class Charity implements Comparable<Charity>, Serializable {
     this.categories = categories;
   }
 
+  public Cause getCause() {
+    return cause;
+  }
+
+  public void setCause(Cause cause) {
+    this.cause = cause;
+  }
+
   public String getDescription() {
     return description;
   }
@@ -131,12 +146,20 @@ public final class Charity implements Comparable<Charity>, Serializable {
     this.trendingScore = trendingScore;
   }
 
-  public double getUserRating() {
-    return userRating;
+  public double getNameTrendingScore() {
+    return trendingScore;
   }
 
-  public void setUserRating(double userRating) {
-    this.userRating = userRating;
+  public void setNameTrendingScore(double trendingScore) {
+    this.trendingScore = trendingScore;
+  }
+
+  public double getRating() {
+    return rating;
+  }
+
+  public void setRating(double rating) {
+    this.rating = rating;
   }
 
   @Override

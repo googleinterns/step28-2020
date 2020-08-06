@@ -17,6 +17,7 @@ package com.google.servlets;
 import com.google.gson.Gson;
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.DbCalls;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -24,6 +25,7 @@ import com.google.appengine.api.datastore.Key;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,14 +51,23 @@ public class AddNewCharityServlet extends HttpServlet
         DbCalls dbCalls = new DbCalls(datastore);
         try
         {
+            HashMap<String, List<String>> tagsAndCauses = new HashMap<>();
             Collection<Tag> tagCollection = dbCalls.getAllTags();
             List<String> tagNames = new ArrayList<String>();
             for (Tag tagClass : tagCollection)
             {
                 tagNames.add(tagClass.getName());
             }
+            tagsAndCauses.put("tags", tagNames);
+            Collection<Cause> causeCollection = dbCalls.getAllCauses();
+            List<String> causeNames = new ArrayList<String>();
+            for (Cause causeClass : causeCollection)
+            {
+                causeNames.add(causeClass.getName());
+            }
+            tagsAndCauses.put("causes", causeNames);
             Gson gson = new Gson();
-            String json = gson.toJson(tagNames);
+            String json = gson.toJson(tagsAndCauses);
             response.setContentType("application/json;");
             response.getWriter().println(json);
         }
@@ -72,10 +83,21 @@ public class AddNewCharityServlet extends HttpServlet
         try
         {
             Collection<Tag> categoryTags = new ArrayList<Tag>();
-            String[] categoryNames = request.getParameterValues("categories");
-            for (String name : categoryNames)
+            String[] categoryName = request.getParameterValues("category");
+            categoryTags.add(dbCalls.getTagByName(categoryName[0]));
+            String[] causeName = request.getParameterValues("cause");
+            Cause cause = dbCalls.getCauseByName(causeName[0]);
+            try
             {
-                categoryTags.add(dbCalls.getTagByName(name));
+                // Alerts the user if they tried to add a duplicate charity.
+                Charity checkUnique =  dbCalls.getCharityByName(request.getParameter("name"));
+                showMessageDialog(null, "This is a duplicate entry. Please enter again.");
+                response.sendRedirect("addNewCharity.html");
+            }
+            catch(Exception e)
+            {
+                // Sends user to individual charity page to see what they added to the db.
+                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, cause, request.getParameter("description"), 0.0);
             }
             // Alerts the user if they tried to add a duplicate charity.
             Charity checkUnique =  dbCalls.getCharityByName(request.getParameter("name"));
@@ -83,7 +105,7 @@ public class AddNewCharityServlet extends HttpServlet
                 response.sendRedirect("addNewCharity.html");
             } else {
             // Sends user to individual charity page to see what they added to the db.
-                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
+                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, cause, request.getParameter("description"), 0.0);
                 Gson gson = new Gson();
                 String json = gson.toJson(dbCalls.getCharityByName(request.getParameter("name")));
                 response.setContentType("application/json;");

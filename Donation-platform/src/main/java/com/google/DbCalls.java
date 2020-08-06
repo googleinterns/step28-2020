@@ -2,6 +2,7 @@ package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.model.Users;
 import java.util.List;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public final class DbCalls
     private static final String LINK = "link";
     private static final String IMGSRC = "imgsrc";
     private static final String CATEGORIES = "categories";
+    private static final String CAUSE = "cause";
     private static final String DESCRIPTION = "description";
     private static final String USERNAME = "userName";
     private static final String USER_RATING = "userRating";
@@ -56,12 +58,17 @@ public final class DbCalls
         List<Charity> charityDataStore = ofy().load().type(Charity.class).list();
         return charityDataStore;
     }
-
     // Function returns all the tag objects in the database.
     public Collection<Tag> getAllTags() throws Exception
     {
         List<Tag> tagDataStore = ofy().load().type(Tag.class).list();
         return tagDataStore;
+    }
+    // Function returns all the cause objects in the database.
+    public Collection<Cause> getAllCauses() throws Exception
+    {
+        List<Cause> causeDataStore = ofy().load().type(Cause.class).list();
+        return causeDataStore;
     }
     // Function returns all the users in the database.
     public Collection<Users> getAllUsers() throws Exception
@@ -72,10 +79,10 @@ public final class DbCalls
     // Function adds charity to database.
     // Could be used in conjunction with user charity add form.
     public void addCharity(
-        String name, String link, String imgsrc, Collection<Tag> categories, String description)
+        String name, String link, String imgsrc, Collection<Tag> categories, Cause cause, String description, double rating)
     throws Exception
     { 
-        Charity newCharity = new Charity(null, name, link, imgsrc, categories, description, 0.0, 0.0);
+        Charity newCharity = new Charity(null, name, link, imgsrc, categories, cause, description, 0.0, rating);
         ofy().save().entity(newCharity).now();
     }
     // Function adds tag to the database.
@@ -83,6 +90,12 @@ public final class DbCalls
     {
         Tag newTag = new Tag(null,  name, trendingScore, imgSrc);
         ofy().save().entity(newTag).now();
+    }
+    // Function adds cause to the database.
+    public void addCause(String name, double trendingScore) throws Exception
+    {
+        Cause newCause = new Cause(null,  name, trendingScore);
+        ofy().save().entity(newCause).now();
     }
     // Function adds user to the database.
     public void addUser(
@@ -160,6 +173,11 @@ public final class DbCalls
     public Tag getTagByName(String name) throws Exception
     {
         return ofy().load().type(Tag.class).filter("name", name).first().now();
+    }
+    // Function returns cause object matching name passed in.
+    public Cause getCauseByName(String name) throws Exception
+    {
+        return ofy().load().type(Cause.class).filter("name", name).first().now();
     }
     // Function that returns user from user name.
     public Users getUserByUserName(String userName) throws Exception

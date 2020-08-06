@@ -16,6 +16,7 @@ package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.model.Cause;
 import com.google.AddCharitiesFromJSON;
 import java.util.List;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class PersonalizedRecommendations {
     // only populate database with tags if there are none there already
     if(tags.isEmpty()) {
       setup.addTags();
+      setup.addCauses();
     }
     // only populate database with charities if there are none there already
     if(charities.isEmpty()) {

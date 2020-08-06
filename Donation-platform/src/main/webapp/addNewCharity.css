@@ -122,12 +122,12 @@ fieldset {
   border: 1px solid #aaa;
 }
 
-.select-multiple-tags:focus {
+.select-tag:focus, .select-cause:focus {
   outline: 0;
   border: 1px solid #aaa;
 } 
 
-.select-multiple-tags {
+.select-tag, .select-cause {
   width: 100%;
   border: 1px solid #ccc;
   background: #FFF;
@@ -135,7 +135,7 @@ fieldset {
   padding: 10px;
 }
 
-.select-multiple-tags {
+.select-tag, .select-cause {
   height: 100px;
   max-width: 100%;
   resize: none;
