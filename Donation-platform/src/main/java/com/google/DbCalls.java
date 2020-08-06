@@ -142,8 +142,9 @@ public final class DbCalls
         // Return all charity objects containing tag.
         return charityDataStore;
     }
-    // Function returns all charities with one of the three specified tags.
-    public Collection<Charity> getPersonalizedMatches(String name1, String name2, String name3) throws Exception {
+    // Function returns all charities under one of the three specified category tags.
+    public Collection<Charity> getCollectionOfPersonalizedCharities(String name1, String name2, String name3) throws Exception
+    {
         ArrayList<Charity> charityDataStore = new ArrayList<Charity>();
         for (Charity charity : ofy().load().type(Charity.class).list())
         {
@@ -188,7 +189,6 @@ public final class DbCalls
     {
         return ofy().load().type(Users.class).filter("email", email).first().now();
     }
-
     // Function takes modified class and updates database.
     public void updateCharity(Charity charity) throws Exception
     {

@@ -55,33 +55,13 @@ function getPersonalizedCharitiesFromServlet(unprocessedTags) {
 
 /* (2) Displays the list of personalized charities them on personalized.html */
 function updatePersonalizedCardsOnPage(charities) {
-    const cards = document.getElementById('charities-display');
-
-    cards.innerHTML = '';
-    var cur_count = 0;
-    var toAdd = '';
-    var temp = '';
-    charities.forEach(charity => {
-        if (cur_count % 4 == 0 && cur_count != 0) {
-            toAdd = '<div class="row">' + temp + '</div>';
-            cards.innerHTML += toAdd;
-            toAdd = '';
-            temp = '';
-        }
-        cur_count += 1;
-        temp += '<div class="col-3">' + 
-                '<div class="card text-center">' + 
-                '<div class="card-header">Match #' + cur_count + '</div>' + 
-                '<img class="card-img-top" src=' + charity.imgSrc + ' alt="Card image">' +
-                '<div class="card-body">' +
-                '<h4 class="card-title">' + charity.name + '</h4>' +
-                '<p class="card-text">' + displayTags(charity.categories) + '</p>' + '</div>' +
-                '<div class="card-footer"><a href=' + charity.link + 
-                ' target=_blank class="btn btn-primary" role="button">Donate</a></div>' +
-                '</div>' + '</div>';
-    });
-    toAdd = '<div class="row">' + temp + '</div>';
-    cards.innerHTML += toAdd;
+    const pageList = new Array();
+    const currentPage = 1;
+    const numberPerPage = 9;
+    localStorage.setItem('charities', JSON.stringify(charities))
+    localStorage.setItem('tagName', "");
+    let pagination = new Pagination(charities, "", pageList, currentPage, numberPerPage, "personalized");
+    pagination.load();
 }
 
 /* Converts the list of sortable-compitable tag values (which require underscores) 
@@ -108,32 +88,28 @@ function processTagsFromRanking(unprocessedTags) {
 function placeSelectedTagInRank(tag) {
     const tagRank = document.getElementById('sortable');
 
-    let tagElements = new Map([
-      ['Animals', '<li id="li_Animals" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-paw mr-5"></i></i>Animals</li>'],
-      ['Arts, Culture, Humanities', '<li id="li_Arts, Culture, Humanities" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-palette mr-5"></i></i>Arts, Culture, Humanities</li>'],
-      ['Education', '<li id="li_Education" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-school mr-5"></i>Education</li>'],
-      ['Environment', '<li id="li_Environment" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-leaf mr-5"></i>Environment</li>'],
-      ['Health', '<li id="li_Health" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-heartbeat mr-5"></i>Health</li>'],
-      ['Human Services', '<li id="li_Human Services" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-people-carry mr-5"></i></i>Human Services</li>'],
-      ['International', '<li id="li_International" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-globe-americas mr-5"></i></i></i>International</li>'],
-      ['Human and Civil Rights', '<li id="li_Human and Civil Rights" class="list-group-item"><div class="md-v-line">' +
-       '</div><i class="fas fa-users mr-5"></i>Human and Civil Rights</li>'],
-      ['Religion', '<li id="li_Religion" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-place-of-worship mr-5"></i></i></i>Religion</li>'],
-      ['Community Development', '<li id="li_Community Development" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-hands-helping mr-5"></i></i></i></i>Community Development</li>'],
-      ['Research and Public Policy', '<li id="li_Research and Public Policy" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-gavel mr-5"></i></i></i></i></i>Research and Public Policy</li>']
+    let innerTagElements = new Map([
+      ['Animals', '<i class="fas fa-paw mr-5"></i>Animals'],
+      ['Arts, Culture, Humanities', '<i class="fas fa-palette mr-5"></i>Arts, Culture, Humanities'],
+      ['Education', '<i class="fas fa-school mr-5"></i>Education'],
+      ['Environment', '<i class="fas fa-leaf mr-5"></i>Environment'],
+      ['Health', '<i class="fas fa-heartbeat mr-5"></i>Health'],
+      ['Human Services', '<i class="fas fa-people-carry mr-5"></i>Human Services'],
+      ['International', '<i class="fas fa-globe-americas mr-5"></i>International'],
+      ['Human and Civil Rights', '<i class="fas fa-users mr-5"></i>Human and Civil Rights'],
+      ['Religion', '<i class="fas fa-place-of-worship mr-5"></i>Religion'],
+      ['Community Development', '<i class="fas fa-hands-helping mr-5"></i>Community Development'],
+      ['Research and Public Policy', '<i class="fas fa-gavel mr-5"></i>Research and Public Policy']
     ]);
-
-    tagRank.innerHTML += tagElements.get(tag);
+    
+    var tagElement = document.createElement('li');
+    tagElement.setAttribute("id", "li_" + tag);
+    tagElement.setAttribute("class", "list-group-item");
+    var divStyle = document.createElement('div');
+    divStyle.setAttribute("class", "md-v-line");
+    tagElement.appendChild(divStyle);
+    tagElement.innerHTML = innerTagElements.get(tag);
+    tagRank.appendChild(tagElement);
 }
 
 /* Displays the tags of a charity in bootstrap badges. */

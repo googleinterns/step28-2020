@@ -5,10 +5,11 @@
     <meta name="google-signin-client_id" content="223187457231-nspsjgjtsnpgjub4q12p37cdu134d6kk.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Trending Page</title>
-    <script src="trendingScript.js"></script>
     <script src="userAuth.js"></script>
     <link rel="stylesheet" href="trendingStyle.css">
     <link rel="stylesheet" href="userAuth.css">
+    <link rel="stylesheet" href="pagination.css" />
+    <link rel="stylesheet" href="cardUI.css" />
     <!-- MATERIAL DESIGN BOOTSTRAP IMPORTS -->
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -71,10 +72,12 @@
       </div>
     </nav>
     <!-- CONTENT -->
-    <div id="content">
-      <h2>Trending Charities</h2>
-    
-      <div class="container-fluid" id="cont"> </div>
-    </div>
+    <h1 id="trending">Trending Charities</h1>
+    <div class="wrapper" id="collection"></div>
+    <!-- PAGINATION --> 
+    <div id="pagination"></div>
   </body>
+  <script src="cardUI.js"></script>
+  <script src="pagination.js"></script>
+  <script src="trendingScript.js"></script>
 </html>

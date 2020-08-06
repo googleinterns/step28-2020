@@ -171,7 +171,7 @@ public final class DbSetUpUtils {
           "https://www.charities.org/sites/default/files/Feeding-America_logo-web.png",
           Arrays.asList(hunger),
           hungerCause,
-          "",
+          "Feeding America is a United States–based nonprofit organization that is a nationwide network of more than 200 food banks that feed more than 46 million people through food pantries, soup kitchens, shelters, and other community-based agencies. Forbes ranks it as the second largest U.S. charity by revenue.",
           4.0);
       db.addCharity(
           "Red Cross",
@@ -179,7 +179,7 @@ public final class DbSetUpUtils {
           "https://media.defense.gov/2018/Sep/17/2001966913/-1/-1/0/180917-F-ZZ000-1001.JPG",
           Arrays.asList(health, education),
           healthCause,
-          "",
+          "The American Red Cross, also known as The American National Red Cross, is a humanitarian organization that provides emergency assistance, disaster relief, and disaster preparedness education in the United States",
           4.5);
       db.addCharity(
           "St. Jude's",
@@ -187,7 +187,7 @@ public final class DbSetUpUtils {
           "https://i1.wp.com/engageforgood.com/wp-content/uploads/2018/10/Untitled-design-69.png?fit=700%2C400&ssl=1",
           Arrays.asList(health, children),
           healthCause,
-          "",
+          "Saint Jude Children's Research Hospital, founded in 1962, is a pediatric treatment and research facility focused on children's catastrophic diseases, particularly leukemia and other cancers. The hospital costs about US$2.8 million a day to run, but patients are not charged for their care.",
           3.0);
       db.addCharity(
           "Nature Conservancy",
@@ -195,7 +195,7 @@ public final class DbSetUpUtils {
           "https://climatepolicyinitiative.org/wp-content/uploads/2018/03/tnc-nature-conservancy-logo.gif",
           Arrays.asList(environment),
           environmentCause,
-          "",
+          "The Nature Conservancy is a charitable environmental organization, headquartered in Arlington, Virginia, United States. Founded in 1951, The Nature Conservancy has over one million members, and has protected more than 119,000,000 acres of land and thousands of miles of rivers worldwide.",
           5.0);
       db.addCharity(
           "YMCA",
@@ -203,7 +203,7 @@ public final class DbSetUpUtils {
           "https://www.tristatehomepage.com/wp-content/uploads/sites/92/2016/05/YMCA20logo20web_1462174680230_8365252_ver1.0-1.jpg?w=720&h=405&crop=1",
           Arrays.asList(children),
           childrenCause,
-          "",
+          "YMCA, sometimes regionally called the Y, is a worldwide youth organization based in Geneva, Switzerland, with more than 64 million beneficiaries in 120 countries.",
           2.0);
       db.addCharity(
           "ACLU",
@@ -211,7 +211,7 @@ public final class DbSetUpUtils {
           "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/New_ACLU_Logo_2017.svg/1200px-New_ACLU_Logo_2017.svg.png",
           Arrays.asList(racialEquality),
           racialEqualityCause,
-          "",
+          "The American Civil Liberties Union is a nonprofit organization founded in 1920 \"to defend and preserve the individual rights and liberties guaranteed to every person in this country by the Constitution and laws of the United States\"",
           5.0);
       db.addCharity(
           "American Heart Association",
@@ -219,7 +219,7 @@ public final class DbSetUpUtils {
           "https://upload.wikimedia.org/wikipedia/en/thumb/e/e6/American_Heart_Association_Logo.svg/1200px-American_Heart_Association_Logo.svg.png",
           Arrays.asList(health),
           healthCause,
-          "",
+          "The American Heart Association is a non-profit organization in the United States that funds cardiovascular medical research, educates consumers on healthy living and fosters appropriate cardiac care in an effort to reduce disability and deaths caused by cardiovascular disease and stroke.",
           3.0);
     } catch (Exception e) {
       System.out.println("Failure in adding charities: " + e);

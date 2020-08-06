@@ -1,0 +1,30 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 20px;
+}
+.center {
+  margin: auto;
+  width: 61%;
+  padding: 10px;
+}
+.charity-card-internal {
+  height: 100%;
+}
+.charity-card {
+  height: 100%;
+}
+.card-body {
+  padding: 0;
+  margin: 1.25rem;
+}
+#card-img {
+  width:  250px;
+  height: 200px;
+}
+#collection {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}

@@ -7,7 +7,8 @@
     <title>Personalized Charity Recommendations</title>
     <link rel="stylesheet" href="personalizedStyle.css">
     <link rel="stylesheet" href="userAuth.css">
-    <script src="userAuth.js"></script>
+    <link rel="stylesheet" href="pagination.css" />
+    <link rel="stylesheet" href="cardUI.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- MATERIAL DESIGN BOOTSTRAP IMPORTS -->
     <!-- Font Awesome -->
@@ -116,7 +117,12 @@
     </div>
     <!-- CHATRITIY SECTION -->
     <div id="charity-section">
-      <div class="container-fluid" id="charities-display"> </div>
+      <!-- <div class="container-fluid" id="charities-display"> </div> -->
+      <div class="wrapper" id="collection"></div>
+      <!-- PAGINATION --> 
+      <div id="pagination"></div>
     </div>
   </body>
+   <script src="pagination.js"></script>
+   <script src="cardUI.js"></script>
 </html>

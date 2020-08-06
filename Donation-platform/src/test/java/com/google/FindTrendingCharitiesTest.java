@@ -45,6 +45,9 @@ import com.googlecode.objectify.util.Closeable;
 import java.lang.Long;
 import org.junit.BeforeClass;
 import com.google.DbSetUpUtils;
+import com.google.FindTrendingCharities;
+import com.google.UpdateTrendingScores;
+import com.google.CharityUtils;
 import com.google.model.Charity;
 import com.google.model.Tag;
 import com.google.model.Cause;
@@ -63,6 +66,8 @@ public final class FindTrendingCharitiesTest {
   private Charity AHA;
 
   private FindTrendingCharities query;
+  private UpdateTrendingScores updateTrending;
+  private CharityUtils utils;
 
   private final LocalServiceTestHelper helper =
        new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -92,6 +97,8 @@ public final class FindTrendingCharitiesTest {
     this.session = ObjectifyService.begin();
     DbSetUpUtils dbSetUp = new DbSetUpUtils(ds, db);
     dbSetUp.populateDatabase();
+    updateTrending = new UpdateTrendingScores(ds);
+    updateTrending.updateCharityScores();
     query = new FindTrendingCharities(ds);
     RESULTS = query.queryDb();
     FA = db.getCharityByName("Feeding America");

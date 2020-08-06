@@ -17,7 +17,7 @@ package com.google;
 import com.google.model.Charity;
 import com.google.model.Tag;
 import com.google.model.Cause;
-import com.google.charities.AddCharitiesFromJSON;
+import com.google.AddCharitiesFromJSON;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -160,10 +160,10 @@ public class PersonalizedRecommendations {
   }
 
   // Gets charities from the database that have the specified tag
-  private Collection<Charity> getPersonalizedMatches(String tag1, String tag2, String tag3) {
+  private Collection<Charity> getCollectionOfPersonalizedCharities(String tag1, String tag2, String tag3) {
     Collection<Charity> charities = new ArrayList<>();
     try {
-      charities = db.getPersonalizedMatches(tag1, tag2, tag3);
+      charities = db.getCollectionOfPersonalizedCharities(tag1, tag2, tag3);
     } catch (EntityNotFoundException e) {
       System.out.println("Charity entities not found: " + e);
       return null;
