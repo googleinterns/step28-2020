@@ -16,7 +16,7 @@ package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
-import com.google.charities.AddCharitiesFromJSON;
+import com.google.AddCharitiesFromJSON;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;

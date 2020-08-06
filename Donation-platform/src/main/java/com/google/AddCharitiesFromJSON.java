@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
  
-package com.google.charities;
+package com.google;
  
 import com.google.DbCalls;
-import com.google.charities.CharityClone;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
@@ -31,8 +32,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
-import java.nio.file.Paths;
-
 
 
 public final class AddCharitiesFromJSON {
@@ -124,23 +123,22 @@ public final class AddCharitiesFromJSON {
 
     try (Reader reader = new FileReader(file)) {
       
-      // Converts charities.json into a list of CharityClone objects.
-      // CharityClone objects store all of the fields of a charity specified in the JSON.
-      CharityClone[] clones = gson.fromJson(reader, CharityClone[].class);
+      // Converts charities.json into a list of HashMaps where each HashMap corresponds with one of the charity JSON objects
+      HashMap[] charityMaps = gson.fromJson(reader, HashMap[].class);
 
       int numberOfFailedCharities = 0;
       int totalCharities = 0;
-      for(CharityClone clone : clones) {
+      for(HashMap charityMap : charityMaps) {
         try {
           db.addCharity(
-            clone.getName(),
-            clone.getLink(),
-            clone.getImage(),
-            Arrays.asList(db.getTagByName(clone.getCategory())),
-            clone.getDescription());
+            ((String) charityMap.get("name")),
+            ((String) charityMap.get("link")),
+            ((String) charityMap.get("image")),
+            Arrays.asList(db.getTagByName((String) charityMap.get("category"))),
+            ((String) charityMap.get("description")));
         } catch (Exception e) {
           numberOfFailedCharities++;
-          System.out.println("Failure in adding charity: " + clone + "Error: " + e + "\n");
+          System.out.println("Failure in adding charity: " + charityMap + "Error: " + e + "\n");
         }
         totalCharities++;
       }
