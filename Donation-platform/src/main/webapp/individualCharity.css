@@ -1,29 +1,9 @@
-.card {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: cover;
-  width: 500px;
-  height: 500px;
+.charity-card {
+  height: unset!important;
 }
 
-#charities-display {
-  padding-top: 100px;
-}
-
-.badge {
-  margin: 5px;
-}
-
-body {
-  font-family: "Roboto", sans-serif
-}
-
-#content {
-  padding-top: 60px;
-}
-
-.container {
-    width: 100%;
+.charity-card-internal {
+  height: unset!important;
 }
 
 .center {
@@ -34,9 +14,7 @@ body {
   justify-content: center;
 }
 
-.center-tags {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-  justify-content: center;
+.center-card {
+  margin-top: 70px!important;
 }
+

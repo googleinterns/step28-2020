@@ -93,10 +93,12 @@ class Pagination
      */
     checkThenDisableButtons()
     {
-        document.getElementById("next charity-btn").disabled = this.currentPage == this.numberOfPages ? true : false;
-        document.getElementById("previous charity-btn").disabled = this.currentPage == 1 ? true : false;
-        document.getElementById("first charity-btn").disabled = this.currentPage == 1 ? true : false;
-        document.getElementById("last charity-btn").disabled = this.currentPage == this.numberOfPages ? true : false;
+        if (this.getNumberOfPages() > 1) {
+            document.getElementById("next charity-btn").disabled = this.currentPage == this.numberOfPages ? true : false;
+            document.getElementById("previous charity-btn").disabled = this.currentPage == 1 ? true : false;
+            document.getElementById("first charity-btn").disabled = this.currentPage == 1 ? true : false;
+            document.getElementById("last charity-btn").disabled = this.currentPage == this.numberOfPages ? true : false;
+        }
     }
     /**
      * Calculates how many pages to show in pagination bar.
@@ -143,13 +145,18 @@ class Pagination
         {
             let card = new Card(this.pageName, this.pageList, this.tagName);
             card.populatePageWithTags();
-            this.addPaginationToPage();
+            if (this.getNumberOfPages() > 1) {
+                this.addPaginationToPage();
+            }
+            
         }
         else
         {
             let card =  new Card(this.pageName, this.pageList, this.tagName);
             card.populatePageWithCharities();
-            this.addPaginationToPage();
+            if (this.getNumberOfPages() > 1) {
+                this.addPaginationToPage();
+            }
         }
     }
     /**

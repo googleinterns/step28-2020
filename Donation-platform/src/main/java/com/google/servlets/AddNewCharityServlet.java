@@ -97,14 +97,21 @@ public class AddNewCharityServlet extends HttpServlet
             catch(Exception e)
             {
                 // Sends user to individual charity page to see what they added to the db.
-                // TODO: ADD CHARITY FORM NEEDS TO INCLUDE CAUSE SELECTION
                 dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, cause, request.getParameter("description"), 0.0);
+            }
+            // Alerts the user if they tried to add a duplicate charity.
+            Charity checkUnique =  dbCalls.getCharityByName(request.getParameter("name"));
+            if (checkUnique != null) {
+                response.sendRedirect("addNewCharity.html");
+            } else {
+            // Sends user to individual charity page to see what they added to the db.
+                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
                 Gson gson = new Gson();
                 String json = gson.toJson(dbCalls.getCharityByName(request.getParameter("name")));
                 response.setContentType("application/json;");
                 request.setAttribute("charity", json);
                 request.getRequestDispatcher("/individualCharity.jsp").forward(request, response);
-            }
+            };
 
             
 

@@ -1,28 +1,38 @@
-html, body {
-  height: 100%; /*Fixes the height to 100% of the viewport*/
-}
+html,
 body {
-  padding-top: 87px; /*50px for the height of the navbar + 37px for the offset*/
-  padding-bottom: 50px; /*50px for the height of the bottom navbar*/
+    height: 100%;
+    /*Fixes the height to 100% of the viewport*/
 }
+
+body {
+    padding-top: 87px;
+    /*50px for the height of the navbar + 37px for the offset*/
+    padding-bottom: 50px;
+    /*50px for the height of the bottom navbar*/
+}
+
 .navbar-offset {
-    top: 37px; /*Offsets the top navbar 37px from the top of the viewport*/
+    top: 37px;
+    /*Offsets the top navbar 37px from the top of the viewport*/
 }
+
 .container-fluid.scrollable {
-  height: 100%; /*Sets the scrollable area to 100% of the viewport*/
-  overflow: auto; /*Allows the scrollable area to have a scrollbar based on the height of its content*/
-  background: #ccc;
+    height: 100%;
+    /*Sets the scrollable area to 100% of the viewport*/
+    overflow: auto;
+    /*Allows the scrollable area to have a scrollbar based on the height of its content*/
+    background: #ccc;
 }
+
 .back-btn {
-  position: absolute;
-  top: 100px;
-  left: 10px;
+    position: absolute;
+    top: 100px;
+    left: 10px;
 }
+
 #browse {
-  text-align: center;
-  margin: auto;
-  width: 60%;
-  padding: 10px;
+    text-align: center;
+    margin: auto;
+    width: 60%;
+    padding: 10px;
 }
-
-

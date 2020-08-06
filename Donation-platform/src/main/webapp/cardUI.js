@@ -43,9 +43,11 @@ class Card
             cur_count++;
             charityDivElement = this.divMaker("charity-card");
             var charityDivInternalElement = this.divMaker("card charity-card-internal");
+            var charityImgContainerElement = this.divMaker("img-container");
             var charityImgElement = this.imgMaker("card-img", "card-img-top", charity.imgSrc, "Card image");
             var charityDivBodyElement = this.divMaker("card-body d-flex flex-column");
             var charityHeaderElement = this.headerMaker("h4", "card-title", charity.name);
+            var donateButtonContainerElement = this.divMaker("donate-container");
             var donateButtonElement = this.buttonMaker("mt-auto btn btn-primary", "charity-btn", "Donate");
             donateButtonElement.addEventListener("click", function ()
             {
@@ -54,29 +56,31 @@ class Card
                 .bind(this));
             var charityTextElement = document.createElement("p");
             charityTextElement.setAttribute("class", "card-text")
+            this.truncateDescription(charityTextElement, charity);
             // Adds badges to cards if on trending or personalized page.
             if (this.pageName == "trending" || this.pageName == "personalized")
             {
                 var tagHeader = document.createElement("h5");
                 for (const tag of charity.categories)
                 {
-                    var tagSpan = this.spanMaker("badge badge-info", tag);
+                    var tagSpan = this.spanMaker("trending badge badge-light", tag);
                     tagHeader.appendChild(tagSpan);
                 }
                 charityTextElement.appendChild(tagHeader);
             }
-            var descriptionText = document.createTextNode(charity.description);
-            charityTextElement.appendChild(descriptionText);
-
+            
             charityDivElement.appendChild(charityDivInternalElement);
-            charityDivInternalElement.appendChild(charityImgElement);
+            donateButtonContainerElement.appendChild(donateButtonElement);
+            charityImgContainerElement.appendChild(charityImgElement);
+            charityDivInternalElement.appendChild(charityImgContainerElement);
             charityDivInternalElement.appendChild(charityDivBodyElement);
             charityDivBodyElement.appendChild(charityHeaderElement);
             charityDivBodyElement.appendChild(charityTextElement);
-            charityDivBodyElement.appendChild(donateButtonElement);
+            charityDivBodyElement.appendChild(donateButtonContainerElement);
             cards.appendChild(charityDivElement);
         }
             .bind(this));
+
         // Displays back button if user is on browse page.
         if (this.pageName == "browse")
         {
@@ -85,7 +89,7 @@ class Card
             document.getElementById('browse').appendChild(browseHeaderElement);
 
             var backDivButtonElement = document.createElement("div");
-            var backButtonElement = this.buttonMaker("back-btn btn btn-primary", "charity-btn", "");
+            var backButtonElement = this.buttonMaker("back-btn btn btn-primary", "back-charity-btn", "");
             backButtonElement.addEventListener("click", function ()
             {
                 getTagsForDisplay();
@@ -115,9 +119,11 @@ class Card
         {
             tagDivElement = this.divMaker("charity-card");
             var tagDivInternalElement = this.divMaker("card charity-card-internal");
+            var tagImgContainerElement = this.divMaker("img-container");
             var tagImgElement = this.imgMaker("card-img", "card-img-top", this.pageList[tag].imgSrc, "Card image");
             var tagDivBodyElement = this.divMaker("card-body d-flex flex-column");
             var tagHeaderElement = this.headerMaker("h4", "card-title", this.pageList[tag].name.charAt(0).toUpperCase() + this.pageList[tag].name.slice(1));
+            var seeTagButtonContainerElement = this.divMaker("donate-container");
             var seeTagButtonElement = this.buttonMaker("mt-auto btn btn-primary", "charity-btn", "See Charities");
             seeTagButtonElement.addEventListener("click", function ()
             {
@@ -126,10 +132,12 @@ class Card
                 .bind(this));
 
             tagDivElement.appendChild(tagDivInternalElement);
-            tagDivInternalElement.appendChild(tagImgElement);
+            tagImgContainerElement.appendChild(tagImgElement);
+            seeTagButtonContainerElement.appendChild(seeTagButtonElement);
+            tagDivInternalElement.appendChild(tagImgContainerElement);
             tagDivInternalElement.appendChild(tagDivBodyElement);
             tagDivBodyElement.appendChild(tagHeaderElement);
-            tagDivBodyElement.appendChild(seeTagButtonElement);
+            tagDivBodyElement.appendChild(seeTagButtonContainerElement);
             cards.appendChild(tagDivElement);
         }
             .bind(this));
@@ -138,6 +146,60 @@ class Card
         var browseHeaderText = document.createTextNode("Browse Charities");
         browseHeaderElement.appendChild(browseHeaderText);
         document.getElementById('browse').appendChild(browseHeaderElement);
+    }
+    /**
+     * Handles the hiding and display of the full description on each card.
+     */
+    readMoreLessDescription(charityId) {
+      var dots = document.getElementById(charityId+"-dots");
+      var moreText = document.getElementById(charityId+"-more");
+      var btnText = document.getElementById(charityId+"-expand-btn");
+      if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Read more"; 
+        moreText.style.display = "none";
+      } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Read less"; 
+        moreText.style.display = "inline";
+      }
+    }
+    /**
+     * Determines whether or not to truncate the description.
+     */
+    truncateDescription(textElememt, charity) 
+    {
+    // Detects if description is longer than 100 characters before adding read more link.
+    if (charity.description.length > 100) {
+        var initialDescription = charity.description.substring(0,100);
+        var moreDescription = charity.description.substring(100);
+        var initialDescriptionText = document.createTextNode(initialDescription);
+        // Adds dots to end of preview description.
+        var dotsSpan = document.createElement("span");
+        dotsSpan.setAttribute("id", charity.id+"-dots");
+        var dotsText = document.createTextNode("...");
+        dotsSpan.appendChild(dotsText);
+        // Hides the rest of the description.
+        var moreDescriptionSpan = document.createElement("span");
+        moreDescriptionSpan.setAttribute("class", "more");
+        moreDescriptionSpan.setAttribute("id", charity.id+"-more");
+        var moreDescriptionText = document.createTextNode(moreDescription);
+        moreDescriptionSpan.appendChild(moreDescriptionText);
+        // Creates button for read more link.
+        var buttonElement = this.buttonMaker("link-btn", charity.id+"-expand-btn", "Read More");
+        buttonElement.addEventListener("click", function ()
+        {
+            this.readMoreLessDescription(charity.id);
+        }
+            .bind(this, charity.id));
+        textElememt.appendChild(initialDescriptionText);
+        textElememt.appendChild(dotsSpan);
+        textElememt.appendChild(moreDescriptionSpan);
+        textElememt.appendChild(buttonElement);
+    } else {
+        var descriptionText = document.createTextNode(charity.description);
+        textElememt.appendChild(descriptionText);
+    }
     }
     /**
      * Sorts objects by name.
