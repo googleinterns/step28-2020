@@ -22,6 +22,7 @@ window.onload=function() {
 /* (1) Fetches personalized charities from PersonalizationServlet.java and
    (2) displays them on personalized.html */
 function loadPersonalizedCharities(unprocessedTags) {
+  console.log('unprocessedTags: ' + unprocessedTags + " " + unprocessedTags.length);
   getPersonalizedCharitiesFromServlet(unprocessedTags).then((charities) => {
     updatePersonalizedCardsOnPage(charities);
   });
@@ -31,6 +32,7 @@ function loadPersonalizedCharities(unprocessedTags) {
 function getPersonalizedCharitiesFromServlet(unprocessedTags) {
   // Process the top 3 ranked tags
   const tags = processTagsFromRanking(unprocessedTags);
+  console.log('processedTags: ' + tags);
 
   return fetch('/personalize', {
       // Send POST request to PersonalizationServlet.java with tag selections
@@ -86,22 +88,28 @@ function processTagsFromRanking(unprocessedTags) {
 function placeSelectedTagInRank(tag) {
     const tagRank = document.getElementById('sortable');
 
-    let tagElements = new Map([
-      ['children', '<li id="li_children" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-child mr-5"></i> children</li>'],
-      ['education', '<li id="li_education" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-school mr-5"></i>education</li>'],
-      ['environment', '<li id="li_environment" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-leaf mr-5"></i>environment</li>'],
-      ['health', '<li id="li_health" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-heartbeat mr-5"></i> health</li>'],
-      ['hunger', '<li id="li_hunger" class="list-group-item"><div class="md-v-line"></div>' +
-       '<i class="fas fa-utensils mr-5"></i> hunger</li>'],
-      ['racial equality', '<li id="li_racial equality" class="list-group-item"><div class="md-v-line">' +
-       '</div><i class="fas fa-users mr-5"></i>racial equality</li>']
+    let innerTagElements = new Map([
+      ['Animals', '<i class="fas fa-paw mr-5"></i>Animals'],
+      ['Arts, Culture, Humanities', '<i class="fas fa-palette mr-5"></i>Arts, Culture, Humanities'],
+      ['Education', '<i class="fas fa-school mr-5"></i>Education'],
+      ['Environment', '<i class="fas fa-leaf mr-5"></i>Environment'],
+      ['Health', '<i class="fas fa-heartbeat mr-5"></i>Health'],
+      ['Human Services', '<i class="fas fa-people-carry mr-5"></i>Human Services'],
+      ['International', '<i class="fas fa-globe-americas mr-5"></i>International'],
+      ['Human and Civil Rights', '<i class="fas fa-users mr-5"></i>Human and Civil Rights'],
+      ['Religion', '<i class="fas fa-place-of-worship mr-5"></i>Religion'],
+      ['Community Development', '<i class="fas fa-hands-helping mr-5"></i>Community Development'],
+      ['Research and Public Policy', '<i class="fas fa-gavel mr-5"></i>Research and Public Policy']
     ]);
-
-    tagRank.innerHTML += tagElements.get(tag);
+    
+    var tagElement = document.createElement('li');
+    tagElement.setAttribute("id", "li_" + tag);
+    tagElement.setAttribute("class", "list-group-item");
+    var divStyle = document.createElement('div');
+    divStyle.setAttribute("class", "md-v-line");
+    tagElement.appendChild(divStyle);
+    tagElement.innerHTML = innerTagElements.get(tag);
+    tagRank.appendChild(tagElement);
 }
 
 /* Displays the tags of a charity in bootstrap badges. */
@@ -307,6 +315,7 @@ $(function() {
 
     // If there are 1-3 tags in the rank, run loadPersonalizedCharities.
     if(tags.length > 0 && tags.length <= 3) {
+      console.log('TAGs 1: ' + tags + " " + tags.length);
       loadPersonalizedCharities(tags);
     // Otherwise, if there are no tags in the rank, alert the user to select
     // 3 causes before re-submitting (although 1 or 2 tags is also allowed, 

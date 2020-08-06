@@ -16,6 +16,7 @@ package com.google;
 
 import com.google.model.Charity;
 import com.google.model.Tag;
+import com.google.AddCharitiesFromJSON;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,10 @@ public class PersonalizedRecommendations {
 
   private DbCalls db;
   private DatastoreService ds;
+
+  // collections that hold the tags and charities from the db
   private Collection<Charity> charities;
+  private Collection<Tag> tags;
 
   // Determine how much the charity's tags matching matters compared to how trending the charity is
   private final double TAG_MATCHING_WEIGHT = 1.0;
@@ -50,18 +54,22 @@ public class PersonalizedRecommendations {
   private final double TAGSCORE_INCREMENT_FOR_HAVING_TAG_1_AND_3 = 0.15;
   private final double TAGSCORE_INCREMENT_FOR_HAVING_TAG_2_AND_3 = 0.1;
 
-  // Constructor to setup db (and populate db if necessary)
+  // Constructor to setup db
   public PersonalizedRecommendations(DatastoreService ds) {
     this.ds = ds;
     db = new DbCalls(ds);
-    DbSetUpUtils setup = new DbSetUpUtils(ds, db);
-    // Call FindTrendingCharities so that trending scores can be considered in personalized order
-    FindTrendingCharities findTrending = new FindTrendingCharities(ds);
-    findTrending.queryDb();
+    AddCharitiesFromJSON setup = new AddCharitiesFromJSON(ds, db);
+    // TODO: REPLACE getAllCharities WITH A MORE EFFICIENT METHOD FROM DB CALLS
+    // or TODO: make adding charities a separate script and delete this check altogether
     charities = getAllCharities();
-    // only populate database if there is nothing in the database already
-    if(charities.size() == 0) {
-      setup.populateDatabase();
+    tags = getAllTags();
+    // only populate database with tags if there are none there already
+    if(tags.isEmpty()) {
+      setup.addTags();
+    }
+    // only populate database with charities if there are none there already
+    if(charities.isEmpty()) {
+      setup.addCharities();
     }
   }
 
@@ -76,11 +84,11 @@ public class PersonalizedRecommendations {
     return bestMatches;
   }
 
-  // Returns mapping of charities to the scores that determine their rank on the personalzied page
+  // Returns mapping of charities to the scores that determine their rank on the personalized page
   // (higher score = better match)
   public HashMap<Charity, Double> getCharityScores(List<String> selectedTags) {
     HashMap<Charity, Double> charityScores = new HashMap<Charity, Double>();
-
+    
     for (Charity charity : charities) {
       // If the charity contains any of the user-selected tags, it will appear on the personalized
       // page
@@ -124,6 +132,36 @@ public class PersonalizedRecommendations {
     Collection<Charity> charities = new ArrayList<>();
     try {
       charities = db.getAllCharities();
+    } catch (EntityNotFoundException e) {
+      System.out.println("Charity entities not found: " + e);
+      return null;
+    } catch (Exception e) {
+      System.out.println("Unexpected exception: " + e);
+      return null;
+    }
+    return charities;
+  }
+
+  // Gets tags from the database
+  private Collection<Tag> getAllTags() {
+    Collection<Tag> tags = new ArrayList<>();
+    try {
+      tags = db.getAllTags();
+    } catch (EntityNotFoundException e) {
+      System.out.println("Tag entities not found: " + e);
+      return null;
+    } catch (Exception e) {
+      System.out.println("Unexpected exception: " + e);
+      return null;
+    }
+    return tags;
+  }
+
+  // Gets charities from the database that have the specified tag
+  private Collection<Charity> getCollectionOfPersonalizedCharities(String tag1, String tag2, String tag3) {
+    Collection<Charity> charities = new ArrayList<>();
+    try {
+      charities = db.getCollectionOfPersonalizedCharities(tag1, tag2, tag3);
     } catch (EntityNotFoundException e) {
       System.out.println("Charity entities not found: " + e);
       return null;

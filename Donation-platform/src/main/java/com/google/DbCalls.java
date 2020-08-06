@@ -129,6 +129,28 @@ public final class DbCalls
         // Return all charity objects containing tag.
         return charityDataStore;
     }
+    // Function returns all charities under one of the three specified category tags.
+    public Collection<Charity> getCollectionOfPersonalizedCharities(String name1, String name2, String name3) throws Exception
+    {
+        ArrayList<Charity> charityDataStore = new ArrayList<Charity>();
+        for (Charity charity : ofy().load().type(Charity.class).list())
+        {
+            // Read the categories assigned to the charity
+            if (charity.getCategories() != null)
+            {
+                for (Tag tag : charity.getCategories())
+                {
+                    // Check to see if category contains tag searched for.
+                    if (tag.getName().equals(name1) | tag.getName().equals(name2) | tag.getName().equals(name3))
+                    {
+                        charityDataStore.add(charity);
+                    }
+                }
+            }
+        }
+        // Return all charity objects containing tag.
+        return charityDataStore;
+    }
     // Function returns tag object from ID.
     public Tag getTagById(Long tagId) throws Exception
     {

@@ -51,14 +51,24 @@ public class PersonalizationServlet extends HttpServlet {
 
     // If no tags were selected, set the tags list to an empty list.
     if(requestData.equals("[]")) {
-      tags = Arrays.asList();
+      tags = new ArrayList(Arrays.asList());
     // Otherwise, set the tags list to the processed list of tags.
     } else {
       // Splits requestData (i.e. ["hunger","education","children"]) by non-alphanumeric characters
       // (except for spaces since a tag such as "racial equality" should not be split into "racial" 
       // and "equality") using a regex, and strips out the leading delimiter before doing so in order
       // to prevent split() from creating a leading empty string.      
-      tags = Arrays.asList(requestData.replace("[\"", "").split("[^\\w ]+"));
+      tags = new ArrayList(Arrays.asList(requestData.replace("[\"", "").split("[^\\w ]+")));
+    }
+
+    // Fixes formatting of the tag "Arts, Culture, Humanities" if selected.
+    // (The split() above uses commas as a delimeter and thus separates this
+    // tag into three tags ("Arts", "Culture", "Humanities"). Using a different
+    // was considered; however, the comma is the only character separating tags).
+    if(tags.contains("Arts")) {
+      tags.remove(" Culture");
+      tags.remove(" Humanities");
+      tags.set(tags.indexOf("Arts"), "Arts, Culture, Humanities");
     }
 
     // If a user session already exists and new tags have not been selected
@@ -66,11 +76,17 @@ public class PersonalizationServlet extends HttpServlet {
     // selected in this session.
     if (session != null && tags.isEmpty()) {
       tags = (List<String>) session.getAttribute("selected-tags");
-    // Otherwise, keep using the recently-selected tags processed from requestData.
-    } else {
+    // If a user session does not already exist but there are selected tags, 
+    // keep using the recently-selected tags processed from requestData.
+    } else if(!tags.isEmpty()) {
       // Create a user session and save the tag selection with it
       session = request.getSession();
       session.setAttribute("selected-tags", tags);
+    // Otherwise, set each tag to null so that no personalized results appear (this
+    // occurs when the user visits the site for the first time and has not yet 
+    // selected tags).
+    } else {
+      tags = new ArrayList(Arrays.asList(null, null, null));
     }
 
     // Get the best-matching charities from the Recommendation System
