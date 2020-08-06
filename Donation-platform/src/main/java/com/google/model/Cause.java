@@ -66,11 +66,11 @@ public final class Cause {
     this.name = name;
   }
 
-  public Double getTrendingScoreCause() {
+  public Double getCauseTrendingScore() {
     return trendingScore;
   }
 
-  public void setTrendingScoreCause(Double trendingScore) {
+  public void setCauseTrendingScore(Double trendingScore) {
     this.trendingScore = trendingScore;
   }
 
