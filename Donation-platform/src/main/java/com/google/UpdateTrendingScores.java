@@ -47,7 +47,7 @@ public final class UpdateTrendingScores extends CharityUtils {
         if (hasCharityNavRating) {
             charityNavRating = calcCharityNavRating(charity);
         }
-        double userRating = charity.getUserRating();
+        double userRating = charity.getRating();
         double avgReview;
         if (hasCharityNavRating) {
             avgReview = USER_RATING_WEIGHT * userRating + CHARITY_NAV_WEIGHT * charityNavRating;

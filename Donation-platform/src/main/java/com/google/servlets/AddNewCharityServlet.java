@@ -105,7 +105,7 @@ public class AddNewCharityServlet extends HttpServlet
                 response.sendRedirect("addNewCharity.html");
             } else {
             // Sends user to individual charity page to see what they added to the db.
-                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, request.getParameter("description"));
+                dbCalls.addCharity(request.getParameter("name"), request.getParameter("link"), request.getParameter("imgsrc"), categoryTags, cause, request.getParameter("description"), 0.0);
                 Gson gson = new Gson();
                 String json = gson.toJson(dbCalls.getCharityByName(request.getParameter("name")));
                 response.setContentType("application/json;");

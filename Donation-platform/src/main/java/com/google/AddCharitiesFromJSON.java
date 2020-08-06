@@ -235,7 +235,9 @@ public final class AddCharitiesFromJSON {
             ((String) charityMap.get("link")),
             ((String) charityMap.get("image")),
             Arrays.asList(db.getTagByName((String) charityMap.get("category"))),
-            ((String) charityMap.get("description")));
+            db.getCauseByName((String) charityMap.get("cause")),
+            ((String) charityMap.get("description")),
+            ((Double) charityMap.get("rating")));
         } catch (Exception e) {
           numberOfFailedCharities++;
           System.out.println("Failure in adding charity: " + charityMap + "Error: " + e + "\n");
